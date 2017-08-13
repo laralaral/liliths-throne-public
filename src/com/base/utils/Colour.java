@@ -43,7 +43,8 @@ public enum Colour {
 	RACE_WOLF_MORPH(BaseColour.BLACK, "black", Util.newArrayListOfValues(new ListValue<>("wolfMorph"), new ListValue<>("wolf"))),
 	RACE_HARPY(BaseColour.PINK_LIGHT, "light pink", Util.newArrayListOfValues(new ListValue<>("harpy"))),
 	RACE_SLIME(BaseColour.PINK, "pink", Util.newArrayListOfValues(new ListValue<>("slime"))),
-
+	RACE_SQUIRREL_MORPH(BaseColour.GINGER, "ginger", Util.newArrayListOfValues(new ListValue<>("squirrelMorph"), new ListValue<>("squirrel"))),
+	
 	QUEST_MAIN(BaseColour.PINK, "pink"),
 	QUEST_SIDE(BaseColour.BLUE, "blue"),
 	QUEST_ROMANCE(BaseColour.PINK_LIGHT, "pink"),
@@ -178,6 +179,7 @@ public enum Colour {
 	CLOTHING_PINK(Util.newColour(0xD75086), Util.newColour(0xD75086), "pink"),
 	CLOTHING_PINK_LIGHT(Util.newColour(0xF4B3F4), Util.newColour(0xF4B3F4), "light pink"),
 	CLOTHING_BLACK(Util.newColour(0x333333), Util.newColour(0x333333), "black"),
+	CLOTHING_GREY(Util.newColour(0x777777), Util.newColour(0x777777), "grey"),
 	CLOTHING_WHITE(Util.newColour(0xdddddd), Util.newColour(0xdddddd), "white"),
 	CLOTHING_BLACK_STEEL(Util.newColour(0x333333), Util.newColour(0x333333), "black"),
 	CLOTHING_STEEL(Util.newColour(0x969696), Util.newColour(0x969696), "steel"),
@@ -271,6 +273,7 @@ public enum Colour {
 	public static List<Colour> allClothingColours = Util.newArrayListOfValues(
 			new ListValue<Colour>(CLOTHING_WHITE),
 			new ListValue<Colour>(CLOTHING_BLACK),
+			new ListValue<Colour>(CLOTHING_GREY),
 			new ListValue<Colour>(CLOTHING_RED),
 			new ListValue<Colour>(CLOTHING_ORANGE),
 			new ListValue<Colour>(CLOTHING_BROWN),
@@ -288,6 +291,7 @@ public enum Colour {
 	public static List<Colour> masculineColours = Util.newArrayListOfValues(
 			new ListValue<Colour>(CLOTHING_WHITE),
 			new ListValue<Colour>(CLOTHING_BLACK),
+			new ListValue<Colour>(CLOTHING_GREY),
 			new ListValue<Colour>(CLOTHING_TURQUOISE),
 			new ListValue<Colour>(CLOTHING_BLUE_LIGHT),
 			new ListValue<Colour>(CLOTHING_BLUE));
