@@ -406,7 +406,8 @@ public enum ClothingType {
 			null,
 			Util.newArrayListOfValues(new ListValue<BlockedParts>(new BlockedParts(DisplacementType.REMOVE_OR_EQUIP, Util.newArrayListOfValues(new ListValue<ClothingAccess>(ClothingAccess.HEAD)), null, null))),
 			null,
-			Util.newArrayListOfValues(new ListValue<Colour>(Colour.CLOTHING_COPPER), new ListValue<Colour>(Colour.CLOTHING_SILVER), new ListValue<Colour>(Colour.CLOTHING_GOLD))) {
+			Colour.allMetalColours) {
+		
 		@Override
 		public String equipText(GameCharacter clothingOwner, GameCharacter clothingRemover, boolean rough, AbstractClothing clothing, boolean applyEffects) {
 			return getEquipDescriptions(clothingOwner, clothingRemover, rough,
@@ -443,7 +444,7 @@ public enum ClothingType {
 			null,
 			Util.newArrayListOfValues(new ListValue<BlockedParts>(new BlockedParts(DisplacementType.REMOVE_OR_EQUIP, Util.newArrayListOfValues(new ListValue<ClothingAccess>(ClothingAccess.HEAD)), null, null))),
 			null,
-			Util.newArrayListOfValues(new ListValue<Colour>(Colour.CLOTHING_COPPER), new ListValue<Colour>(Colour.CLOTHING_SILVER), new ListValue<Colour>(Colour.CLOTHING_GOLD))) {
+			Colour.allMetalColours) {
 		
 		@Override
 		public String equipText(GameCharacter clothingOwner, GameCharacter clothingRemover, boolean rough, AbstractClothing clothing, boolean applyEffects) {
@@ -631,7 +632,8 @@ public enum ClothingType {
 
 			null, // List<InventorySlot> incompatibleSlots
 
-			Util.newArrayListOfValues(new ListValue<Colour>(Colour.CLOTHING_BLACK_STEEL), new ListValue<Colour>(Colour.CLOTHING_STEEL), new ListValue<Colour>(Colour.CLOTHING_SILVER), new ListValue<Colour>(Colour.CLOTHING_GOLD))) {
+			Colour.allMetalColours) {
+		
 		@Override
 		public String equipText(GameCharacter clothingOwner, GameCharacter clothingRemover, boolean rough, AbstractClothing clothing, boolean applyEffects) {
 			if (clothingOwner.isPlayer() && clothingRemover.isPlayer())
@@ -680,7 +682,8 @@ public enum ClothingType {
 
 			null, // List<InventorySlot> incompatibleSlots
 
-			Util.newArrayListOfValues(new ListValue<Colour>(Colour.CLOTHING_BLACK_STEEL), new ListValue<Colour>(Colour.CLOTHING_STEEL), new ListValue<Colour>(Colour.CLOTHING_SILVER), new ListValue<Colour>(Colour.CLOTHING_GOLD))) {
+			Colour.allMetalColours) {
+		
 		@Override
 		public String equipText(GameCharacter clothingOwner, GameCharacter clothingRemover, boolean rough, AbstractClothing clothing, boolean applyEffects) {
 			if (clothingOwner.isPlayer() && clothingRemover.isPlayer())
@@ -898,7 +901,7 @@ public enum ClothingType {
 
 			null, // List<InventorySlot> incompatibleSlots
 
-			Util.newArrayListOfValues(new ListValue<Colour>(Colour.CLOTHING_COPPER), new ListValue<Colour>(Colour.CLOTHING_SILVER), new ListValue<Colour>(Colour.CLOTHING_GOLD))) {
+			Colour.allMetalColours) {
 		
 		@Override
 		public String equipText(GameCharacter clothingOwner, GameCharacter clothingRemover, boolean rough, AbstractClothing clothing, boolean applyEffects) {
@@ -957,7 +960,7 @@ public enum ClothingType {
 
 			null, // List<InventorySlot> incompatibleSlots
 
-			Util.newArrayListOfValues(new ListValue<Colour>(Colour.CLOTHING_COPPER), new ListValue<Colour>(Colour.CLOTHING_SILVER), new ListValue<Colour>(Colour.CLOTHING_GOLD))) {
+			Colour.allMetalColours) {
 		
 		@Override
 		public String equipText(GameCharacter clothingOwner, GameCharacter clothingRemover, boolean rough, AbstractClothing clothing, boolean applyEffects) {
@@ -3603,8 +3606,8 @@ public enum ClothingType {
 
 			null,
 
-			Util.newArrayListOfValues(new ListValue<Colour>(Colour.CLOTHING_BLACK_STEEL), new ListValue<Colour>(Colour.CLOTHING_SILVER),
-					new ListValue<Colour>(Colour.CLOTHING_GOLD))) {
+			Colour.allMetalColours) {
+		
 		@Override
 		public String equipText(GameCharacter clothingOwner, GameCharacter clothingRemover, boolean rough, AbstractClothing clothing, boolean applyEffects) {
 			if (clothingOwner.isPlayer() && clothingRemover.isPlayer())
@@ -3635,7 +3638,8 @@ public enum ClothingType {
 
 			null,
 
-			Util.newArrayListOfValues(new ListValue<Colour>(Colour.CLOTHING_COPPER), new ListValue<Colour>(Colour.CLOTHING_SILVER), new ListValue<Colour>(Colour.CLOTHING_GOLD))) {
+			Colour.allMetalColours) {
+		
 		@Override
 		public String equipText(GameCharacter clothingOwner, GameCharacter clothingRemover, boolean rough, AbstractClothing clothing, boolean applyEffects) {
 			if (clothingOwner.isPlayer() && clothingRemover.isPlayer())
@@ -3672,7 +3676,8 @@ public enum ClothingType {
 
 			null,
 
-			Util.newArrayListOfValues(new ListValue<Colour>(Colour.CLOTHING_COPPER), new ListValue<Colour>(Colour.CLOTHING_SILVER), new ListValue<Colour>(Colour.CLOTHING_GOLD))) {
+			Colour.allMetalColours) {
+		
 		@Override
 		public String equipText(GameCharacter clothingOwner, GameCharacter clothingRemover, boolean rough, AbstractClothing clothing, boolean applyEffects) {
 			if (clothingOwner.isPlayer() && clothingRemover.isPlayer())
@@ -5244,6 +5249,52 @@ public enum ClothingType {
 			}
 		}
 	},
+
+	SOCK_THIGHHIGH_SOCKS("a pair of",
+			true,
+			"thigh-high socks",
+			"A pair of thigh-high socks, made from cotton and with an elastic band at the top.",
+			1,
+			Femininity.FEMININE,
+			InventorySlot.SOCK,
+			Rarity.COMMON,
+			null,
+			"sock_thighhigh_socks",
+			null,
+			Util.newArrayListOfValues(new ListValue<BlockedParts>(
+					new BlockedParts(
+							DisplacementType.REMOVE_OR_EQUIP,
+							Util.newArrayListOfValues(
+									new ListValue<ClothingAccess>(ClothingAccess.FEET),
+									new ListValue<ClothingAccess>(ClothingAccess.CALVES)),
+							null,
+							null))),
+			null,
+			Colour.allClothingColours) {
+		
+		@Override
+		public String equipText(GameCharacter clothingOwner, GameCharacter clothingRemover, boolean rough, AbstractClothing clothing, boolean applyEffects) {
+			return getEquipDescriptions(clothingOwner, clothingRemover, rough,
+					"You put on the socks and pull them up to your mid-thigh.",
+					"You put the socks on [npc.name] and pull them up to [npc.her] mid-thigh.",
+					null,
+					"[npc.Name] puts on the socks and pulls them up to [npc.her] mid-thigh.",
+					"[npc.Name] puts the socks on your [pc.feet] and pulls them up to your mid-thigh.",
+					null);
+		}
+
+		@Override
+		public String unequipText(GameCharacter clothingOwner, GameCharacter clothingRemover, boolean rough, AbstractClothing clothing, boolean applyEffects) {
+			return getEquipDescriptions(clothingOwner, clothingRemover, rough,
+					"You pull off your socks.",
+					"You pull off [npc.name]'s socks.",
+					null,
+					"[npc.Name] pulls off [npc.her] socks.",
+					"[npc.Name] pulls off your socks.",
+					null);
+		}
+	},
+	
 	SOCK_TIGHTS("a pair of", true, "pantyhose", "A pair of pantyhose that reach up to the wearer's lower abdomen.", 1, Femininity.FEMININE, InventorySlot.SOCK, Rarity.COMMON, null, "sock_tights", null,
 
 			Util.newArrayListOfValues(
@@ -5342,7 +5393,8 @@ public enum ClothingType {
 
 			null,
 
-			Util.newArrayListOfValues(new ListValue<Colour>(Colour.CLOTHING_COPPER), new ListValue<Colour>(Colour.CLOTHING_SILVER), new ListValue<Colour>(Colour.CLOTHING_GOLD))) {
+			Colour.allMetalColours) {
+		
 		@Override
 		public String equipText(GameCharacter clothingOwner, GameCharacter clothingRemover, boolean rough, AbstractClothing clothing, boolean applyEffects) {
 			if (clothingOwner.isPlayer() && clothingRemover.isPlayer())
