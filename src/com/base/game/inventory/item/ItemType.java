@@ -1,18 +1,15 @@
 package com.base.game.inventory.item;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.base.game.character.GameCharacter;
-import com.base.game.character.QuestLine;
 import com.base.game.character.attributes.CorruptionLevel;
 import com.base.game.character.body.types.PenisType;
 import com.base.game.character.race.Race;
 import com.base.game.dialogue.utils.UtilText;
 import com.base.game.inventory.Rarity;
-import com.base.game.inventory.clothing.ClothingType;
 import com.base.game.inventory.clothing.CoverableArea;
 import com.base.game.inventory.enchanting.TFEssence;
 import com.base.main.Main;
@@ -21,11 +18,11 @@ import com.base.utils.Util;
 import com.base.utils.Util.ListValue;
 
 /**
- * @since 0.1.0
- * @version 0.1.8
+ * @since 0.1.84
+ * @version 0.1.84
  * @author Innoxia
  */
-public enum ItemType {
+public class ItemType {
 
 	/*
 	 * Common: Restore resources Rare: Apply status effect Epic: Transformation
@@ -263,13 +260,47 @@ public enum ItemType {
 	// }
 	// },
 	
-	
+//	public static AbstractItemType TEST_ITEM = new AbstractItemType(
+//			"a bottle of",
+//			false,
+//			"testing fluids",
+//			"You shouldn't be able to find this. x_x",
+//			"attributeHorseMorphDrink",
+//			Colour.ATTRIBUTE_STRENGTH,
+//			25,
+//			Rarity.UNCOMMON,
+//			TFEssence.HORSE_MORPH,
+//			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.TESTING, null, null, null, 0)))) {
+//
+//		/**
+//				 * 
+//				 */
+//				private static final long serialVersionUID = 1L;
+//
+//		@Override
+//		public String getUseName() {
+//			return "drink";
+//		}
+//
+//		@Override
+//		public String getUseDescription(GameCharacter user, GameCharacter target) {
+//			if (user == Main.game.getPlayer())
+//				return "<p>"
+//							+ "You drink the testing fluid."
+//						+ "</p>";
+//			else
+//				return UtilText.parse(user,
+//						"<p>"
+//								+ "[npc.Name] drinks the testing fluid."
+//						+ "</p>");
+//		}
+//	};
 	
 	// Crafting:
 	
 	// Strength ingredients are beer-type alcohol:
 	
-	STR_INGREDIENT_EQUINE_CIDER(
+	public static AbstractItemType STR_INGREDIENT_EQUINE_CIDER = new AbstractItemType(
 			"a bottle of",
 			false,
 			"Equine Cider",
@@ -280,7 +311,12 @@ public enum ItemType {
 			25,
 			Rarity.UNCOMMON,
 			TFEssence.HORSE_MORPH,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.STR_EQUINE_CIDER, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.STR_EQUINE_CIDER, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
@@ -288,8 +324,8 @@ public enum ItemType {
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
-			return POTION;
+		public AbstractItemType getEnchantmentItemType() {
+			return ItemType.POTION;
 		}
 
 		@Override
@@ -310,9 +346,9 @@ public enum ItemType {
 								+ "[npc.Name] pulls out a bottle of 'Equine Cider', and, after quickly unscrewing the cap, [npc.she] promptly downs the entire bottle."
 						+ "</p>");
 		}
-	},
+	};
 	
-	STR_INGREDIENT_WOLF_WHISKEY("a bottle of",
+	public static AbstractItemType STR_INGREDIENT_WOLF_WHISKEY = new AbstractItemType("a bottle of",
 			false,
 			"Wolf Whiskey",
 			"Although labelled as a whiskey, the liquid inside the glass bottle looks more like a thick cream."
@@ -322,7 +358,12 @@ public enum ItemType {
 			25,
 			Rarity.UNCOMMON,
 			TFEssence.WOLF_MORPH,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.STR_WOLF_WHISKEY, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.STR_WOLF_WHISKEY, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
@@ -330,7 +371,7 @@ public enum ItemType {
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return POTION;
 		}
 
@@ -352,11 +393,11 @@ public enum ItemType {
 								+ "[npc.Name] pulls out a bottle of 'Wolf Whiskey', and, after quickly popping off the cap, [npc.she] promptly downs the entire bottle."
 						+ "</p>");
 		}
-	},
+	};
 	
 	// Intelligence ingredients are cold non-alcoholic drinks:
 	
-	INT_INGREDIENT_FELINE_FANCY(
+	public static AbstractItemType INT_INGREDIENT_FELINE_FANCY = new AbstractItemType(
 			"a bottle of",
 			false,
 			"Feline's Fancy",
@@ -367,7 +408,12 @@ public enum ItemType {
 			25,
 			Rarity.UNCOMMON,
 			TFEssence.CAT_MORPH,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.INT_FELINE_FANCY, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.INT_FELINE_FANCY, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
@@ -375,7 +421,7 @@ public enum ItemType {
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return POTION;
 		}
 
@@ -399,9 +445,9 @@ public enum ItemType {
 						+ "</p>");
 			}
 		}
-	},
+	};
 	
-	INT_INGREDIENT_VANILLA_WATER(
+	public static AbstractItemType INT_INGREDIENT_VANILLA_WATER = new AbstractItemType(
 			"a bottle of",
 			false,
 			"Vanilla Water",
@@ -412,7 +458,12 @@ public enum ItemType {
 			25,
 			Rarity.UNCOMMON,
 			TFEssence.HUMAN,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.INT_VANILLA_WATER, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.INT_VANILLA_WATER, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
@@ -420,7 +471,7 @@ public enum ItemType {
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return POTION;
 		}
 
@@ -444,11 +495,11 @@ public enum ItemType {
 						+ "</p>");
 			}
 		}
-	},
+	};
 	
 	// Fitness ingredients are energy drinks and coffee:
 	
-	FIT_INGREDIENT_CANINE_CRUSH(
+	public static AbstractItemType FIT_INGREDIENT_CANINE_CRUSH = new AbstractItemType(
 			"a bottle of",
 			false,
 			"Canine Crush",
@@ -459,7 +510,12 @@ public enum ItemType {
 			25,
 			Rarity.UNCOMMON,
 			TFEssence.DOG_MORPH,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.FIT_CANINE_CRUSH, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.FIT_CANINE_CRUSH, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
@@ -467,7 +523,7 @@ public enum ItemType {
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return POTION;
 		}
 
@@ -492,9 +548,9 @@ public enum ItemType {
 						+ "</p>");
 			}
 		}
-	},
+	};
 	
-	FIT_INGREDIENT_SQUIRREL_JAVA(
+	public static AbstractItemType FIT_INGREDIENT_SQUIRREL_JAVA = new AbstractItemType(
 			"a bottle of",
 			false,
 			"Squirrel Java",
@@ -505,7 +561,12 @@ public enum ItemType {
 			25,
 			Rarity.UNCOMMON,
 			TFEssence.SQUIRREL_MORPH,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.FIT_SQUIRREL_JAVA, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.FIT_SQUIRREL_JAVA, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
@@ -513,7 +574,7 @@ public enum ItemType {
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return POTION;
 		}
 
@@ -538,9 +599,9 @@ public enum ItemType {
 						+ "</p>");
 			}
 		}
-	},
+	};
 	
-	SEX_INGREDIENT_HARPY_PERFUME(
+	public static AbstractItemType SEX_INGREDIENT_HARPY_PERFUME = new AbstractItemType(
 			"a bottle of",
 			false,
 			"Harpy Perfume",
@@ -551,7 +612,12 @@ public enum ItemType {
 			25,
 			Rarity.UNCOMMON,
 			TFEssence.HARPY,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.SEX_HARPY_PERFUME, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.SEX_HARPY_PERFUME, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
@@ -559,7 +625,7 @@ public enum ItemType {
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return POTION;
 		}
 
@@ -583,11 +649,11 @@ public enum ItemType {
 						+ "</p>");
 			}
 		}
-	},
+	};
 	
 	// Corruption ingredients are "mysterious liquids" (cum and milk...):
 	
-	COR_INGREDIENT_LILITHS_GIFT("a bottle of",
+	public static AbstractItemType COR_INGREDIENT_LILITHS_GIFT = new AbstractItemType("a bottle of",
 			false,
 			"Lilith's Gift",
 			"A glass bottle, filled with bubbling pink liquid."
@@ -598,7 +664,12 @@ public enum ItemType {
 			50,
 			Rarity.UNCOMMON,
 			TFEssence.DEMON,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.COR_LILITHS_GIFT, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.COR_LILITHS_GIFT, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
@@ -606,7 +677,7 @@ public enum ItemType {
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return POTION;
 		}
 
@@ -628,11 +699,11 @@ public enum ItemType {
 								+ "[npc.Name] pulls out a bottle of 'Lilith's Gift', and, after quickly pulling out the stopper, [npc.she] promptly downs the entire bottle."
 						+ "</p>");
 		}
-	},
+	};
 	
 	// Racial ingredients:
 	
-	RACE_INGREDIENT_DEMON(
+	public static AbstractItemType RACE_INGREDIENT_DEMON = new AbstractItemType(
 			"a bottle of",
 			false,
 			"Innoxia's Gift",
@@ -643,7 +714,12 @@ public enum ItemType {
 			500,
 			Rarity.LEGENDARY,
 			TFEssence.DEMON,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.RACE_INNOXIAS_GIFT, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.RACE_INNOXIAS_GIFT, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
@@ -651,7 +727,7 @@ public enum ItemType {
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return ELIXIR;
 		}
 
@@ -674,9 +750,9 @@ public enum ItemType {
 							+ " <i>How did [npc.she] get this?!</i>"
 						+ "</p>");
 		}
-	},
+	};
 	
-	RACE_INGREDIENT_HUMAN(
+	public static AbstractItemType RACE_INGREDIENT_HUMAN = new AbstractItemType(
 			"a vial of",
 			false,
 			"angel's tears",
@@ -687,7 +763,12 @@ public enum ItemType {
 			75,
 			Rarity.RARE,
 			TFEssence.HUMAN,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.RACE_ANGELS_TEARS, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.RACE_ANGELS_TEARS, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
@@ -695,7 +776,7 @@ public enum ItemType {
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return ELIXIR;
 		}
 
@@ -719,9 +800,9 @@ public enum ItemType {
 						+ "</p>");
 			}
 		}
-	},
+	};
 	
-	RACE_INGREDIENT_CAT_MORPH(
+	public static AbstractItemType RACE_INGREDIENT_CAT_MORPH = new AbstractItemType(
 			"a",
 			false,
 			"Kitty's Reward",
@@ -732,7 +813,12 @@ public enum ItemType {
 			40,
 			Rarity.RARE,
 			TFEssence.CAT_MORPH,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.RACE_KITTYS_REWARD, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.RACE_KITTYS_REWARD, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
@@ -740,7 +826,7 @@ public enum ItemType {
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return ELIXIR;
 		}
 
@@ -765,9 +851,9 @@ public enum ItemType {
 						+ "</p>");
 			}
 		}
-	},
+	};
 	
-	RACE_INGREDIENT_SQUIRREL_MORPH(
+	public static AbstractItemType RACE_INGREDIENT_SQUIRREL_MORPH = new AbstractItemType(
 			"a bag of",
 			false,
 			"Round Nuts",
@@ -777,7 +863,9 @@ public enum ItemType {
 			40,
 			Rarity.RARE,
 			TFEssence.SQUIRREL_MORPH,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.RACE_ROUND_NUTS, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.RACE_ROUND_NUTS, null, null, null, 0)))) {
+
+		private static final long serialVersionUID = 1L;
 
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
@@ -785,7 +873,7 @@ public enum ItemType {
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return ELIXIR;
 		}
 
@@ -810,9 +898,9 @@ public enum ItemType {
 						+ "</p>");
 			}
 		}
-	},
+	};
 	
-	RACE_INGREDIENT_DOG_MORPH(
+	public static AbstractItemType RACE_INGREDIENT_DOG_MORPH = new AbstractItemType(
 			"a",
 			false,
 			"Canine Crunch",
@@ -822,7 +910,12 @@ public enum ItemType {
 			40,
 			Rarity.RARE,
 			TFEssence.DOG_MORPH,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.RACE_CANINE_CRUNCH, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.RACE_CANINE_CRUNCH, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
@@ -830,7 +923,7 @@ public enum ItemType {
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return ELIXIR;
 		}
 
@@ -854,9 +947,9 @@ public enum ItemType {
 						+ "</p>");
 			}
 		}
-	},
+	};
 
-	RACE_INGREDIENT_HORSE_MORPH(
+	public static AbstractItemType RACE_INGREDIENT_HORSE_MORPH = new AbstractItemType(
 			"a",
 			false,
 			"Sugar Carrot Cube",
@@ -866,7 +959,12 @@ public enum ItemType {
 			40,
 			Rarity.RARE,
 			TFEssence.HORSE_MORPH,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.RACE_SUGAR_CARROT_CUBE, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.RACE_SUGAR_CARROT_CUBE, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
@@ -874,7 +972,7 @@ public enum ItemType {
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return ELIXIR;
 		}
 
@@ -898,9 +996,9 @@ public enum ItemType {
 						+ "</p>");
 			}
 		}
-	},
+	};
 	
-	RACE_INGREDIENT_WOLF_MORPH(
+	public static AbstractItemType RACE_INGREDIENT_WOLF_MORPH = new AbstractItemType(
 			"a package of",
 			false,
 			"Meat and Marrow",
@@ -910,7 +1008,12 @@ public enum ItemType {
 			40,
 			Rarity.RARE,
 			TFEssence.WOLF_MORPH,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.RACE_MEAT_AND_MARROW, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.RACE_MEAT_AND_MARROW, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
@@ -918,7 +1021,7 @@ public enum ItemType {
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return ELIXIR;
 		}
 
@@ -943,9 +1046,9 @@ public enum ItemType {
 						+ "</p>");
 			}
 		}
-	},
+	};
 	
-	RACE_INGREDIENT_HARPY(
+	public static AbstractItemType RACE_INGREDIENT_HARPY = new AbstractItemType(
 			"a",
 			false,
 			"bubblegum lollipop",
@@ -956,7 +1059,12 @@ public enum ItemType {
 			60,
 			Rarity.RARE,
 			TFEssence.HARPY,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.RACE_LOLIPOP, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.RACE_LOLIPOP, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
@@ -964,7 +1072,7 @@ public enum ItemType {
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return ELIXIR;
 		}
 
@@ -988,7 +1096,7 @@ public enum ItemType {
 						+ "</p>");
 			}
 		}
-	},
+	};
 	
 	// Essence bottles:
 	
@@ -1003,7 +1111,7 @@ public enum ItemType {
 //			50,
 //			Rarity.LEGENDARY,
 //			null,
-//			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_ANGEL, null, null)))) {
+//			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_ANGEL, null, null, null, 0)))) {
 //
 //		@Override
 //		public String getUseName() {
@@ -1023,9 +1131,9 @@ public enum ItemType {
 //					+ "</p>";
 //			}
 //		}
-//	},
+//	};
 	
-	BOTTLED_ESSENCE_ARCANE(
+	public static AbstractItemType BOTTLED_ESSENCE_ARCANE = new AbstractItemType(
 			null,
 			false,
 			"Bottled Arcane Essence",
@@ -1036,7 +1144,12 @@ public enum ItemType {
 			50,
 			Rarity.LEGENDARY,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_ARCANE, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_ARCANE, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1058,9 +1171,9 @@ public enum ItemType {
 					+ "</p>";
 			}
 		}
-	},
+	};
 	
-	BOTTLED_ESSENCE_CAT_MORPH(
+	public static AbstractItemType BOTTLED_ESSENCE_CAT_MORPH = new AbstractItemType(
 			null,
 			false,
 			"Bottled Cat-morph Essence",
@@ -1071,7 +1184,12 @@ public enum ItemType {
 			10,
 			Rarity.COMMON,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_CAT_MORPH, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_CAT_MORPH, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1093,9 +1211,9 @@ public enum ItemType {
 					+ "</p>";
 			}
 		}
-	},
+	};
 	
-	BOTTLED_ESSENCE_DEMON(
+	public static AbstractItemType BOTTLED_ESSENCE_DEMON = new AbstractItemType(
 			null,
 			false,
 			"Bottled Demon Essence",
@@ -1106,7 +1224,12 @@ public enum ItemType {
 			40,
 			Rarity.EPIC,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_DEMON, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_DEMON, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1128,9 +1251,9 @@ public enum ItemType {
 					+ "</p>";
 			}
 		}
-	},
+	};
 	
-	BOTTLED_ESSENCE_SQUIRREL_MORPH(
+	public static AbstractItemType BOTTLED_ESSENCE_SQUIRREL_MORPH = new AbstractItemType(
 			null,
 			false,
 			"Bottled squirrel-morph Essence",
@@ -1141,7 +1264,12 @@ public enum ItemType {
 			10,
 			Rarity.COMMON,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_SQUIRREL_MORPH, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_SQUIRREL_MORPH, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1163,9 +1291,9 @@ public enum ItemType {
 					+ "</p>";
 			}
 		}
-	},
+	};
 	
-	BOTTLED_ESSENCE_DOG_MORPH(
+	public static AbstractItemType BOTTLED_ESSENCE_DOG_MORPH = new AbstractItemType(
 			null,
 			false,
 			"Bottled Dog-morph Essence",
@@ -1176,7 +1304,12 @@ public enum ItemType {
 			10,
 			Rarity.COMMON,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_DOG_MORPH, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_DOG_MORPH, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1198,9 +1331,9 @@ public enum ItemType {
 					+ "</p>";
 			}
 		}
-	},
+	};
 	
-	BOTTLED_ESSENCE_HARPY(
+	public static AbstractItemType BOTTLED_ESSENCE_HARPY = new AbstractItemType(
 			null,
 			false,
 			"Bottled Harpy Essence",
@@ -1211,7 +1344,12 @@ public enum ItemType {
 			20,
 			Rarity.UNCOMMON,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_HARPY, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_HARPY, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1233,9 +1371,9 @@ public enum ItemType {
 					+ "</p>";
 			}
 		}
-	},
+	};
 	
-	BOTTLED_ESSENCE_HORSE_MORPH(
+	public static AbstractItemType BOTTLED_ESSENCE_HORSE_MORPH = new AbstractItemType(
 			null,
 			false,
 			"Bottled Horse-morph Essence",
@@ -1246,7 +1384,12 @@ public enum ItemType {
 			10,
 			Rarity.COMMON,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_HORSE_MORPH, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_HORSE_MORPH, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1268,9 +1411,9 @@ public enum ItemType {
 					+ "</p>";
 			}
 		}
-	},
+	};
 	
-	BOTTLED_ESSENCE_HUMAN(
+	public static AbstractItemType BOTTLED_ESSENCE_HUMAN = new AbstractItemType(
 			null,
 			false,
 			"Bottled Human Essence",
@@ -1281,7 +1424,12 @@ public enum ItemType {
 			10,
 			Rarity.COMMON,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_HUMAN, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_HUMAN, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1303,9 +1451,9 @@ public enum ItemType {
 					+ "</p>";
 			}
 		}
-	},
+	};
 	
-	BOTTLED_ESSENCE_WOLF_MORPH(
+	public static AbstractItemType BOTTLED_ESSENCE_WOLF_MORPH = new AbstractItemType(
 			null,
 			false,
 			"Bottled Wolf-morph Essence",
@@ -1316,7 +1464,12 @@ public enum ItemType {
 			10,
 			Rarity.COMMON,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_WOLF_MORPH, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOTTLED_ESSENCE_WOLF_MORPH, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1338,13 +1491,13 @@ public enum ItemType {
 					+ "</p>";
 			}
 		}
-	},
+	};
 	
 	
 	
 	// Specials:
 	
-	HARPY_MARTRIARCH_BIMBO_LOLLIPOP(
+	public static AbstractItemType HARPY_MARTRIARCH_BIMBO_LOLLIPOP = new AbstractItemType(
 			null,
 			false,
 			"[bimboHarpy.name]'s lollipop",
@@ -1355,7 +1508,12 @@ public enum ItemType {
 			500,
 			Rarity.LEGENDARY,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BIMBO_LOLLIPOP, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BIMBO_LOLLIPOP, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1377,9 +1535,9 @@ public enum ItemType {
 					+ "</p>";
 			}
 		}
-	},
+	};
 	
-	HARPY_MARTRIARCH_NYMPHO_LOLLIPOP(
+	public static AbstractItemType HARPY_MARTRIARCH_NYMPHO_LOLLIPOP = new AbstractItemType(
 			null,
 			false,
 			"[nymphoHarpy.name]'s lollipop",
@@ -1390,7 +1548,12 @@ public enum ItemType {
 			500,
 			Rarity.LEGENDARY,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.NYMPHO_LOLLIPOP, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.NYMPHO_LOLLIPOP, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1412,9 +1575,9 @@ public enum ItemType {
 					+ "</p>";
 			}
 		}
-	},
+	};
 	
-	HARPY_MARTRIARCH_DOMINANT_PERFUME(
+	public static AbstractItemType HARPY_MARTRIARCH_DOMINANT_PERFUME = new AbstractItemType(
 			null,
 			false,
 			"[dominantHarpy.name]'s perfume",
@@ -1425,7 +1588,12 @@ public enum ItemType {
 			500,
 			Rarity.LEGENDARY,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.DOMINANT_PERFUME, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.DOMINANT_PERFUME, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1448,7 +1616,7 @@ public enum ItemType {
 					+ "</p>";
 			}
 		}
-	},
+	};
 	
 	// Crafting outputs:
 	
@@ -1502,9 +1670,9 @@ public enum ItemType {
 //						+ "</p>");
 //			}
 //		}
-//	},
+//	};
 	
-	POTION("",
+	public static AbstractItemType POTION = new AbstractItemType("",
 			false,
 			"potion",
 			"Refined potion.",
@@ -1515,13 +1683,18 @@ public enum ItemType {
 			null,
 			null) {
 
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
 			return null;
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return null;
 		}
 		
@@ -1554,9 +1727,9 @@ public enum ItemType {
 						+ "</p>");
 			}
 		}
-	},
+	};
 	
-	ELIXIR("",
+	public static AbstractItemType ELIXIR = new AbstractItemType("",
 			false,
 			"elixir",
 			"Refined elixir.",
@@ -1567,13 +1740,18 @@ public enum ItemType {
 			null,
 			null) {
 
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 		@Override
 		public ItemEffectType getEnchantmentEffect() {
 			return null;
 		}
 
 		@Override
-		public ItemType getEnchantmentItemType() {
+		public AbstractItemType getEnchantmentItemType() {
 			return null;
 		}
 		
@@ -1606,12 +1784,12 @@ public enum ItemType {
 						+ "</p>");
 			}
 		}
-	},
+	};
 	
 	
 	// Non-TF:
 
-	DYE_BRUSH("a",
+	public static AbstractItemType DYE_BRUSH = new AbstractItemType("a",
 			false,
 			"dye-brush",
 			"A small, very ordinary-looking brush, of the sort used for fine detailing on canvas or models."
@@ -1621,7 +1799,12 @@ public enum ItemType {
 			50,
 			Rarity.EPIC,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.DYE_BRUSH, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.DYE_BRUSH, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1652,9 +1835,9 @@ public enum ItemType {
 		public boolean isAbleToBeUsedFromInventory() {
 			return false;
 		}
-	},
+	};
 
-	CONDOM("a",
+	public static AbstractItemType CONDOM = new AbstractItemType("a",
 			false,
 			"condom",
 			"A condom, wrapped in a square piece of foil. The brand name 'Stallion' is clearly displayed in bold red lettering, and a small description on the other side informs you that, due to an arcane enchantment, 'one-size fits all'.",
@@ -1663,7 +1846,12 @@ public enum ItemType {
 			5,
 			Rarity.COMMON,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.APPLY_CONDOM, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.APPLY_CONDOM, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1680,10 +1868,7 @@ public enum ItemType {
 
 		@Override
 		public boolean isAbleToBeUsed(GameCharacter target) {
-			if(target.getPenisType()!=PenisType.NONE && target.isCoverableAreaExposed(CoverableArea.PENIS) && !target.isWearingCondom())
-				return true;
-			else
-				return false;
+			return target.getPenisType()!=PenisType.NONE && target.isCoverableAreaExposed(CoverableArea.PENIS) && !target.isWearingCondom();
 		}
 
 		@Override
@@ -1719,9 +1904,9 @@ public enum ItemType {
 		public boolean isAbleToBeUsedFromInventory() {
 			return false;
 		}
-	},
+	};
 
-	CONDOM_USED("a",
+	public static AbstractItemType CONDOM_USED = new AbstractItemType("a",
 			false,
 			"used condom",
 			"A used condom, tied at the top and filled with someone's cum. You'd have to be pretty dirty-minded to think of a use for this... <b>(Currently not implemented...)</b>",
@@ -1730,8 +1915,13 @@ public enum ItemType {
 			0,
 			Rarity.COMMON,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.USED_CONDOM_DRINK, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.USED_CONDOM_DRINK, null, null, null, 0)))) {
 		
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 		@Override
 		public String getUseName() {
 			return "drink";
@@ -1762,9 +1952,9 @@ public enum ItemType {
 		public boolean isAbleToBeUsedInSex() {
 			return false;
 		}
-	},
+	};
 
-	VIXENS_VIRILITY("a",
+	public static AbstractItemType VIXENS_VIRILITY = new AbstractItemType("a",
 			false,
 			"Vixen's Virility",
 			"A small pill, packaged in a little foil and plastic wrapper. On the front of the foil, there's a small stylised picture of a heavily pregnant girl, lying back and smiling as she strokes her swollen belly.",
@@ -1773,7 +1963,12 @@ public enum ItemType {
 			5,
 			Rarity.COMMON,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.VIXENS_VIRILITY, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.VIXENS_VIRILITY, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1793,9 +1988,9 @@ public enum ItemType {
 						+ "</p>");
 		}
 
-	},
+	};
 	
-	PROMISCUITY_PILL("a",
+	public static AbstractItemType PROMISCUITY_PILL = new AbstractItemType("a",
 			false,
 			"Promiscuity Pill",
 			"A small pill, packaged in a little foil and plastic wrapper."
@@ -1806,7 +2001,12 @@ public enum ItemType {
 			5,
 			Rarity.COMMON,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.PROMISCUITY_PILL, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.PROMISCUITY_PILL, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1825,9 +2025,9 @@ public enum ItemType {
 							+ "[npc.Name] pops a <i>Promiscuity Pill</i> pill out of its little foil wrapper, before quickly placing it in [npc.her] mouth and swallowing it down."
 						+ "</p>");
 		}
-	},
+	};
 	
-	MOTHERS_MILK("a bottle of",
+	public static AbstractItemType MOTHERS_MILK = new AbstractItemType("a bottle of",
 			false,
 			"Mother's Milk",
 			"A baby bottle filled with a rich, creamy milk."
@@ -1837,7 +2037,12 @@ public enum ItemType {
 			5,
 			Rarity.COMMON,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.MOTHERS_MILK, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.MOTHERS_MILK, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public String getUseName() {
@@ -1856,9 +2061,9 @@ public enum ItemType {
 							+ "[npc.Name] produces a bottle of <i>Mother's Milk</i>, and, taking the teat-like opening into [npc.her] mouth, [npc.she] greedily starts to suckle down the creamy liquid within."
 						+ "</p>");
 		}
-	},
+	};
 	
-	BOOK_CAT_MORPH(
+	public static AbstractItemType BOOK_CAT_MORPH = new AbstractItemType(
 			null,
 			false,
 			"Curious kitties",
@@ -1868,15 +2073,16 @@ public enum ItemType {
 			10,
 			Rarity.LEGENDARY,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOOK_READ_CAT_MORPH, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOOK_READ_CAT_MORPH, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public boolean isAbleToBeUsed(GameCharacter target) {
-			if(!Main.game.getPlayer().getRacesAdvancedKnowledge().contains(Race.CAT_MORPH)) {
-				return true;
-			} else {
-				return false;
-			}
+			return !Main.game.getPlayer().getRacesAdvancedKnowledge().contains(Race.CAT_MORPH);
 		}
 
 		@Override
@@ -1895,9 +2101,9 @@ public enum ItemType {
 						+ "Opening the book, you read its contents..."
 					+ "</p>";
 		}
-	},
+	};
 	
-	BOOK_DEMON(
+	public static AbstractItemType BOOK_DEMON = new AbstractItemType(
 			null,
 			false,
 			"Demonic origins",
@@ -1907,15 +2113,16 @@ public enum ItemType {
 			10,
 			Rarity.LEGENDARY,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOOK_READ_DEMON, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOOK_READ_DEMON, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public boolean isAbleToBeUsed(GameCharacter target) {
-			if(!Main.game.getPlayer().getRacesAdvancedKnowledge().contains(Race.DEMON)) {
-				return true;
-			} else {
-				return false;
-			}
+			return !Main.game.getPlayer().getRacesAdvancedKnowledge().contains(Race.DEMON);
 		}
 
 		@Override
@@ -1939,9 +2146,9 @@ public enum ItemType {
 						+ "Opening the book, you read its contents..."
 					+ "</p>";
 		}
-	},
+	};
 	
-	BOOK_DOG_MORPH(
+	public static AbstractItemType BOOK_DOG_MORPH = new AbstractItemType(
 			null,
 			false,
 			"Canine culture",
@@ -1951,15 +2158,16 @@ public enum ItemType {
 			10,
 			Rarity.LEGENDARY,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOOK_READ_DOG_MORPH, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOOK_READ_DOG_MORPH, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public boolean isAbleToBeUsed(GameCharacter target) {
-			if(!Main.game.getPlayer().getRacesAdvancedKnowledge().contains(Race.DOG_MORPH)) {
-				return true;
-			} else {
-				return false;
-			}
+			return !Main.game.getPlayer().getRacesAdvancedKnowledge().contains(Race.DOG_MORPH);
 		}
 
 		@Override
@@ -1983,9 +2191,9 @@ public enum ItemType {
 						+ "Opening the book, you read its contents..."
 					+ "</p>";
 		}
-	},
+	};
 	
-	BOOK_HARPY(
+	public static AbstractItemType BOOK_HARPY = new AbstractItemType(
 			null,
 			false,
 			"All about Harpies",
@@ -1995,15 +2203,16 @@ public enum ItemType {
 			10,
 			Rarity.LEGENDARY,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOOK_READ_HARPY, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOOK_READ_HARPY, null, null, null, 0)))) {
 		
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 		@Override
 		public boolean isAbleToBeUsed(GameCharacter target) {
-			if(!Main.game.getPlayer().getRacesAdvancedKnowledge().contains(Race.HARPY)) {
-				return true;
-			} else {
-				return false;
-			}
+			return !Main.game.getPlayer().getRacesAdvancedKnowledge().contains(Race.HARPY);
 		}
 
 		@Override
@@ -2027,9 +2236,9 @@ public enum ItemType {
 						+ "Opening the book, you read its contents..."
 					+ "</p>";
 		}
-	},
+	};
 	
-	BOOK_HORSE_MORPH(
+	public static AbstractItemType BOOK_HORSE_MORPH = new AbstractItemType(
 			null,
 			false,
 			"Equine Encyclopedia",
@@ -2039,15 +2248,16 @@ public enum ItemType {
 			10,
 			Rarity.LEGENDARY,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOOK_READ_HORSE_MORPH, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOOK_READ_HORSE_MORPH, null, null, null, 0)))) {
 		
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 		@Override
 		public boolean isAbleToBeUsed(GameCharacter target) {
-			if(!Main.game.getPlayer().getRacesAdvancedKnowledge().contains(Race.HORSE_MORPH)) {
-				return true;
-			} else {
-				return false;
-			}
+			return !Main.game.getPlayer().getRacesAdvancedKnowledge().contains(Race.HORSE_MORPH);
 		}
 
 		@Override
@@ -2071,9 +2281,9 @@ public enum ItemType {
 						+ "Opening the book, you read its contents..."
 					+ "</p>";
 		}
-	},
+	};
 	
-	BOOK_HUMAN(
+	public static AbstractItemType BOOK_HUMAN = new AbstractItemType(
 			null,
 			false,
 			"Concerning Humans",
@@ -2083,15 +2293,16 @@ public enum ItemType {
 			10,
 			Rarity.LEGENDARY,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOOK_READ_HUMAN, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOOK_READ_HUMAN, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public boolean isAbleToBeUsed(GameCharacter target) {
-			if(!Main.game.getPlayer().getRacesAdvancedKnowledge().contains(Race.HUMAN)) {
-				return true;
-			} else {
-				return false;
-			}
+			return !Main.game.getPlayer().getRacesAdvancedKnowledge().contains(Race.HUMAN);
 		}
 
 		@Override
@@ -2115,9 +2326,9 @@ public enum ItemType {
 						+ "Opening the book, you read its contents..."
 					+ "</p>";
 		}
-	},
+	};
 	
-	BOOK_SQUIRREL_MORPH(
+	public static AbstractItemType BOOK_SQUIRREL_MORPH = new AbstractItemType(
 			null,
 			false,
 			"Chasing Squirrels",
@@ -2127,15 +2338,16 @@ public enum ItemType {
 			10,
 			Rarity.LEGENDARY,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOOK_READ_SQUIRREL_MORPH, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOOK_READ_SQUIRREL_MORPH, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public boolean isAbleToBeUsed(GameCharacter target) {
-			if(!Main.game.getPlayer().getRacesAdvancedKnowledge().contains(Race.SQUIRREL_MORPH)) {
-				return true;
-			} else {
-				return false;
-			}
+			return !Main.game.getPlayer().getRacesAdvancedKnowledge().contains(Race.SQUIRREL_MORPH);
 		}
 
 		@Override
@@ -2154,9 +2366,9 @@ public enum ItemType {
 						+ "Opening the book, you read its contents..."
 					+ "</p>";
 		}
-	},
+	};
 	
-	BOOK_WOLF_MORPH(
+	public static AbstractItemType BOOK_WOLF_MORPH = new AbstractItemType(
 			null,
 			false,
 			"Prowling Lupines",
@@ -2166,15 +2378,16 @@ public enum ItemType {
 			10,
 			Rarity.LEGENDARY,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOOK_READ_WOLF_MORPH, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.BOOK_READ_WOLF_MORPH, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public boolean isAbleToBeUsed(GameCharacter target) {
-			if(!Main.game.getPlayer().getRacesAdvancedKnowledge().contains(Race.WOLF_MORPH)) {
-				return true;
-			} else {
-				return false;
-			}
+			return !Main.game.getPlayer().getRacesAdvancedKnowledge().contains(Race.WOLF_MORPH);
 		}
 
 		@Override
@@ -2198,10 +2411,10 @@ public enum ItemType {
 						+ "Opening the book, you read its contents..."
 					+ "</p>";
 		}
-	},
+	};
 	
 	// Why did I make this?
-	EGGPLANT(
+	public static AbstractItemType EGGPLANT = new AbstractItemType(
 			null,
 			false,
 			"Eggplant",
@@ -2211,7 +2424,12 @@ public enum ItemType {
 			10,
 			Rarity.LEGENDARY,
 			null,
-			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.EGGPLANT, null, null)))) {
+			Util.newArrayListOfValues(new ListValue<>(new ItemEffect(ItemEffectType.EGGPLANT, null, null, null, 0)))) {
+
+		/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 		@Override
 		public boolean canBeSold() {
@@ -2274,7 +2492,7 @@ public enum ItemType {
 //		public boolean isAbleToBeUsedInSex() {
 //			return false;
 //		}
-//	},
+//	};
 //	GOING_BIG("a bottle of", "it", "Going Big",
 //			"A clear plastic bottle of a drink branded as 'Going Big'. A girl, presenting herself doggy-style, is prominently featured on the label, crying out in delight as a gigantic cock easily stretches out her tight, wet pussy.",
 //			"potion", Colour.CLOTHING_WHITE, true, 25, Rarity.RARE, "Decreases orifice capacity. Increases elasticity and wetness.") {
@@ -2306,7 +2524,7 @@ public enum ItemType {
 //		public boolean isAbleToBeUsedInSex() {
 //			return false;
 //		}
-//	},
+//	};
 //	WET_KISS("a bottle of", "it", "Wet Kiss",
 //			"A clear plastic bottle of the branded drink <i>Wet Kiss</i>, filled with a rose-coloured liquid. The label on the front is devoid"
 //					+ " of any images, and instead simply displays the name <i>Wet Kiss</i>, along with some incomprehensible technical details of the drink's manufacturing process.",
@@ -2339,7 +2557,7 @@ public enum ItemType {
 //		public boolean isAbleToBeUsedInSex() {
 //			return false;
 //		}
-//	},
+//	};
 //	
 //	
 //
@@ -2375,7 +2593,7 @@ public enum ItemType {
 //		public boolean isAbleToBeUsedInSex() {
 //			return false;
 //		}
-//	},
+//	};
 //	BUBBLE_CREAM("a bottle of", "it", "bubble-cream",
 //			"A clear plastic bottle of bubble-cream. Just like bubble-milk, the cream doesn't physically bubble, but instead refers"
 //					+ " to the feeling you get after drinking it. A greater cow-girl with three pairs of gigantic breasts is prominently featured on the label, smiling as she" + " milks her gigantic udder-tits into a metal bucket.",
@@ -2407,7 +2625,7 @@ public enum ItemType {
 //		public boolean isAbleToBeUsedInSex() {
 //			return false;
 //		}
-//	},
+//	};
 //
 //	THROBBING_GLOW("a bottle of", "it", "Throbbing Glow",
 //			"A clear plastic bottle of the energy drink <i>Throbbing Glow</i>, filled with a bright blue liquid. A"
@@ -2440,7 +2658,7 @@ public enum ItemType {
 //		public boolean isAbleToBeUsedInSex() {
 //			return false;
 //		}
-//	},
+//	};
 //
 //	FLOWERS_WARMTH("a bottle of", "it", "Flower's Warmth",
 //			"A clear plastic bottle of the energy drink <i>Flower's Warmth</i>, filled with a pale pink liquid. A"
@@ -2473,7 +2691,7 @@ public enum ItemType {
 //		public boolean isAbleToBeUsedInSex() {
 //			return false;
 //		}
-//	},
+//	};
 //
 //	
 //
@@ -2509,7 +2727,7 @@ public enum ItemType {
 //		public boolean isAbleToBeUsedInSex() {
 //			return false;
 //		}
-//	},
+//	};
 //	FLAMING_THUNDER("a bottle of", "it", "Flaming Thunder",
 //			"A thick glass bottle of <i>Flaming Thunder</i>, filled with a deep blue liquid. The label on the front displays"
 //					+ " the name <i>Flaming Thunder</i> in a bold, striking font. The rest of the label is covered in simple images of lightning and bold linework.",
@@ -2542,219 +2760,51 @@ public enum ItemType {
 //		public boolean isAbleToBeUsedInSex() {
 //			return false;
 //		}
-//	},
+//	};
 //
 	
-	public static List<ItemType> availableItems = new ArrayList<>();
+	public static List<AbstractItemType>
+			commonItems = new ArrayList<>(),
+			essences = new ArrayList<>(),
+			allItems = new ArrayList<>();
 	
 	static{
-		for(ItemType t : ItemType.values()){
-			if(t!=ItemType.POTION && t!=ItemType.ELIXIR
-					&& t!=ItemType.HARPY_MARTRIARCH_BIMBO_LOLLIPOP && t!=ItemType.HARPY_MARTRIARCH_DOMINANT_PERFUME && t!=ItemType.HARPY_MARTRIARCH_NYMPHO_LOLLIPOP
-					&& t!=ItemType.BOOK_CAT_MORPH && t!=ItemType.BOOK_DEMON && t!=ItemType.BOOK_DOG_MORPH && t!=ItemType.BOOK_HARPY && t!=ItemType.BOOK_HORSE_MORPH && t!=ItemType.BOOK_HUMAN && t!=ItemType.BOOK_WOLF_MORPH
-					&& t!=ItemType.BOTTLED_ESSENCE_ARCANE && t!=ItemType.BOTTLED_ESSENCE_CAT_MORPH && t!=ItemType.BOTTLED_ESSENCE_DEMON
-					&& t!=ItemType.BOTTLED_ESSENCE_DOG_MORPH && t!=ItemType.BOTTLED_ESSENCE_HARPY && t!=ItemType.BOTTLED_ESSENCE_HORSE_MORPH
-					&& t!=ItemType.BOTTLED_ESSENCE_HUMAN && t!=ItemType.BOTTLED_ESSENCE_WOLF_MORPH
-					&& t!=ItemType.EGGPLANT) {
-				availableItems.add(t);
-			}
+		
+		Field[] fields = ItemType.class.getFields();
+		
+		for(Field f : fields){
 			
-			if(Main.game.isStarted()) {
-				if(Main.game.getPlayer().hasSideQuest(QuestLine.SIDE_ENCHANTMENT_DISCOVERY)) {
-					if(t==ItemType.BOTTLED_ESSENCE_ARCANE || t==ItemType.BOTTLED_ESSENCE_CAT_MORPH || t==ItemType.BOTTLED_ESSENCE_DEMON
-							|| t==ItemType.BOTTLED_ESSENCE_DOG_MORPH || t==ItemType.BOTTLED_ESSENCE_HARPY || t==ItemType.BOTTLED_ESSENCE_HORSE_MORPH
-							|| t==ItemType.BOTTLED_ESSENCE_HUMAN || t==ItemType.BOTTLED_ESSENCE_WOLF_MORPH) {
-						availableItems.add(t);
+			if (AbstractItemType.class.isAssignableFrom(f.getType())) {
+				
+				AbstractItemType item;
+				try {
+					item = ((AbstractItemType) f.get(null));
+					
+					allItems.add(item);
+					
+					if(item!=ItemType.POTION && item!=ItemType.ELIXIR
+							&& item!=ItemType.HARPY_MARTRIARCH_BIMBO_LOLLIPOP && item!=ItemType.HARPY_MARTRIARCH_DOMINANT_PERFUME && item!=ItemType.HARPY_MARTRIARCH_NYMPHO_LOLLIPOP
+							&& item!=ItemType.BOOK_CAT_MORPH && item!=ItemType.BOOK_DEMON && item!=ItemType.BOOK_DOG_MORPH
+							&& item!=ItemType.BOOK_HARPY && item!=ItemType.BOOK_HORSE_MORPH && item!=ItemType.BOOK_HUMAN && item!=ItemType.BOOK_WOLF_MORPH
+							&& item!=ItemType.BOTTLED_ESSENCE_ARCANE && item!=ItemType.BOTTLED_ESSENCE_CAT_MORPH && item!=ItemType.BOTTLED_ESSENCE_DEMON
+							&& item!=ItemType.BOTTLED_ESSENCE_DOG_MORPH && item!=ItemType.BOTTLED_ESSENCE_HARPY && item!=ItemType.BOTTLED_ESSENCE_HORSE_MORPH
+							&& item!=ItemType.BOTTLED_ESSENCE_HUMAN && item!=ItemType.BOTTLED_ESSENCE_WOLF_MORPH
+							&& item!=ItemType.EGGPLANT
+//							&& item!=ItemType.TEST_ITEM
+							) {
+						commonItems.add(item);
+						
+					} else if(item==ItemType.BOTTLED_ESSENCE_ARCANE || item==ItemType.BOTTLED_ESSENCE_CAT_MORPH || item==ItemType.BOTTLED_ESSENCE_DEMON
+							|| item==ItemType.BOTTLED_ESSENCE_DOG_MORPH || item==ItemType.BOTTLED_ESSENCE_HARPY || item==ItemType.BOTTLED_ESSENCE_HORSE_MORPH
+							|| item==ItemType.BOTTLED_ESSENCE_HUMAN || item==ItemType.BOTTLED_ESSENCE_WOLF_MORPH) {
+						essences.add(item);
 					}
+					
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					e.printStackTrace();
 				}
 			}
 		}
-	}
-	
-
-	private String determiner, name, description, pathName;
-	private boolean plural;
-	private Colour colourShade;
-	private int value;
-	private Rarity rarity;
-	protected String SVGString;
-	private TFEssence relatedEssence;
-	protected List<ItemEffect> effects;
-
-	private ItemType(
-			String determiner,
-			boolean plural,
-			String name,
-			String description,
-			String pathName,
-			Colour colourShade,
-			int value,
-			Rarity rarity,
-			TFEssence relatedEssence,
-			List<ItemEffect> effects) {
-
-		this.determiner = determiner;
-		this.plural = plural;
-		this.name = name;
-		this.description = description;
-		this.pathName = pathName;
-
-		this.value = value;
-		this.rarity = rarity;
-		
-		this.relatedEssence = relatedEssence;
-		
-		if(effects==null) {
-			this.effects = new ArrayList<>();
-		} else {
-			this.effects=effects;
-		}
-
-		if (colourShade == null) {
-			this.colourShade = com.base.utils.Colour.CLOTHING_BLACK;
-		} else {
-			this.colourShade = colourShade;
-		}
-		
-		// Set this item's file image:
-		try {
-			InputStream is = this.getClass().getResourceAsStream("/com/base/res/items/" + pathName + ".svg");
-			String s = Util.inputStreamToString(is);
-
-			s = s.replaceAll("#ff2a2a", this.colourShade.getShades()[0]);
-			s = s.replaceAll("#ff5555", this.colourShade.getShades()[1]);
-			s = s.replaceAll("#ff8080", this.colourShade.getShades()[2]);
-			s = s.replaceAll("#ffaaaa", this.colourShade.getShades()[3]);
-			s = s.replaceAll("#ffd5d5", this.colourShade.getShades()[4]);
-			SVGString = s;
-
-			is.close();
-
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-	}
-
-	public static AbstractItem generateItem(ItemType itemType) {
-		return new AbstractItem(itemType) {
-			private static final long serialVersionUID = 1L;
-		};
-	}
-	
-	public List<ItemEffect> getEffects() {
-		return effects;
-	}
-	
-	public boolean canBeSold() {
-		return true;
-	}
-	
-	// Enchantments:
-	
-	public ItemEffectType getEnchantmentEffect() {
-		return null;
-	}
-	
-	public TFEssence getRelatedEssence() {
-		return relatedEssence;
-	}
-	
-	public ItemType getEnchantmentItemType() {
-		return null;
-	}
-	
-	// Getters & setters:
-
-	public String getDeterminer() {
-		return (determiner!=null?determiner:"");
-	}
-
-	public boolean isPlural() {
-		return plural;
-	}
-
-	public String getName(boolean displayName) {
-		if(displayName) {
-			return Util.capitaliseSentence((determiner!=null?determiner:"") + " <span style='color: " + rarity.getColour().toWebHexString() + ";'>" + name + "</span>");
-		} else {
-			return name;
-		}
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public String getDisplayName(boolean withRarityColour) {
-		return Util.capitaliseSentence((determiner!=null?determiner:"") + (withRarityColour ? (" <span style='color: " + rarity.getColour().toWebHexString() + ";'>" + name + "</span>") : name));
-	}
-
-	public String getPathName() {
-		return pathName;
-	}
-
-	public Colour getColour() {
-		return colourShade;
-	}
-
-	public int getValue() {
-		return value;
-	}
-
-	public String getSVGString() {
-		return SVGString;
-	}
-
-	public Rarity getRarity() {
-		return rarity;
-	}
-
-	public String getUseName() {
-		return "use";
-	}
-	
-	public String getUseDescription(GameCharacter user, GameCharacter target) {
-		return "<p>"
-					+ "You use the item."
-				+ "</p>";
-	}
-
-	public boolean isAbleToBeUsedFromInventory() {
-		return true;
-	}
-	public boolean isAbleToBeUsed(GameCharacter target) {
-		if(Main.game.isInCombat() && !target.isPlayer())
-			return false;
-		else
-			return true;
-	}
-	public boolean isAbleToBeUsedInSex() {
-		return true;
-	}
-	public boolean isAbleToBeUsedInCombat() {
-		return true;
-	}
-	
-	public boolean isConsumedOnUse() {
-		return true;
-	}
-	
-	public String getUnableToBeUsedFromInventoryDescription() {
-		return "This item cannot be used in this way!";
-	}
-	
-	public String getUnableToBeUsedDescription(GameCharacter target) {
-		return "This item cannot be used in this way!";
-	}
-	
-	public String getDyeBrushEffects(ClothingType clothingType, Colour colour) {
-		return "<p>"
-					+ "As you take hold of the Dye-brush, you see the purple glow around the tip growing in strength."
-					+ " The closer you move it to your " + clothingType.getName()
-					+ ", the brighter the glow becomes, until suddenly, images of different colours start flashing through your mind."
-					+ " As you touch the bristles to the " + clothingType.getName() + "'s surface, the Dye-brush instantly evaporates!"
-					+ " You see that the arcane enchantment has dyed the " + clothingType.getName() + " " + colour.getName() + "."
-				+ "</p>";
 	}
 
 }

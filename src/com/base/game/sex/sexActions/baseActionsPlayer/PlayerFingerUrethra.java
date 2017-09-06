@@ -18,14 +18,14 @@ import com.base.utils.Util.ListValue;
 
 /**
  * @since 0.1.79
- * @version 0.1.79
+ * @version 0.1.84
  * @author Innoxia
  */
 public class PlayerFingerUrethra {
 	
 	//TODO grope cock
 	
-	public static SexAction PLAYER_MASTURBATE_PARTNERS_COCK = new SexAction(
+	public static final SexAction PLAYER_MASTURBATE_PARTNERS_COCK = new SexAction(
 			SexActionType.PLAYER_REQUIRES_NO_PENETRATION_AND_EXPOSED,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -142,7 +142,7 @@ public class PlayerFingerUrethra {
 		}
 	};
 	
-	public static SexAction PLAYER_FONDLE_BALLS = new SexAction(
+	public static final SexAction PLAYER_FONDLE_BALLS = new SexAction(
 			SexActionType.PLAYER_REQUIRES_NO_PENETRATION_AND_EXPOSED,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.THREE_NORMAL,
@@ -152,7 +152,7 @@ public class PlayerFingerUrethra {
 
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return Sex.getSexPacePlayer()!=SexPace.SUB_RESISTING;
+			return !Sex.getPartner().isInternalTesticles() && Sex.getSexPacePlayer()!=SexPace.SUB_RESISTING;
 		}
 		
 		@Override

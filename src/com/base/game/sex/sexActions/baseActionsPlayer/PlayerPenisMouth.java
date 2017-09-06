@@ -3,6 +3,7 @@ package com.base.game.sex.sexActions.baseActionsPlayer;
 import java.util.List;
 
 import com.base.game.character.attributes.CorruptionLevel;
+import com.base.game.character.body.valueEnums.PenisModifier;
 import com.base.game.character.effects.Fetish;
 import com.base.game.dialogue.utils.UtilText;
 import com.base.game.inventory.clothing.CoverableArea;
@@ -21,7 +22,7 @@ import com.base.utils.Util.ListValue;
 
 /**
  * @since 0.1.79
- * @version 0.1.79
+ * @version 0.1.84
  * @author Innoxia
  */
 public class PlayerPenisMouth {
@@ -40,7 +41,7 @@ public class PlayerPenisMouth {
 	 * 		Sub normal, eager, resist
 	 */
 	
-	public static SexAction PLAYER_COCK_SLAP = new SexAction(
+	public static final SexAction PLAYER_COCK_SLAP = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.ONE_MINIMUM,
@@ -114,7 +115,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PLAYER_FORCE_BALLS_FOCUS = new SexAction(
+	public static final SexAction PLAYER_FORCE_BALLS_FOCUS = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.THREE_NORMAL,
 			ArousalIncrease.ONE_MINIMUM,
@@ -124,7 +125,7 @@ public class PlayerPenisMouth {
 
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return Sex.getSexPacePlayer()!=SexPace.SUB_RESISTING;
+			return !Main.game.getPlayer().isInternalTesticles() && Sex.getSexPacePlayer()!=SexPace.SUB_RESISTING;
 		}
 		
 		@Override
@@ -134,7 +135,7 @@ public class PlayerPenisMouth {
 
 		@Override
 		public String getActionDescription() {
-			return "Force [npc.name] to pay some attention to your [pc.balls+]";
+			return "Force [npc.name] to pay some attention to your [pc.balls+].";
 		}
 
 		@Override
@@ -231,17 +232,17 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PARTNER_SUCK_BALLS = new SexAction(
+	public static final SexAction PARTNER_SUCK_BALLS = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.THREE_NORMAL,
 			ArousalIncrease.TWO_LOW,
 			CorruptionLevel.ONE_VANILLA,
 			PenetrationType.PENIS_PLAYER,
 			OrificeType.MOUTH_PARTNER) {
-
+		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return Sex.getSexPacePartner()!=SexPace.SUB_RESISTING;
+			return !Main.game.getPlayer().isInternalTesticles() && Sex.getSexPacePartner()!=SexPace.SUB_RESISTING;
 		}
 		
 		@Override
@@ -312,7 +313,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PARTNER_LICK_HEAD = new SexAction(
+	public static final SexAction PARTNER_LICK_HEAD = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.THREE_NORMAL,
 			ArousalIncrease.TWO_LOW,
@@ -341,11 +342,11 @@ public class PlayerPenisMouth {
 			
 			String barbedSpecial = "", flaredSpecial = "";
 			
-			if(Main.game.getPlayer().isPenisBarbedShaft()) {
+			if(Main.game.getPlayer().hasPenisModifier(PenisModifier.BARBED)) {
 				barbedSpecial = "[npc.Name] slides [npc.her] head back, letting out a muffled [npc.moan] as the barbs lining your [pc.cock] rake their way up [npc.her] throat."
 									+ " Leaving just the [pc.cockHead+] pushed past [npc.her] [npc.lips+], [np.she] then starts to passionately kiss and suck the tip of your [pc.cock+].";
 			}
-			if(Main.game.getPlayer().isPenisFlaredHead()) {
+			if(Main.game.getPlayer().hasPenisModifier(PenisModifier.FLARED)) {
 				flaredSpecial="Sliding [npc.her] head back, [npc.name] allows your [pc.cock+] to slip almost completely out of [npc.her] mouth,"
 									+ " leaving just the wide, flared head pushed past [npc.her] [npc.lips+], which [npc.she] starts to passionately kiss and lick.";
 			}
@@ -375,7 +376,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PARTNER_HERM_FUN = new SexAction(
+	public static final SexAction PARTNER_HERM_FUN = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.TWO_LOW,
@@ -500,7 +501,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PLAYER_BLOWJOB_START = new SexAction(
+	public static final SexAction PLAYER_BLOWJOB_START = new SexAction(
 			SexActionType.PLAYER_PENETRATION,
 			ArousalIncrease.THREE_NORMAL,
 			ArousalIncrease.TWO_LOW,
@@ -667,7 +668,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PLAYER_BLOWJOB_DOM_GENTLE = new SexAction(
+	public static final SexAction PLAYER_BLOWJOB_DOM_GENTLE = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.THREE_NORMAL,
 			ArousalIncrease.TWO_LOW,
@@ -733,7 +734,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PLAYER_BLOWJOB_DOM_NORMAL = new SexAction(
+	public static final SexAction PLAYER_BLOWJOB_DOM_NORMAL = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.THREE_NORMAL,
 			ArousalIncrease.TWO_LOW,
@@ -799,7 +800,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PLAYER_BLOWJOB_DOM_ROUGH = new SexAction(
+	public static final SexAction PLAYER_BLOWJOB_DOM_ROUGH = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.THREE_NORMAL,
 			ArousalIncrease.TWO_LOW,
@@ -833,17 +834,17 @@ public class PlayerPenisMouth {
 				
 				String knottedSpecial = "", barbedSpecial = "", flaredSpecial = "";
 				
-				if(Main.game.getPlayer().isPenisKnotted()) {
+				if(Main.game.getPlayer().hasPenisModifier(PenisModifier.KNOTTED)) {
 					knottedSpecial = "With a sudden, violent thrust forwards, you bury your [pc.cock+] deep down [npc.name]'s throat."
 									+ " Holding [npc.her] head in place with both [pc.hands], you then proceed to start roughly fucking [npc.her] [npc.face],"
 									+ " and you see tears streaming from [npc.her] [npc.eyes] as you slam your knot repeatedly against [npc.her] [npc.lips+].";
 				}
-				if(Main.game.getPlayer().isPenisBarbedShaft()) {
+				if(Main.game.getPlayer().hasPenisModifier(PenisModifier.BARBED)) {
 					barbedSpecial = "With a sudden, violent thrust forwards, you bury your [pc.cock+] deep down [npc.name]'s throat."
 									+ " Holding [npc.her] head in place with both [pc.hands], you then proceed to start roughly fucking [npc.her] [npc.face],"
 									+ " and you see tears streaming from [npc.her] [npc.eyes] as you feel the barbs lining your shaft repeatedly raking up the sides of [npc.her] throat.";
 				}
-				if(Main.game.getPlayer().isPenisFlaredHead()) {
+				if(Main.game.getPlayer().hasPenisModifier(PenisModifier.FLARED)) {
 					flaredSpecial = "With a sudden, violent thrust forwards, you bury your [pc.cock+] deep down [npc.name]'s throat."
 									+ " Holding [npc.her] head in place with both [pc.hands], you then proceed to start roughly fucking [npc.her] [npc.face],"
 									+ " and you see tears streaming from [npc.her] [npc.eyes] as your wide, flared head forces its way up and down [npc.her] throat.";
@@ -868,19 +869,19 @@ public class PlayerPenisMouth {
 				
 				String knottedSpecial = "", barbedSpecial = "", flaredSpecial = "";
 				
-				if(Main.game.getPlayer().isPenisKnotted()) {
+				if(Main.game.getPlayer().hasPenisModifier(PenisModifier.KNOTTED)) {
 					knottedSpecial = "Spreading your knees out on either side of [npc.name]'s head, you violently thrust downwards, burying your [pc.cock+] deep down [npc.her] throat."
 										+ " Grinding your fat knot against [npc.her] [npc.lips+] for moment, you then proceed to start roughly fucking [npc.her] [npc.face+],"
 										+ " grinning as you hear [npc.herHim] [npc.moaning] in desperation as [npc.she] struggles to breathe,"
 										+ " [npc.her] pitiful cries being accompanied by the wet slapping sounds that your fat knot makes at it repeatedly slams against [npc.her] [npc.lips].";
 				}
-				if(Main.game.getPlayer().isPenisBarbedShaft()) {
+				if(Main.game.getPlayer().hasPenisModifier(PenisModifier.BARBED)) {
 					barbedSpecial = "Spreading your knees out on either side of [npc.name]'s head, you violently thrust downwards, burying your [pc.cock+] deep down [npc.her] throat."
 										+ " Grinding the base against [npc.her] [npc.lips+] for moment, you then proceed to start roughly fucking [npc.her] [npc.face+],"
 										+ " grinning as you hear [npc.herHim] [npc.moaning] in desperation as [npc.she] struggles to breathe,"
 										+ " squirming about beneath you as you feel [npc.her] throat being stretched out by the wide, flared head of your [pc.cock+].";
 				}
-				if(Main.game.getPlayer().isPenisFlaredHead()) {
+				if(Main.game.getPlayer().hasPenisModifier(PenisModifier.FLARED)) {
 					flaredSpecial = "Spreading your knees out on either side of [npc.name]'s head, you violently thrust downwards, burying your [pc.cock+] deep down [npc.her] throat."
 										+ " Grinding the base against [npc.her] [npc.lips+] for moment, you then proceed to start roughly fucking [npc.her] [npc.face+],"
 										+ " grinning as you hear [npc.herHim] [npc.moaning] in desperation as [npc.she] struggles to breathe,"
@@ -953,7 +954,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PLAYER_BLOWJOB_SUB_RESISTING = new SexAction(
+	public static final SexAction PLAYER_BLOWJOB_SUB_RESISTING = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.TWO_LOW,
@@ -1025,7 +1026,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PLAYER_BLOWJOB_SUB_NORMAL = new SexAction(
+	public static final SexAction PLAYER_BLOWJOB_SUB_NORMAL = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.THREE_NORMAL,
 			ArousalIncrease.TWO_LOW,
@@ -1092,7 +1093,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PLAYER_BLOWJOB_SUB_EAGER = new SexAction(
+	public static final SexAction PLAYER_BLOWJOB_SUB_EAGER = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.THREE_NORMAL,
 			ArousalIncrease.TWO_LOW,
@@ -1159,7 +1160,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PLAYER_BLOWJOB_STOP = new SexAction(
+	public static final SexAction PLAYER_BLOWJOB_STOP = new SexAction(
 			SexActionType.PLAYER_STOP_PENETRATION,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -1226,7 +1227,7 @@ public class PlayerPenisMouth {
 	
 	// Partner actions:
 	
-	public static SexAction PARTNER_BLOWJOB_START = new SexAction(
+	public static final SexAction PARTNER_BLOWJOB_START = new SexAction(
 			SexActionType.PARTNER_PENETRATION,
 			ArousalIncrease.THREE_NORMAL,
 			ArousalIncrease.TWO_LOW,
@@ -1246,7 +1247,7 @@ public class PlayerPenisMouth {
 
 		@Override
 		public String getActionDescription() {
-			return "Take [pc.name]'s [pc.cock+] into your mouth and start sucking [npc.herHim] off.";
+			return "Take [pc.name]'s [pc.cock+] into your mouth and start sucking [pc.herHim] off.";
 		}
 
 		@Override
@@ -1361,7 +1362,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PARTNER_GIVING_BLOWJOB_DOM_GENTLE = new SexAction(
+	public static final SexAction PARTNER_GIVING_BLOWJOB_DOM_GENTLE = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.THREE_NORMAL,
 			ArousalIncrease.TWO_LOW,
@@ -1425,7 +1426,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PARTNER_GIVING_BLOWJOB_DOM_NORMAL = new SexAction(
+	public static final SexAction PARTNER_GIVING_BLOWJOB_DOM_NORMAL = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.THREE_NORMAL,
@@ -1490,7 +1491,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PARTNER_GIVING_BLOWJOB_DOM_ROUGH = new SexAction(
+	public static final SexAction PARTNER_GIVING_BLOWJOB_DOM_ROUGH = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.TWO_LOW,
@@ -1557,7 +1558,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PARTNER_BLOWJOB_SUB_RESIST = new SexAction(
+	public static final SexAction PARTNER_BLOWJOB_SUB_RESIST = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.ONE_MINIMUM,
@@ -1622,7 +1623,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PARTNER_GIVING_BLOWJOB_SUB_NORMAL = new SexAction(
+	public static final SexAction PARTNER_GIVING_BLOWJOB_SUB_NORMAL = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.THREE_NORMAL,
 			ArousalIncrease.TWO_LOW,
@@ -1686,7 +1687,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PARTNER_GIVING_BLOWJOB_SUB_EAGER = new SexAction(
+	public static final SexAction PARTNER_GIVING_BLOWJOB_SUB_EAGER = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.TWO_LOW,
@@ -1750,7 +1751,7 @@ public class PlayerPenisMouth {
 		}
 	};
 	
-	public static SexAction PARTNER_BLOWJOB_STOP = new SexAction(
+	public static final SexAction PARTNER_BLOWJOB_STOP = new SexAction(
 			SexActionType.PARTNER_STOP_PENETRATION,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,

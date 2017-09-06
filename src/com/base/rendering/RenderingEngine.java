@@ -7,8 +7,8 @@ import java.util.Set;
 
 import com.base.game.KeyboardAction;
 import com.base.game.character.GameCharacter;
-import com.base.game.character.attributes.Attribute;
 import com.base.game.character.attributes.ArousalLevel;
+import com.base.game.character.attributes.Attribute;
 import com.base.game.character.attributes.CorruptionLevel;
 import com.base.game.character.attributes.FitnessLevel;
 import com.base.game.character.attributes.IntelligenceLevel;
@@ -24,7 +24,6 @@ import com.base.game.dialogue.MapDisplay;
 import com.base.game.inventory.InventorySlot;
 import com.base.game.inventory.Rarity;
 import com.base.game.inventory.clothing.AbstractClothing;
-import com.base.game.inventory.clothing.ClothingType;
 import com.base.game.sex.Sex;
 import com.base.main.Main;
 import com.base.utils.Colour;
@@ -34,7 +33,7 @@ import com.base.world.places.GenericPlace;
 
 /**
  * @since 0.1.0
- * @version 0.1.79
+ * @version 0.1.84
  * @author Innoxia
  */
 public enum RenderingEngine {
@@ -126,10 +125,10 @@ public enum RenderingEngine {
 					// add to content:
 					if (blockedSlots.contains(invSlot))
 						inventorySB.append("<div class='equipSlot'><div class='overlay disabled' id='" + invSlot.toString() + "Slot'></div></div>");
-					else if (ClothingType.slotBlockedByRace(charactersInventoryToRender, invSlot) != null)
+					else if (invSlot.slotBlockedByRace(charactersInventoryToRender) != null)
 						inventorySB.append("<div class='equipSlot'>"
 										+"<div class='overlay disabled' id='" + invSlot.toString() + "Slot'></div>"
-										+ "<div class='raceBlockIcon'>" + ClothingType.slotBlockedByRace(charactersInventoryToRender, invSlot).getStatusEffect().getSVGString(charactersInventoryToRender) + "</div>"
+										+ "<div class='raceBlockIcon'>" + invSlot.slotBlockedByRace(charactersInventoryToRender).getStatusEffect().getSVGString(charactersInventoryToRender) + "</div>"
 										+ "</div>");
 					else
 						inventorySB.append("<div class='equipSlot' id='" + invSlot.toString() + "Slot'></div>");
@@ -219,7 +218,7 @@ public enum RenderingEngine {
 									+ (clothing.getRarity() == Rarity.EPIC ? " epic" : "")
 									+ (clothing.getRarity() == Rarity.LEGENDARY ? " legendary" : "")
 									+ (clothing.getRarity() == Rarity.JINXED ? " jinxed" : "") + "'"
-									+ (clothing.isSealed() ? "style='height:16vw;width:16vw;border-width:1vw;border-color:#" + Colour.SEALED.toWebHexString() + ";border-style:solid;'" : "") + ">"
+									+ (clothing.isSealed() ? "style='height:10vw;width:10vw;border-width:1vw;border-color:#" + Colour.SEALED.toWebHexString() + ";border-style:solid;'" : "") + ">"
 									// If clothing is displaced:
 									+ (!clothing.getDisplacedList().isEmpty() ? "<div class='displacedIcon'>" + SVGImages.SVG_IMAGE_PROVIDER.getDisplacedIcon() + "</div>" : "")
 									// If clothing is cummed in:
@@ -628,7 +627,7 @@ public enum RenderingEngine {
 						
 						+ "<div class='full-width-container' style='margin:0;padding:0;'>"
 							+ "<div class='imageIcon'>" + Attribute.HEALTH_MAXIMUM.getSVGString() + "</div>" + "<div class='barBackgroundAtt'>" + "<div style='width:"
-							+ (((float) Main.game.getPlayer().getHealth()) / (Main.game.getPlayer().getAttributeValue(Attribute.HEALTH_MAXIMUM))) * 65 + "vw; height:5vw; background:" + Colour.ATTRIBUTE_HEALTH.toWebHexString()
+							+ (Main.game.getPlayer().getHealth() / Main.game.getPlayer().getAttributeValue(Attribute.HEALTH_MAXIMUM)) * 65 + "vw; height:5vw; background:" + Colour.ATTRIBUTE_HEALTH.toWebHexString()
 							+ "; float:left; border-radius: 2;'></div>" + "</div>" + "<p style='text-align:center; margin:1 0 0 0; padding:0;color:"
 							+ (renderedHealthValue < Main.game.getPlayer().getHealth() ? Colour.GENERIC_GOOD.toWebHexString() : renderedHealthValue > Main.game.getPlayer().getHealth() ? (Colour.GENERIC_BAD.toWebHexString()) : "default") + ";'>"
 							+ (int) Math.ceil(Main.game.getPlayer().getHealth()) + "</p>" + "<div class='overlay' id='PLAYER_" + Attribute.HEALTH_MAXIMUM.getName() + "'></div>"
@@ -636,7 +635,7 @@ public enum RenderingEngine {
 	
 						+ "<div class='full-width-container' style='margin:0;padding:0;'>"
 							+ "<div class='imageIcon'>" + Attribute.MANA_MAXIMUM.getSVGString() + "</div>" + "<div class='barBackgroundAtt'>" + "<div style='width:"
-							+ (((float) Main.game.getPlayer().getMana()) / (Main.game.getPlayer().getAttributeValue(Attribute.MANA_MAXIMUM))) * 65 + "vw; height:5vw; background:" + Colour.ATTRIBUTE_MANA.toWebHexString()
+							+ (Main.game.getPlayer().getMana() / Main.game.getPlayer().getAttributeValue(Attribute.MANA_MAXIMUM)) * 65 + "vw; height:5vw; background:" + Colour.ATTRIBUTE_MANA.toWebHexString()
 							+ "; float:left; border-radius: 2;'></div>" + "</div>" + "<p style='text-align:center; margin:1 0 0 0; padding:0;color:"
 							+ (renderedManaValue < Main.game.getPlayer().getMana() ? (Colour.GENERIC_GOOD.toWebHexString()) : (renderedManaValue > Main.game.getPlayer().getMana() ? (Colour.GENERIC_BAD.toWebHexString()) : "default")) + ";'>"
 							+ (int) Math.ceil(Main.game.getPlayer().getMana()) + "</p>" + "<div class='overlay' id='PLAYER_" + Attribute.MANA_MAXIMUM.getName() + "'></div>"
@@ -775,7 +774,7 @@ public enum RenderingEngine {
 									mapSB.append("<div class='place-icon'>" + Main.game.getActiveWorld().getCell(x, y).getPlace().getSVGString() + "</div>");
 
 								mapSB.append("<b class='hotkey-icon" + (Main.game.getActiveWorld().getCell(x, y).getPlace().isDangerous() ? " dangerous" : "") + "'>"
-										+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.MOVE_NORTH) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.MOVE_NORTH).getName()) + "</b>");
+										+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.MOVE_NORTH) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.MOVE_NORTH).getFullName()) + "</b>");
 								
 								appendNPCIcon(x, y);
 								appendItemsInAreaIcon(x, y);
@@ -802,7 +801,7 @@ public enum RenderingEngine {
 									mapSB.append("<div class='place-icon'>" + Main.game.getActiveWorld().getCell(x, y).getPlace().getSVGString() + "</div>");
 
 								mapSB.append("<b class='hotkey-icon" + (Main.game.getActiveWorld().getCell(x, y).getPlace().isDangerous() ? " dangerous" : "") + "'>"
-										+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.MOVE_SOUTH) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.MOVE_SOUTH).getName()) + "</b>");
+										+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.MOVE_SOUTH) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.MOVE_SOUTH).getFullName()) + "</b>");
 
 								appendNPCIcon(x, y);
 								appendItemsInAreaIcon(x, y);
@@ -829,7 +828,7 @@ public enum RenderingEngine {
 									mapSB.append("<div class='place-icon'>" + Main.game.getActiveWorld().getCell(x, y).getPlace().getSVGString() + "</div>");
 
 								mapSB.append("<b class='hotkey-icon" + (Main.game.getActiveWorld().getCell(x, y).getPlace().isDangerous() ? " dangerous" : "") + "'>"
-										+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.MOVE_WEST) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.MOVE_WEST).getName()) + "</b>");
+										+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.MOVE_WEST) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.MOVE_WEST).getFullName()) + "</b>");
 
 								appendNPCIcon(x, y);
 								appendItemsInAreaIcon(x, y);
@@ -856,7 +855,7 @@ public enum RenderingEngine {
 									mapSB.append("<div class='place-icon'>" + Main.game.getActiveWorld().getCell(x, y).getPlace().getSVGString() + "</div>");
 
 								mapSB.append("<b class='hotkey-icon" + (Main.game.getActiveWorld().getCell(x, y).getPlace().isDangerous() ? " dangerous" : "") + "'>"
-										+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.MOVE_EAST) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.MOVE_EAST).getName()) + "</b>");
+										+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.MOVE_EAST) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.MOVE_EAST).getFullName()) + "</b>");
 
 								appendNPCIcon(x, y);
 								appendItemsInAreaIcon(x, y);

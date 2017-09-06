@@ -2,6 +2,7 @@ package com.base.game.character.npc.dominion;
 
 import com.base.game.character.NameTriplet;
 import com.base.game.character.SexualOrientation;
+import com.base.game.character.body.Covering;
 import com.base.game.character.body.types.BodyCoveringType;
 import com.base.game.character.body.valueEnums.CumProduction;
 import com.base.game.character.body.valueEnums.CupSize;
@@ -17,6 +18,7 @@ import com.base.game.dialogue.places.dominion.harpyNests.HarpyNestNympho;
 import com.base.game.dialogue.responses.Response;
 import com.base.game.dialogue.utils.UtilText;
 import com.base.game.inventory.CharacterInventory;
+import com.base.game.inventory.clothing.AbstractClothingType;
 import com.base.game.inventory.clothing.ClothingType;
 import com.base.main.Main;
 import com.base.utils.Colour;
@@ -46,10 +48,10 @@ public class HarpyNymphoCompanion extends NPC {
 		this.addFetish(Fetish.FETISH_SUBMISSIVE);
 		this.addFetish(Fetish.FETISH_BREASTS_OTHERS);
 		
-		this.setEyeColour(Colour.EYE_BLUE);
-		this.setHairColour(Colour.FEATHERS_BLACK);
-		this.setSkinColour(BodyCoveringType.HUMAN, Colour.HUMAN_SKIN_DARK);
-		this.setSkinColour(BodyCoveringType.FEATHERS, Colour.FEATHERS_BLUE);
+		this.setEyeCovering(new Covering(BodyCoveringType.EYE_HARPY, Colour.EYE_BLUE));
+		this.setHairCovering(new Covering(BodyCoveringType.HAIR_HARPY, Colour.FEATHERS_BLACK), true);
+		this.setSkinCovering(new Covering(BodyCoveringType.FEATHERS, Colour.FEATHERS_BLUE), true);
+		this.setSkinCovering(new Covering(BodyCoveringType.HUMAN, Colour.SKIN_DARK), true);
 		
 		this.setFemininity(90);
 		
@@ -62,11 +64,11 @@ public class HarpyNymphoCompanion extends NPC {
 		
 		this.setHeight(167);
 
-		this.equipClothingFromNowhere(ClothingType.generateClothing(ClothingType.GROIN_BOYSHORTS, Colour.CLOTHING_BLUE_LIGHT, false), true, this);
-		this.equipClothingFromNowhere(ClothingType.generateClothing(ClothingType.CHEST_FULLCUP_BRA, Colour.CLOTHING_BLUE_LIGHT, false), true, this);
-		this.equipClothingFromNowhere(ClothingType.generateClothing(ClothingType.TORSO_SHORT_CROPTOP, Colour.CLOTHING_PURPLE_LIGHT, false), true, this);
-		this.equipClothingFromNowhere(ClothingType.generateClothing(ClothingType.LEG_SKIRT, Colour.CLOTHING_WHITE, false), true, this);
-		this.equipClothingFromNowhere(ClothingType.generateClothing(ClothingType.FINGER_RING, Colour.CLOTHING_GOLD, false), true, this);
+		this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.GROIN_BOYSHORTS, Colour.CLOTHING_BLUE_LIGHT, false), true, this);
+		this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.CHEST_FULLCUP_BRA, Colour.CLOTHING_BLUE_LIGHT, false), true, this);
+		this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.TORSO_SHORT_CROPTOP, Colour.CLOTHING_PURPLE_LIGHT, false), true, this);
+		this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.LEG_SKIRT, Colour.CLOTHING_WHITE, false), true, this);
+		this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.FINGER_RING, Colour.CLOTHING_GOLD, false), true, this);
 	}
 	
 	@Override

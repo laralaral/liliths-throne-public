@@ -25,7 +25,7 @@ import com.base.utils.Util.ListValue;
  */
 public class PlayerFingerNipple {
 	
-	public static SexAction PLAYER_FEEL_BREASTS = new SexAction(
+	public static final SexAction PLAYER_FEEL_BREASTS = new SexAction(
 			SexActionType.PLAYER_REQUIRES_NO_PENETRATION,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.THREE_NORMAL,
@@ -296,7 +296,7 @@ public class PlayerFingerNipple {
 		}
 	};
 	
-	public static SexAction PLAYER_PINCH_NIPPLES = new SexAction(
+	public static final SexAction PLAYER_PINCH_NIPPLES = new SexAction(
 			SexActionType.PLAYER_REQUIRES_NO_PENETRATION_AND_EXPOSED,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.THREE_NORMAL,
@@ -437,7 +437,7 @@ public class PlayerFingerNipple {
 		}
 	};
 	
-	public static SexAction PLAYER_NIPPLE_FINGERING_START = new SexAction(
+	public static final SexAction PLAYER_NIPPLE_FINGERING_START = new SexAction(
 			SexActionType.PLAYER_PENETRATION,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.THREE_NORMAL,
@@ -539,7 +539,7 @@ public class PlayerFingerNipple {
 		}
 	};
 	
-	public static SexAction PLAYER_NIPPLE_FINGERING_DOM_GENTLE = new SexAction(
+	public static final SexAction PLAYER_NIPPLE_FINGERING_DOM_GENTLE = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.THREE_NORMAL,
@@ -580,6 +580,7 @@ public class PlayerFingerNipple {
 							" A delighted [npc.moan] bursts out from between [npc.her] [npc.lips], and [npc.she] starts eagerly thrusting [npc.her] chest out against your touch as [npc.she] begs you to continue fingering [npc.her] [npc.nipples+].",
 							" [npc.Moaning] in delight, [npc.she] pushes out [npc.her] chest,"
 									+ " eagerly imploring you to continue fingering [npc.her] [npc.breasts] as [npc.her] movements cause you to sink your [pc.fingers] deep into [npc.her] [npc.nipple+]"));
+					break;
 				case SUB_RESISTING:
 					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
 							" Failing to recoil [npc.her] chest away from your touch, [npc.she] lets out [npc.a_sob+] as [npc.she] weakly tries to push you away from [npc.herHim].",
@@ -608,7 +609,7 @@ public class PlayerFingerNipple {
 		}
 	};
 	
-	public static SexAction PLAYER_NIPPLE_FINGERING_DOM_NORMAL = new SexAction(
+	public static final SexAction PLAYER_NIPPLE_FINGERING_DOM_NORMAL = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.THREE_NORMAL,
@@ -649,6 +650,7 @@ public class PlayerFingerNipple {
 							" A delighted [npc.moan] bursts out from between [npc.her] [npc.lips], and [npc.she] starts eagerly thrusting [npc.her] chest out against your touch as [npc.she] begs you to continue fingering [npc.her] [npc.nipples+].",
 							" [npc.Moaning] in delight, [npc.she] pushes out [npc.her] chest,"
 									+ " eagerly imploring you to continue fingering [npc.her] [npc.breasts] as [npc.her] movements cause you to sink your [pc.fingers] deep into [npc.her] [npc.nipple+]"));
+					break;
 				case SUB_RESISTING:
 					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
 							" Failing to recoil [npc.her] chest away from your touch, [npc.she] lets out [npc.a_sob+] as [npc.she] weakly tries to push you away from [npc.herHim].",
@@ -677,7 +679,7 @@ public class PlayerFingerNipple {
 		}
 	};
 	
-	public static SexAction PLAYER_NIPPLE_FINGERING_DOM_ROUGH = new SexAction(
+	public static final SexAction PLAYER_NIPPLE_FINGERING_DOM_ROUGH = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -718,6 +720,7 @@ public class PlayerFingerNipple {
 							" A delighted [npc.moan] bursts out from between [npc.her] [npc.lips], and [npc.she] starts eagerly thrusting [npc.her] chest out against your touch as [npc.she] begs you to continue fingering [npc.her] [npc.nipples+].",
 							" [npc.Moaning] in delight, [npc.she] pushes out [npc.her] chest,"
 									+ " eagerly imploring you to continue fingering [npc.her] [npc.breasts] as [npc.her] movements cause you to sink your [pc.fingers] deep into [npc.her] [npc.nipple+]"));
+					break;
 				case SUB_RESISTING:
 					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
 							" Failing to recoil [npc.her] chest away from your dominant touch, [npc.she] lets out [npc.a_sob+] as [npc.she] weakly tries to push you away from [npc.herHim].",
@@ -747,7 +750,7 @@ public class PlayerFingerNipple {
 		}
 	};
 	
-	public static SexAction PLAYER_NIPPLE_FINGERING_SUB_NORMAL = new SexAction(
+	public static final SexAction PLAYER_NIPPLE_FINGERING_SUB_NORMAL = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.THREE_NORMAL,
@@ -788,6 +791,7 @@ public class PlayerFingerNipple {
 							" A delighted [npc.moan] bursts out from between [npc.her] [npc.lips], and [npc.she] starts gently pushing [npc.her] chest out against your touch as [npc.she] begs you to continue fingering [npc.her] [npc.nipples+].",
 							" [npc.Moaning] in delight, [npc.she] gently pushes out [npc.her] chest,"
 									+ " eagerly imploring you to continue fingering [npc.her] [npc.breasts] as [npc.her] movements cause you to sink your [pc.fingers] deep into [npc.her] [npc.nipple+]"));
+					break;
 				case DOM_ROUGH:
 					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
 							" [npc.She] pushes [npc.her] chest out in response, letting out a delighted [npc.moan] as [npc.she] starts commanding you to continue fingering [npc.her] [npc.breasts].",
@@ -818,7 +822,7 @@ public class PlayerFingerNipple {
 		}
 	};
 	
-	public static SexAction PLAYER_NIPPLE_FINGERING_SUB_EAGER = new SexAction(
+	public static final SexAction PLAYER_NIPPLE_FINGERING_SUB_EAGER = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.THREE_NORMAL,
@@ -859,6 +863,7 @@ public class PlayerFingerNipple {
 							" A delighted [npc.moan] bursts out from between [npc.her] [npc.lips], and [npc.she] starts gently pushing [npc.her] chest out against your touch as [npc.she] begs you to continue fingering [npc.her] [npc.nipples+].",
 							" [npc.Moaning] in delight, [npc.she] gently pushes out [npc.her] chest,"
 									+ " eagerly imploring you to continue fingering [npc.her] [npc.breasts] as [npc.her] movements cause you to sink your [pc.fingers] deep into [npc.her] [npc.nipple+]"));
+					break;
 				case DOM_ROUGH:
 					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
 							" [npc.She] pushes [npc.her] chest out in response, letting out a delighted [npc.moan] as [npc.she] starts commanding you to continue fingering [npc.her] [npc.breasts].",
@@ -889,7 +894,7 @@ public class PlayerFingerNipple {
 		}
 	};
 	
-	public static SexAction PLAYER_NIPPLE_FINGERING_STOP = new SexAction(
+	public static final SexAction PLAYER_NIPPLE_FINGERING_STOP = new SexAction(
 			SexActionType.PLAYER_STOP_PENETRATION,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -944,7 +949,7 @@ public class PlayerFingerNipple {
 	
 	// Partner reactions:
 	
-	public static SexAction PARTNER_NIPPLE_FINGERING_SUB_RESIST = new SexAction(
+	public static final SexAction PARTNER_NIPPLE_FINGERING_SUB_RESIST = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -984,6 +989,7 @@ public class PlayerFingerNipple {
 							" You let out a soothing [pc.moan], ignoring [npc.her] weak protests as you continue gently sliding your [pc.fingers+] in and out of [npc.her] [npc.nipple+].",
 							" With a soft [pc.moan], you gently slide your [pc.fingers+] even deeper into [npc.her] [npc.nipple+], drawing yet another [npc.sob] from between [npc.her] [npc.lips] as you ignore [npc.her] protestations.",
 							" Pressing yourself against [npc.herHim], and totally ignoring [npc.her] weak protests, you gently slide your [pc.fingers+] deep into [npc.her] [npc.nipple], causing [npc.her] to let out yet another [npc.sob+]."));
+					break;
 				case DOM_ROUGH:
 					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
 							" You let out an angry growl, ignoring [npc.her] weak protests as you seek to punish [npc.her] reluctance by continuing to ruthlessly slam your [pc.fingers+] in and out of [npc.her] [npc.nipple+].",
@@ -1014,7 +1020,7 @@ public class PlayerFingerNipple {
 		}
 	};
 	
-	public static SexAction PARTNER_NIPPLE_FINGERING_STOP = new SexAction(
+	public static final SexAction PARTNER_NIPPLE_FINGERING_STOP = new SexAction(
 			SexActionType.PARTNER_STOP_PENETRATION,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,

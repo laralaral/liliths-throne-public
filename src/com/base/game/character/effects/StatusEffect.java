@@ -11,8 +11,8 @@ import com.base.game.Weather;
 import com.base.game.character.GameCharacter;
 import com.base.game.character.QuestLine;
 import com.base.game.character.SexualOrientation;
-import com.base.game.character.attributes.Attribute;
 import com.base.game.character.attributes.ArousalLevel;
+import com.base.game.character.attributes.Attribute;
 import com.base.game.character.attributes.CorruptionLevel;
 import com.base.game.character.attributes.FitnessLevel;
 import com.base.game.character.attributes.IntelligenceLevel;
@@ -461,7 +461,7 @@ public enum StatusEffect {
 		@Override
 		public String getDescription(GameCharacter target) {
 			if (target.isPlayer())
-				return "Your intelligence is comparable to a Linin's, or, perhaps more relatably, to the greatest minds in human history.";
+				return "Your intelligence is comparable to a Lilin's, or, perhaps more relatably, to the greatest minds in human history.";
 			else
 				return UtilText.genderParsing(target, target.getName("The") + " is as intelligent as a Lilin.");
 		}
@@ -1314,7 +1314,7 @@ public enum StatusEffect {
 		@Override
 		public String getDescription(GameCharacter target) {
 			return "The weather seems to change at a moment's notice, and is currently overcast, with a chance of rain."
-					+ " Although there's no sign of a storm at the moment, you can still feel the effects of the arcane manifesting in the form of an increased libido";
+					+ " Although there's no sign of a storm at the moment, you can still feel the effects of the arcane manifesting in the form of an increased libido.";
 		}
 
 		@Override
@@ -1347,10 +1347,10 @@ public enum StatusEffect {
 		public String getDescription(GameCharacter target) {
 			if(Main.game.isDayTime())
 				return "The sudden downpour is a welcome relief from the hot summer sun."
-						+ " Although there's no sign of a storm at the moment, you can still feel the effects of the arcane manifesting in the form of an increased libido";
+						+ " Although there's no sign of a storm at the moment, you can still feel the effects of the arcane manifesting in the form of an increased libido.";
 			else
 				return "The heavy rain clouds overhead have finally burst, and you find yourself out in the middle of a sudden downpour."
-						+ " Although there's no sign of an arcane storm at the moment, you can still feel its effects manifesting in the form of an increased libido";
+						+ " Although there's no sign of an arcane storm at the moment, you can still feel its effects manifesting in the form of an increased libido.";
 		}
 
 		@Override
@@ -2203,7 +2203,7 @@ public enum StatusEffect {
 			if (target.isPregnant()) {
 				target.addStatusEffect(PREGNANT_1, 60 * (72 + Util.random.nextInt(13)));
 				
-				if (!Main.game.getPlayer().isSideQuestCompleted(QuestLine.SIDE_FIRST_TIME_PREGNANCY)) {
+				if (!Main.game.getPlayer().isQuestCompleted(QuestLine.SIDE_FIRST_TIME_PREGNANCY)) {
 					if(Main.game.getPlayer().hasFetish(Fetish.FETISH_PREGNANCY)) {
 						return "<p>"
 								+ "For the last few hours, your belly has been gradually swelling."
@@ -2350,7 +2350,7 @@ public enum StatusEffect {
 
 			target.addStatusEffect(PREGNANT_2, 60 * (72 + Util.random.nextInt(13)));
 
-			if (!Main.game.getPlayer().isSideQuestCompleted(QuestLine.SIDE_FIRST_TIME_PREGNANCY)) {
+			if (!Main.game.getPlayer().isQuestCompleted(QuestLine.SIDE_FIRST_TIME_PREGNANCY)) {
 				return "<p>"
 							+ "Even though the change has been gradual, you're suddenly hit by the realisation that your belly has swollen massively."
 							+ " You can't resist rubbing your hands over the bump in your abdomen, and you wonder just how big it's going to get."
@@ -2409,7 +2409,7 @@ public enum StatusEffect {
 
 			target.setTimeProgressedToFinalPregnancyStage(Main.game.getMinutesPassed());
 
-			if (!Main.game.getPlayer().isSideQuestCompleted(QuestLine.SIDE_FIRST_TIME_PREGNANCY)) {
+			if (!Main.game.getPlayer().isQuestCompleted(QuestLine.SIDE_FIRST_TIME_PREGNANCY)) {
 				return "<p>"
 							+ "By now, your stomach has completely ballooned out in front of you, and you're having to arch your back and support yourself with one hand as you walk around."
 							+ (Main.game.getPlayer().getVaginaType()==VaginaType.HARPY
@@ -2590,7 +2590,7 @@ public enum StatusEffect {
 				
 			// Nipples:
 			}
-			if (target.getBreastRawCapacityValue()!=target.getBreastStretchedCapacity()){
+			if (target.getNippleRawCapacityValue()!=target.getNippleStretchedCapacity()){
 				s = "Recovering Nipples";
 				i++;
 				
@@ -2697,51 +2697,51 @@ public enum StatusEffect {
 			}
 			
 			// Nipples:
-			if (target.getBreastRawCapacityValue()!=target.getBreastStretchedCapacity()){
-				switch(target.getBreastElasticity()){
+			if (target.getNippleRawCapacityValue()!=target.getNippleStretchedCapacity()){
+				switch(target.getNippleElasticity()){
 					//Takes 6 hours to recover each inch of capacity:
 					case ZERO_UNYIELDING:
-						target.incrementBreastStretchedCapacity(-(1/6f) * (minutesPassed/60f));
+						target.incrementNippleStretchedCapacity(-(1/6f) * (minutesPassed/60f));
 						break;
 					//Takes 4 hours to recover each inch of capacity:
 					case ONE_RIGID:
-						target.incrementBreastStretchedCapacity(-(1/4f) * (minutesPassed/60f));
+						target.incrementNippleStretchedCapacity(-(1/4f) * (minutesPassed/60f));
 						break;
 					//Takes 2 hours to recover each inch of capacity:
 					case TWO_FIRM:
-						target.incrementBreastStretchedCapacity(-(1/2f) * (minutesPassed/60f));
+						target.incrementNippleStretchedCapacity(-(1/2f) * (minutesPassed/60f));
 						break;
 					//Takes 1 hour to recover each inch of capacity:
 					case THREE_FLEXIBLE:
-						target.incrementBreastStretchedCapacity(-1 * (minutesPassed/60f));
+						target.incrementNippleStretchedCapacity(-1 * (minutesPassed/60f));
 						break;
 					//Takes 1 hour to recover each inch of capacity:
 					case FOUR_LIMBER:
-						target.incrementBreastStretchedCapacity(-1 * (minutesPassed/60f));
+						target.incrementNippleStretchedCapacity(-1 * (minutesPassed/60f));
 						break;
 					//Takes 30 minutes to recover each inch of capacity:
 					case FIVE_STRETCHY:
-						target.incrementBreastStretchedCapacity(-2 * (minutesPassed/60f));
+						target.incrementNippleStretchedCapacity(-2 * (minutesPassed/60f));
 						break;
 					//Takes 15 minutes to recover each inch of capacity:
 					case SIX_SUPPLE:
-						target.incrementBreastStretchedCapacity(-4 * (minutesPassed/60f));
+						target.incrementNippleStretchedCapacity(-4 * (minutesPassed/60f));
 						break;
 					//Should have been instant after sex, this is just a backup:
 					case SEVEN_ELASTIC:
-						target.incrementBreastStretchedCapacity(-100);
+						target.incrementNippleStretchedCapacity(-100);
 						break;
 					default:
 						break;
 				}
 				
-				if(target.getBreastStretchedCapacity()<target.getBreastRawCapacityValue())
-					target.setBreastStretchedCapacity(target.getBreastRawCapacityValue());
+				if(target.getNippleStretchedCapacity()<target.getNippleRawCapacityValue())
+					target.setNippleStretchedCapacity(target.getNippleRawCapacityValue());
 			}
 			
 			// Urethra:
 			if (target.getPenisRawCapacityValue()!=target.getPenisStretchedCapacity()){
-				switch(target.getPenisElasticity()){
+				switch(target.getUrethraElasticity()){
 					//Takes 6 hours to recover each inch of capacity:
 					case ZERO_UNYIELDING:
 						target.incrementPenisStretchedCapacity(-(1/6f) * (minutesPassed/60f));
@@ -2801,8 +2801,8 @@ public enum StatusEffect {
 				
 			// Nipples:
 			}
-			if (target.getBreastRawCapacityValue()!=target.getBreastStretchedCapacity()){
-				descriptionSB.append("</br><b>Nipples:</b> From "+Capacity.getCapacityFromValue(target.getBreastStretchedCapacity()).getDescriptor()+" to "+target.getBreastCapacity().getDescriptor()+".");
+			if (target.getNippleRawCapacityValue()!=target.getNippleStretchedCapacity()){
+				descriptionSB.append("</br><b>Nipples:</b> From "+Capacity.getCapacityFromValue(target.getNippleStretchedCapacity()).getDescriptor()+" to "+target.getNippleCapacity().getDescriptor()+".");
 				
 			// Urethra:
 			}
@@ -2818,7 +2818,7 @@ public enum StatusEffect {
 			return !Main.game.isInSex() &&
 					((target.hasVagina() && target.getVaginaRawCapacityValue()!=target.getVaginaStretchedCapacity())
 					|| (target.getAssRawCapacityValue()!=target.getAssStretchedCapacity())
-					|| (target.getBreastRawCapacityValue()!=target.getBreastStretchedCapacity())
+					|| (target.getNippleRawCapacityValue()!=target.getNippleStretchedCapacity())
 					|| (target.getPenisRawCapacityValue()!=target.getPenisStretchedCapacity()));
 		}
 	},
@@ -2907,12 +2907,16 @@ public enum StatusEffect {
 
 		@Override
 		public String getDescription(GameCharacter target) {
-			if(target.isPlayer())
+			if(target==null) {
+				return "";
+			}
+			if(target.isPlayer()) {
 				return "As you walk, you can feel slimy cum drooling out of your recently-used asshole."
 						+ " You find it hard to concentrate on anything other than the memory of being creampied.</br>"
 						+ "Perhaps you should take a shower...";
-			else
-				return target.getName("The")+"'s "+target.getAssholeName(true)+" has recently been filled with cum.";
+			} else {
+				return UtilText.parse(target, "[npc.Name]'s [npc.asshole+] has recently been filled with cum.");
+			}
 		}
 		
 		@Override
@@ -3473,7 +3477,7 @@ public enum StatusEffect {
 	SET_MAID(
 			70,
 			"Hard-working Maid",
-			"maidIcon",
+			"set_maid",
 			Colour.CLOTHING_BLACK,
 			true,
 			Util.newHashMapOfValues(new Value<Attribute, Float>(Attribute.FITNESS, 10f), new Value<Attribute, Float>(Attribute.DAMAGE_MANA, 10f)),
@@ -3486,27 +3490,63 @@ public enum StatusEffect {
 
 		@Override
 		public String getDescription(GameCharacter target) {
-			return "By wearing the entire Maid's Outfit, you are filled with the energy you need in order to be a sexy hard-working maid.";
+			if(target!=null) {
+				if(target.isPlayer()) {
+					return "By wearing the entire Maid's Outfit, you are filled with the energy you need in order to be a sexy hard-working maid.";
+					
+				} else {
+					return UtilText.parse(target, "By wearing the entire Maid's Outfit, [npc.name] is filled with the energy [npc.she] needs in order to be a sexy hard-working maid.");
+					
+				}
+			} else {
+				return "";
+			}
 		}
 
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			int setCount = 0;
-
-			for (AbstractClothing c : target.getClothingCurrentlyEquipped())
-				if (c.getClothingType().getClothingSet() == ClothingSet.MAID)
-					setCount++;
-
-			if (setCount >= ClothingSet.MAID.getNumberRequiredForCompleteSet())
-				return true;
-			else
-				return false;
+			return ClothingSet.MAID.isCharacterWearingCompleteSet(target);
 		}
 	},
+	
+	SET_MILK_MAID(
+			70,
+			"Milk Maid",
+			"set_milk_maid",
+			Colour.BASE_WHITE,
+			true,
+			Util.newHashMapOfValues(new Value<Attribute, Float>(Attribute.FITNESS, 10f), new Value<Attribute, Float>(Attribute.DAMAGE_MANA, 10f)),
+			null) {
+
+		@Override
+		public String applyEffect(GameCharacter target, int minutesPassed) {
+			return "";
+		}
+
+		@Override
+		public String getDescription(GameCharacter target) {
+			if(target!=null) {
+				if(target.isPlayer()) {
+					return "By wearing the entire Milk Maid's outfit, you're filled with the energy you need in order to perform all of your milking duties!";
+				} else {
+					return UtilText.parse(target, "By wearing the entire Milk Maid's outfit, [npc.name] is filled with the energy [npc.she] needs in order to perform all of [npc.her] milking duties.");
+				}
+				
+			} else {
+				return "";
+			}
+		}
+
+		@Override
+		public boolean isConditionsMet(GameCharacter target) {
+			return ClothingSet.MILK_MAID.isCharacterWearingCompleteSet(target);
+		}
+	},
+	
 	SET_ENFORCER(
 			70,
 			"enforcer's uniform",
-			"enforcerIcon",
+			"set_enforcer",
 			Colour.CLOTHING_WHITE,
 			true,
 			Util.newHashMapOfValues(new Value<Attribute, Float>(Attribute.STRENGTH, 10f), new Value<Attribute, Float>(Attribute.FITNESS, 5f), new Value<Attribute, Float>(Attribute.RESISTANCE_PHYSICAL, 15f)), null) {
@@ -3519,33 +3559,28 @@ public enum StatusEffect {
 		@Override
 		public String getDescription(GameCharacter target) {
 			if(target!=null) {
-				if(target.isPlayer())
+				if(target.isPlayer()) {
 					return "By wearing an Enforcer's uniform, you gain the energy and strength you need to fight crime.";
-				else
-					return UtilText.genderParsing(target,
-							target.getName("The")+" is wearing an Enforcer's uniform, granting <herPro> the energy and strength <she> needs to fight crime.");
+					
+				} else {
+					return UtilText.parse(target, "[npc.Name] is wearing an Enforcer's uniform, granting [npc.herHim] the energy and strength [npc.she] needs to fight crime.");
+					
+				}
+			} else {
+				return "";
 			}
-			return "";
 		}
 
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			int setCount = 0;
-
-			for (AbstractClothing c : target.getClothingCurrentlyEquipped())
-				if (c.getClothingType().getClothingSet() == ClothingSet.ENFORCER)
-					setCount++;
-
-			if (setCount >= ClothingSet.ENFORCER.getNumberRequiredForCompleteSet())
-				return true;
-			else
-				return false;
+			return ClothingSet.ENFORCER.isCharacterWearingCompleteSet(target);
 		}
 	},
+	
 	SET_RAINBOW(
 			70,
 			"double rainbow",
-			"rainbowIcon",
+			"set_rainbow",
 			Colour.CLOTHING_WHITE,
 			true,
 			Util.newHashMapOfValues(new Value<Attribute, Float>(Attribute.FITNESS, 5f)),
@@ -3563,22 +3598,14 @@ public enum StatusEffect {
 
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			int setCount = 0;
-
-			for (AbstractClothing c : target.getClothingCurrentlyEquipped())
-				if (c.getClothingType().getClothingSet() == ClothingSet.RAINBOW)
-					setCount++;
-
-			if (setCount >= ClothingSet.RAINBOW.getNumberRequiredForCompleteSet())
-				return true;
-			else
-				return false;
+			return ClothingSet.RAINBOW.isCharacterWearingCompleteSet(target);
 		}
 	},
+	
 	SET_BDSM(
 			70,
 			"BDSM",
-			"bdsmIcon",
+			"set_bdsm",
 			Colour.CLOTHING_WHITE,
 			false,
 			Util.newHashMapOfValues(new Value<Attribute, Float>(Attribute.FITNESS, -15f), new Value<Attribute, Float>(Attribute.STRENGTH, -15f)),
@@ -3591,21 +3618,22 @@ public enum StatusEffect {
 
 		@Override
 		public String getDescription(GameCharacter target) {
-			return "You have been tied up in bondage gear, and are struggling to move.";
+			if(target!=null) {
+				if(target.isPlayer()) {
+					return "You have been tied up in bondage gear, and are struggling to move.";
+					
+				} else {
+					return UtilText.parse(target, "[npc.Name] has been tied up in bondage gear, and is struggling to move.");
+					
+				}
+			} else {
+				return "";
+			}
 		}
 
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			int setCount = 0;
-
-			for (AbstractClothing c : target.getClothingCurrentlyEquipped())
-				if (c.getClothingType().getClothingSet() == ClothingSet.BDSM)
-					setCount++;
-
-			if (setCount >= ClothingSet.BDSM.getNumberRequiredForCompleteSet())
-				return true;
-			else
-				return false;
+			return ClothingSet.BDSM.isCharacterWearingCompleteSet(target);
 		}
 	},
 	
@@ -4448,12 +4476,7 @@ public enum StatusEffect {
 
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			if(Main.game.isInSex()) {
-				return true;
-				
-			} else {
-				return false;
-			}
+			return Main.game.isInSex();
 		}
 		
 		@Override
@@ -4796,12 +4819,7 @@ public enum StatusEffect {
 
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			if(Main.game.isInSex()) {
-				return true;
-				
-			} else {
-				return false;
-			}
+			return Main.game.isInSex();
 		}
 		
 		@Override
@@ -5157,15 +5175,7 @@ public enum StatusEffect {
 
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			if(Main.game.isInSex()) {
-				if(target.isBreastFuckable())
-					return true;
-				else
-					return false;
-				
-			} else {
-				return false;
-			}
+			return Main.game.isInSex() && target.isBreastFuckable();
 		}
 		
 		@Override

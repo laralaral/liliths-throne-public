@@ -6,13 +6,15 @@ import com.base.game.sex.Sex;
 import com.base.game.sex.SexFlags;
 import com.base.game.sex.SexPosition;
 import com.base.game.sex.managers.universal.SMDomBackToWall;
+import com.base.game.sex.managers.universal.SMDomCowgirl;
 import com.base.game.sex.managers.universal.SMDomDoggy;
 import com.base.game.sex.managers.universal.SMDomFaceToWall;
-import com.base.game.sex.managers.universal.SMDomSelfKneeling;
 import com.base.game.sex.managers.universal.SMDomKneeling;
 import com.base.game.sex.managers.universal.SMDomSelfDoggy;
+import com.base.game.sex.managers.universal.SMDomSelfKneeling;
 import com.base.game.sex.managers.universal.SMDomSixtyNine;
 import com.base.game.sex.managers.universal.SMSubBackToWall;
+import com.base.game.sex.managers.universal.SMSubCowgirl;
 import com.base.game.sex.managers.universal.SMSubDoggy;
 import com.base.game.sex.managers.universal.SMSubFaceToWall;
 import com.base.game.sex.managers.universal.SMSubKneeling;
@@ -29,14 +31,14 @@ import com.base.game.sex.sexActions.SexActionType;
  * 
  * 
  * @since 0.1.79
- * @version 0.1.82
+ * @version 0.1.83
  * @author Innoxia
  */
 public class GenericPositioning {
 
 	// Dom position changes:
 	
-	public static SexAction PLAYER_FORCE_POSITION_STANDING_FACE_TO_WALL = new SexAction(
+	public static final SexAction PLAYER_FORCE_POSITION_STANDING_FACE_TO_WALL = new SexAction(
 			SexActionType.PLAYER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -63,7 +65,7 @@ public class GenericPositioning {
 
 		@Override
 		public String getDescription() {
-			return "Taking hold of [npc.name]'s shoulders, you push [npc.her] up against a nearby wall."
+			return "Taking hold of [npc.name]'s shoulders, you push [npc.herHim] up against a nearby wall."
 					+ " Grinding your body up against [npc.her] back, you [pc.moan] into [npc.her] [npc.ear], "
 					+ "[pc.speech(Be a good [npc.girl] and hold still while I fuck you!)]";
 		}
@@ -77,7 +79,7 @@ public class GenericPositioning {
 		}
 	};
 	
-	public static SexAction PLAYER_DOM_POSITION_SELF_DOGGY = new SexAction(
+	public static final SexAction PLAYER_DOM_POSITION_SELF_DOGGY = new SexAction(
 			SexActionType.PLAYER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -94,7 +96,7 @@ public class GenericPositioning {
 		
 		@Override
 		public String getActionTitle() {
-			return "Doggy-style(self)";
+			return "Doggy-style (self)";
 		}
 
 		@Override
@@ -118,7 +120,7 @@ public class GenericPositioning {
 		}
 	};
 	
-	public static SexAction PLAYER_FORCE_POSITION_STANDING_BACK_TO_WALL = new SexAction(
+	public static final SexAction PLAYER_FORCE_POSITION_STANDING_BACK_TO_WALL = new SexAction(
 			SexActionType.PLAYER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -159,7 +161,7 @@ public class GenericPositioning {
 		}
 	};
 	
-	public static SexAction PLAYER_FORCE_POSITION_DOGGY = new SexAction(
+	public static final SexAction PLAYER_FORCE_POSITION_DOGGY = new SexAction(
 			SexActionType.PLAYER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -201,7 +203,7 @@ public class GenericPositioning {
 		}
 	};
 	
-	public static SexAction PLAYER_FORCE_POSITION_KNEELING = new SexAction(
+	public static final SexAction PLAYER_FORCE_POSITION_KNEELING = new SexAction(
 			SexActionType.PLAYER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -242,7 +244,7 @@ public class GenericPositioning {
 		}
 	};
 
-	public static SexAction PLAYER_FORCE_POSITION_SELF_KNEELING = new SexAction(
+	public static final SexAction PLAYER_FORCE_POSITION_SELF_KNEELING = new SexAction(
 			SexActionType.PLAYER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -281,7 +283,7 @@ public class GenericPositioning {
 		}
 	};
 	
-	public static SexAction PLAYER_FORCE_POSITION_SIXTY_NINE = new SexAction(
+	public static final SexAction PLAYER_FORCE_POSITION_SIXTY_NINE = new SexAction(
 			SexActionType.PLAYER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -308,7 +310,7 @@ public class GenericPositioning {
 
 		@Override
 		public String getDescription() {
-			return "Taking hold of [npc.name]'s shoulders, you push [npc.her] down onto [npc.her] back."
+			return "Taking hold of [npc.name]'s shoulders, you push [npc.herHim] down onto [npc.her] back."
 					+ " You then lower yourself down onto all fours over the top of [npc.herHim], lowering your crotch down to [npc.her] face as you similarly position your own head over [npc.her] groin."
 					+ " Looking back beneath you, you [pc.moan], "
 					+ "[pc.speech(Good [npc.girl]! Now let's have some fun!)]";
@@ -321,10 +323,50 @@ public class GenericPositioning {
 		}
 	};
 	
+	public static final SexAction PLAYER_FORCE_POSITION_COW_GIRL = new SexAction(
+			SexActionType.PLAYER_POSITIONING,
+			ArousalIncrease.ONE_MINIMUM,
+			ArousalIncrease.ONE_MINIMUM,
+			CorruptionLevel.ZERO_PURE,
+			null,
+			null) {
+
+		@Override
+		public boolean isBaseRequirementsMet() {
+			return !SexFlags.positioningBlockedPlayer
+					&& Sex.getPosition() != SexPosition.COWGIRL_PLAYER_TOP
+					&& Sex.isPlayerDom();
+		}
+		
+		@Override
+		public String getActionTitle() {
+			return "Cowgirl";
+		}
+
+		@Override
+		public String getActionDescription() {
+			return "Push [npc.name] down onto [npc.her] back and straddle [npc.her] groin, in the cow-girl position.";
+		}
+
+		@Override
+		public String getDescription() {
+			return "Taking hold of [npc.name]'s shoulders, you push [npc.herHim] down onto [npc.her] back."
+					+ " You then lower yourself down on top of [npc.herHim], bringing your crotch down to [npc.hers] as you straddle [npc.herHim] in the cowgirl position."
+					+ " Once you've made yourself comfortable, you grin down at [npc.name], "
+					+ "[pc.speech(Good [npc.girl]! Now let's have some fun!)]";
+			
+		}
+
+		@Override
+		public void applyEffects() {
+			Sex.setSexManager(new SMDomCowgirl());
+		}
+	};
+	
 	
 	// Sub position changes with associated partner response:
 	
-	public static SexAction PLAYER_POSITION_REQUEST_STANDING_FACE_TO_WALL = new SexAction(
+	public static final SexAction PLAYER_POSITION_REQUEST_STANDING_FACE_TO_WALL = new SexAction(
 			SexActionType.PLAYER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -362,7 +404,7 @@ public class GenericPositioning {
 		}
 	};
 	
-	public static SexAction PLAYER_POSITION_REQUEST_STANDING_BACK_TO_WALL = new SexAction(
+	public static final SexAction PLAYER_POSITION_REQUEST_STANDING_BACK_TO_WALL = new SexAction(
 			SexActionType.PLAYER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -400,7 +442,7 @@ public class GenericPositioning {
 		}
 	};
 	
-	public static SexAction PLAYER_POSITION_REQUEST_DOGGY = new SexAction(
+	public static final SexAction PLAYER_POSITION_REQUEST_DOGGY = new SexAction(
 			SexActionType.PLAYER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -437,7 +479,7 @@ public class GenericPositioning {
 		}
 	};
 	
-	public static SexAction PLAYER_POSITION_REQUEST_KNEELING = new SexAction(
+	public static final SexAction PLAYER_POSITION_REQUEST_KNEELING = new SexAction(
 			SexActionType.PLAYER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -474,7 +516,7 @@ public class GenericPositioning {
 		}
 	};
 	
-	public static SexAction PLAYER_POSITION_REQUEST_SELF_KNEELING = new SexAction(
+	public static final SexAction PLAYER_POSITION_REQUEST_SELF_KNEELING = new SexAction(
 			SexActionType.PLAYER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -511,7 +553,7 @@ public class GenericPositioning {
 		}
 	};
 	
-	public static SexAction PLAYER_POSITION_REQUEST_SIXTY_NINE = new SexAction(
+	public static final SexAction PLAYER_POSITION_REQUEST_SIXTY_NINE = new SexAction(
 			SexActionType.PLAYER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -549,7 +591,45 @@ public class GenericPositioning {
 		}
 	};
 	
-	public static SexAction PARTNER_POSITION_RESPONSE = new SexAction(
+	public static final SexAction PLAYER_POSITION_REQUEST_COWGIRL = new SexAction(
+			SexActionType.PLAYER_POSITIONING,
+			ArousalIncrease.ONE_MINIMUM,
+			ArousalIncrease.ONE_MINIMUM,
+			CorruptionLevel.ONE_VANILLA,
+			null,
+			null) {
+
+		@Override
+		public boolean isBaseRequirementsMet() {
+			return !SexFlags.positioningBlockedPlayer
+					&& !SexFlags.requestedCowgirl
+					&& Sex.getPosition() != SexPosition.COWGIRL_PARTNER_TOP
+					&& !Sex.isPlayerDom();
+		}
+		
+		@Override
+		public String getActionTitle() {
+			return "Cowgirl (request)";
+		}
+
+		@Override
+		public String getActionDescription() {
+			return "Lie down on your back and ask [npc.name] to straddle you in the cowgirl position.";
+		}
+
+		@Override
+		public String getDescription() {
+			return "Dropping down and quickly lying on your back, you put on the most enticing look you can muster as you plead, "
+					+ "[pc.speech(Come and ride me... Please!)]";
+		}
+
+		@Override
+		public void applyEffects() {
+			SexFlags.requestedCowgirl = true;
+		}
+	};
+	
+	public static final SexAction PARTNER_POSITION_RESPONSE = new SexAction(
 			SexActionType.PARTNER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -559,7 +639,8 @@ public class GenericPositioning {
 
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return (SexFlags.requested69
+			return (SexFlags.requestedCowgirl
+					|| SexFlags.requested69
 					|| SexFlags.requestedDoggy
 					|| SexFlags.requestedBackToWall
 					|| SexFlags.requestedFaceToWall
@@ -660,7 +741,7 @@ public class GenericPositioning {
 						case DOM_ROUGH:
 							return "Reaching up and throwing your [pc.arms] off of [npc.her], [npc.name] lets out an angry snarl."
 									+ " Surprisingly, [npc.she] then suddenly drops to [npc.her] knees, and you look down to see [npc.herHim] grinning up at you,"
-									+ " [npc.speech(Luckily for you, this is what I panning all along! Now stay still bitch, you'd better appreciate this!)]";
+									+ " [npc.speech(Luckily for you, this is what I planning all along! Now stay still bitch, you'd better appreciate this!)]";
 						default:
 							return "Reaching up to take hold of your [pc.arms], [npc.name] lets out a little laugh as [npc.she] allows you to push [npc.herHim] down onto [npc.her] knees."
 									+ " Looking down, you see [npc.herHim] grinning up at you,"
@@ -677,11 +758,29 @@ public class GenericPositioning {
 					switch(Sex.getSexPacePartner()) {
 						case DOM_ROUGH:
 							return "Jumping down onto all fours, [npc.name] lowers [npc.herself] down over the top of you, bringing [npc.her] crotch down to your face as [npc.she] drops [npc.her] head down between your [pc.legs]."
-									+ " Turning [npc.her] head back to look at you, she growls, "
+									+ " Turning [npc.her] head back to look at you, [npc.she] growls, "
 									+ "[npc.speech(Good idea slut! Now <i>stay still</i> so I can use you properly!)]";
 						default:
 							return "Jumping down onto all fours, [npc.name] lowers [npc.herself] down over the top of you, bringing [npc.her] crotch down to your face as [npc.she] drops [npc.her] head down between your [pc.legs]."
-									+ " Turning [npc.her] head back to look at you, she grins, "
+									+ " Turning [npc.her] head back to look at you, [npc.she] grins, "
+									+ "[npc.speech(Good [pc.girl]! This is gonna be fun!)]";
+					}
+					
+				} else {
+					return "Reaching down to grab you by the [pc.arm], [npc.name] pulls you back into your old position as [npc.she] angrily scolds you, "
+							+ "[npc.speech(What do you think you're doing?! Don't you <i>dare</i> try that again!)]";
+				}
+				
+			} else if(SexFlags.requestedCowgirl) {
+				if(Sex.getPartner().getSexPositionPreferences().contains(SexPosition.COWGIRL_PARTNER_TOP) || Sex.getPartner().getSexPositionPreferences().isEmpty()) {
+					switch(Sex.getSexPacePartner()) {
+						case DOM_ROUGH:
+							return "Jumping down over the top of you, [npc.name] lowers [npc.herself] down over your groin, bringing [npc.her] crotch down to yours as [npc.she] straddles you in the cowgirl position."
+									+ " Leaning forwards a little, [npc.she] growls down at you, "
+									+ "[npc.speech(Good idea slut! Now <i>stay still</i> so I can use you properly!)]";
+						default:
+							return "Jumping down over the top of you, [npc.name] lowers [npc.herself] down over your groin, bringing [npc.her] crotch down to yours as [npc.she] straddles you in the cowgirl position."
+									+ " Leaning forwards a little, [npc.she] grins down at you, "
 									+ "[npc.speech(Good [pc.girl]! This is gonna be fun!)]";
 					}
 					
@@ -720,6 +819,10 @@ public class GenericPositioning {
 				Sex.setSexManager(new SMSubSixtyNine());
 				SexFlags.positioningBlockedPartner = true;
 				
+			} else if(SexFlags.requestedCowgirl && (Sex.getPartner().getSexPositionPreferences().contains(SexPosition.COWGIRL_PARTNER_TOP) || Sex.getPartner().getSexPositionPreferences().isEmpty())) {
+				Sex.setSexManager(new SMSubCowgirl());
+				SexFlags.positioningBlockedPartner = true;
+				
 			}
 			
 			SexFlags.positioningBlockedPlayer = true;
@@ -730,7 +833,7 @@ public class GenericPositioning {
 	// Partner positioning:
 	
 	
-	public static SexAction PARTNER_FORCE_POSITION_STANDING_FACE_TO_WALL = new SexAction(
+	public static final SexAction PARTNER_FORCE_POSITION_STANDING_FACE_TO_WALL = new SexAction(
 			SexActionType.PARTNER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -774,7 +877,7 @@ public class GenericPositioning {
 		}
 	};
 	
-	public static SexAction PARTNER_FORCE_POSITION_STANDING_BACK_TO_WALL = new SexAction(
+	public static final SexAction PARTNER_FORCE_POSITION_STANDING_BACK_TO_WALL = new SexAction(
 			SexActionType.PARTNER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -817,7 +920,7 @@ public class GenericPositioning {
 		}
 	};
 	
-	public static SexAction PARTNER_FORCE_POSITION_DOGGY = new SexAction(
+	public static final SexAction PARTNER_FORCE_POSITION_DOGGY = new SexAction(
 			SexActionType.PARTNER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -862,7 +965,7 @@ public class GenericPositioning {
 		}
 	};
 	
-	public static SexAction PARTNER_FORCE_POSITION_KNEELING = new SexAction(
+	public static final SexAction PARTNER_FORCE_POSITION_KNEELING = new SexAction(
 			SexActionType.PARTNER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -905,7 +1008,7 @@ public class GenericPositioning {
 		}
 	};
 	
-	public static SexAction PARTNER_FORCE_POSITION_SELF_KNEELING = new SexAction(
+	public static final SexAction PARTNER_FORCE_POSITION_SELF_KNEELING = new SexAction(
 			SexActionType.PARTNER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -948,7 +1051,7 @@ public class GenericPositioning {
 		}
 	};
 	
-	public static SexAction PARTNER_FORCE_POSITION_SIXTY_NINE = new SexAction(
+	public static final SexAction PARTNER_FORCE_POSITION_SIXTY_NINE = new SexAction(
 			SexActionType.PARTNER_POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
@@ -986,6 +1089,50 @@ public class GenericPositioning {
 		@Override
 		public void applyEffects() {
 			Sex.setSexManager(new SMSubSixtyNine());
+
+			SexFlags.positioningBlockedPartner = true;
+			SexFlags.positioningBlockedPlayer = true;
+			SexFlags.resetRequests();
+		}
+	};
+	
+	public static final SexAction PARTNER_FORCE_POSITION_COWGIRL = new SexAction(
+			SexActionType.PARTNER_POSITIONING,
+			ArousalIncrease.ONE_MINIMUM,
+			ArousalIncrease.ONE_MINIMUM,
+			CorruptionLevel.ZERO_PURE,
+			null,
+			null) {
+
+		@Override
+		public boolean isBaseRequirementsMet() {
+			return !SexFlags.positioningBlockedPartner
+					&& Sex.getPosition() != SexPosition.COWGIRL_PARTNER_TOP
+					&& (Sex.getPartner().getSexPositionPreferences().contains(SexPosition.COWGIRL_PARTNER_TOP) || Sex.getPartner().getSexPositionPreferences().isEmpty())
+					&& !Sex.isPlayerDom();
+		}
+		
+		@Override
+		public String getActionTitle() {
+			return "Cowgirl";
+		}
+
+		@Override
+		public String getActionDescription() {
+			return "";
+		}
+
+		@Override
+		public String getDescription() {
+			return "Taking hold of your shoulders, [npc.name] pushes you down onto your back."
+					+ " [npc.She] then lowers [npc.herself] down on top of you, bringing [npc.her] crotch down to yours as [npc.she] straddles you in the cowgirl position."
+					+ " Once [npc.she]'s made [npc.herself] comfortable, [npc.she] grins down at you, "
+					+ "[npc.speech(Good [pc.girl]! Now let's have some fun!)]";
+		}
+
+		@Override
+		public void applyEffects() {
+			Sex.setSexManager(new SMSubCowgirl());
 
 			SexFlags.positioningBlockedPartner = true;
 			SexFlags.positioningBlockedPlayer = true;

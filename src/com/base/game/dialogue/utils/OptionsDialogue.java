@@ -7,7 +7,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
+import java.util.Comparator;
+
 import com.base.game.Game;
 import com.base.game.KeyboardAction;
 import com.base.game.character.CharacterUtils;
@@ -15,22 +16,24 @@ import com.base.game.character.gender.AndrogynousIdentification;
 import com.base.game.character.gender.Gender;
 import com.base.game.character.gender.GenderPreference;
 import com.base.game.character.gender.GenderPronoun;
-import com.base.game.character.race.Race;
 import com.base.game.character.race.FurryPreference;
+import com.base.game.character.race.Race;
 import com.base.game.character.race.RaceStage;
 import com.base.game.dialogue.DialogueNodeOld;
 import com.base.game.dialogue.MapDisplay;
 import com.base.game.dialogue.responses.Response;
 import com.base.game.dialogue.responses.ResponseEffectsOnly;
-import com.base.game.dialogue.story.CharacterCreationDialogue;
+import com.base.game.dialogue.story.CharacterCreation;
 import com.base.main.Main;
+import com.base.rendering.RenderingEngine;
+import com.base.utils.BaseColour;
 import com.base.utils.Colour;
 import com.base.utils.CreditsSlot;
 import com.base.utils.Util;
 
 /**
  * @since 0.1.0
- * @version 0.1.8
+ * @version 0.1.83
  * @author Innoxia
  */
 public class OptionsDialogue {
@@ -60,7 +63,7 @@ public class OptionsDialogue {
 					+ "</p>"
 					+ getJavaVersionInformation()
 					+ "</br>"
-					+ (Main.game.isStarted() || Main.getProperties().name==""
+					+ (Main.game.isStarted() || Main.getProperties().name.isEmpty()
 							?""
 							:"<h4 style='text-align:center;'>Last save:</h4>"
 								+ "<h5 style='color:" + Main.getProperties().nameColour + ";text-align:center;'>" + Main.getProperties().name + "</h5>"
@@ -79,12 +82,19 @@ public class OptionsDialogue {
 							(!Main.game.isStarted()?"New Game":"<b style='color:"+Colour.GENERIC_GOOD.toWebHexString()+";'>Confirm</b>"), "Start a new game.</br></br><b>Remember to save your game first!</b>"){
 						@Override
 						public void effects() {
+							//Fixes a bug where inventory would stay on screen
+							if (Main.game.isStarted()) {
+								Main.game.setInCombat(false);
+								Main.game.setInSex(false);
+								RenderingEngine.ENGINE.renderMapTitle();
+							}
+							
 							Main.mainController.setAttributePanelContent("");
 							Main.mainController.setButtonsContent("");
 							Main.mainController.setMapViewContent("");
 							Main.mainController.setMapTitleContent("");
 							
-							Main.startNewGame(CharacterCreationDialogue.CHARACTER_CREATION_START);
+							Main.startNewGame(CharacterCreation.CHARACTER_CREATION_START);
 							confirmNewGame = false;
 						}
 					};
@@ -196,20 +206,20 @@ public class OptionsDialogue {
 		String[] version = System.getProperty("java.version").split("\\.");
 		if(version.length>=2) {
 			if(Integer.valueOf(version[1])<8) {
-				sb.append("<span style='color:"+Colour.GENERIC_BAD.toWebHexString()+";'>You have an old version of java!</span> This game needs at least v0.1.8.0_131 to work correctly!");
+				sb.append("<span style='color:"+Colour.GENERIC_BAD.toWebHexString()+";'>You have an old version of java!</span> This game needs at least v1.8.0_131 to work correctly!");
 				
 			} else {
 				if(version.length==3){
 					String[] versionMinor = version[2].split("_");
 					if(versionMinor.length>=2)
 						if(Integer.valueOf(versionMinor[1])<131) {
-							sb.append("<span style='color:"+Colour.GENERIC_BAD.toWebHexString()+";'>You have an old version of java!</span> This game needs at least v0.1.8.0_131 to work correctly!");
+							sb.append("<span style='color:"+Colour.GENERIC_BAD.toWebHexString()+";'>You have an old version of java!</span> This game needs at least v1.8.0_131 to work correctly!");
 							
 						} else {
 							sb.append("<span style='color:"+Colour.GENERIC_GOOD.toWebHexString()+";'>Your java is up to date!</span>");
 						}
 				} else {
-					sb.append("This game needs at least v0.1.8.0_131 to work correctly!");
+					sb.append("This game needs at least v1.8.0_131 to work correctly!");
 				}
 			}
 		}
@@ -217,8 +227,7 @@ public class OptionsDialogue {
 		
 		return sb.toString();
 	}
-	
-	private static StringBuilder saveLoadSB;
+
 	public static String loadConfirmationName = "", overwriteConfirmationName = "", deleteConfirmationName = "";
 	public static final DialogueNodeOld SAVE_LOAD = new DialogueNodeOld("Save game files", "", true) {
 		private static final long serialVersionUID = 1L;
@@ -230,7 +239,7 @@ public class OptionsDialogue {
 		
 		@Override
 		public String getHeaderContent(){
-			saveLoadSB = new StringBuilder();
+			StringBuilder saveLoadSB = new StringBuilder();
 
 			saveLoadSB.append("<p'>"
 					+ "<b>Please Note:</b></br>"
@@ -249,7 +258,7 @@ public class OptionsDialogue {
 					+ "<th></th>"
 					+ "</tr>");
 			
-			Collections.sort(Main.getSavedGames(), (e1, e2)->{return e1.lastModified()>e2.lastModified()?1:(e1.lastModified()==e2.lastModified()?0:-1);});
+			Main.getSavedGames().sort(Comparator.comparingLong(File::lastModified).reversed());
 			
 			for(File f : Main.getSavedGames()){
 				try {
@@ -453,6 +462,9 @@ public class OptionsDialogue {
 			} else if (index == 8) {
 				return new Response("Furry preferences", "Set your preferred transformation encounter rates.", FURRY_PREFERENCE);
 			
+			} else if (index == 9) {
+				return new Response("Content preferences", "Set your preferred content settings.", CONTENT_PREFERENCE);
+			
 			} else if (index == 0) {
 				return new Response("Back", "Back to the main menu.", MENU);
 
@@ -504,6 +516,11 @@ public class OptionsDialogue {
 					+ getKeybindTableRow(KeyboardAction.RESPOND_7)
 					+ getKeybindTableRow(KeyboardAction.RESPOND_8)
 					+ getKeybindTableRow(KeyboardAction.RESPOND_9)
+					+ getKeybindTableRow(KeyboardAction.RESPOND_10)
+					+ getKeybindTableRow(KeyboardAction.RESPOND_11)
+					+ getKeybindTableRow(KeyboardAction.RESPOND_12)
+					+ getKeybindTableRow(KeyboardAction.RESPOND_13)
+					+ getKeybindTableRow(KeyboardAction.RESPOND_14)
 					+ getKeybindTableRow(KeyboardAction.RESPOND_0)
 					+ "<tr style='height:8px;'></tr>"
 
@@ -559,7 +576,7 @@ public class OptionsDialogue {
 				+ "' id='primary_"
 				+ action
 				+ "'>"
-				+ (Main.getProperties().hotkeyMapPrimary.get(action) == null ? "<span class='option-disabled'>-</span>" : Main.getProperties().hotkeyMapPrimary.get(action).getName())
+				+ (Main.getProperties().hotkeyMapPrimary.get(action) == null ? "<span class='option-disabled'>-</span>" : Main.getProperties().hotkeyMapPrimary.get(action).getFullName())
 				+ "</div>"
 				+ "<div class='bindingClearButton"
 				+ (Main.getProperties().hotkeyMapPrimary.get(action) == null ? " empty" : "")
@@ -574,7 +591,7 @@ public class OptionsDialogue {
 				+ "' id='secondary_"
 				+ action
 				+ "'>"
-				+ (Main.getProperties().hotkeyMapSecondary.get(action) == null ? "<span class='option-disabled'>-</span>" : Main.getProperties().hotkeyMapSecondary.get(action).getName())
+				+ (Main.getProperties().hotkeyMapSecondary.get(action) == null ? "<span class='option-disabled'>-</span>" : Main.getProperties().hotkeyMapSecondary.get(action).getFullName())
 				+ "</div>"
 				+ "<div class='bindingClearButton"
 				+ (Main.getProperties().hotkeyMapSecondary.get(action) == null ? " empty" : "")
@@ -976,6 +993,129 @@ public class OptionsDialogue {
 				return new Response("Back", "Go back to the options menu.", OPTIONS);
 				
 			}else {
+				return null;
+			}
+		}
+
+		@Override
+		public MapDisplay getMapDisplay() {
+			return MapDisplay.OPTIONS;
+		}
+	};
+	
+	
+	public static final DialogueNodeOld CONTENT_PREFERENCE = new DialogueNodeOld("Content preferences", "", true) {
+		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public String getHeaderContent(){
+			UtilText.nodeContentSB.setLength(0);
+			
+			UtilText.nodeContentSB.append(
+					"<div class='statsDescriptionBox'>"
+						+ "These options determine what content is enabled in the game."
+						+"</br>"
+						+ "</br><b style='color:"+BaseColour.CRIMSON.toWebHexString()+";'>Non-con:</b> This enables the 'resist' pace in sex scenes, which contains some more extreme non-consensual descriptions."
+						+ "</br><b style='color:"+BaseColour.ROSE.toWebHexString()+";'>Incest:</b> This enables you to randomly encounter your offspring in Dominion's alleyways."
+						+ "</br><b style='color:"+BaseColour.GREEN_LIGHT.toWebHexString()+";'>Forced TF:</b> This enables special forced transformation scenes, as well as random NPCs transforming you if you lose combat to them."
+						+ "</br><b style='color:"+BaseColour.LILAC_LIGHT.toWebHexString()+";'>Facial hair:</b> This enables facial hair descriptions."
+						+ "</br><b style='color:"+BaseColour.LILAC.toWebHexString()+";'>Pubic hair:</b> This enables pubic hair descriptions."
+						+ "</br><b style='color:"+BaseColour.PURPLE.toWebHexString()+";'>Full body hair:</b> This enables body hair descriptions for all character's armpits and assholes."
+								+ " (You'll still need to enable 'Pubic hair' to see hairy genitals.)"
+						+ "</br><b style='color:"+BaseColour.MAGENTA.toWebHexString()+";'>Furry tail penetrations:</b> This enables furry tails to engage in penetrative actions in sex."
+					+ "</div>"
+							
+					+ "<span style='height:16px;width:800px;float:left;'></span>"
+					
+					+ "<div class='statsDescriptionBox' style='text-align: center;'>"
+						+ "<table align='center'>"
+							+ "<tr><td><b style='color:"+BaseColour.CRIMSON.toWebHexString()+";'>Non-con:</b></td><td>"+(Main.getProperties().nonConContent?"[style.boldGood(ON)]":"[style.boldBad(OFF)]")+"</td></tr>"
+							+ "<tr><td><b style='color:"+BaseColour.ROSE.toWebHexString()+";'>Incest:</b></td><td>"+(Main.getProperties().incestContent?"[style.boldGood(ON)]":"[style.boldBad(OFF)]")+"</td></tr>"
+							+ "<tr><td><b style='color:"+BaseColour.GREEN_LIGHT.toWebHexString()+";'>Forced TF:</b></td><td>"+(Main.getProperties().forcedTransformationContent?"[style.boldGood(ON)]":"[style.boldBad(OFF)]")+"</td></tr>"
+							+ "<tr><td><b style='color:"+BaseColour.LILAC_LIGHT.toWebHexString()+";'>Facial hair:</b></td><td>"+(Main.getProperties().facialHairContent?"[style.boldGood(ON)]":"[style.boldBad(OFF)]")+"</td></tr>"
+							+ "<tr><td><b style='color:"+BaseColour.LILAC.toWebHexString()+";'>Pubic hair:</b></td><td>"+(Main.getProperties().pubicHairContent?"[style.boldGood(ON)]":"[style.boldBad(OFF)]")+"</td></tr>"
+							+ "<tr><td><b style='color:"+BaseColour.PURPLE.toWebHexString()+";'>Full body hair:</b></td><td>"+(Main.getProperties().bodyHairContent?"[style.boldGood(ON)]":"[style.boldBad(OFF)]")+"</td></tr>"
+							+ "<tr><td><b style='color:"+BaseColour.MAGENTA.toWebHexString()+";'>Furry tail penetrations:</b></td><td>"+(Main.getProperties().furryTailPenetrationContent?"[style.boldGood(ON)]":"[style.boldBad(OFF)]")+"</td></tr>"
+						+ "</table>"
+					+ "</div>");
+			
+			return UtilText.nodeContentSB.toString();
+		}
+		
+		@Override
+		public String getContent(){
+			return "";
+		}
+		
+		@Override
+		public Response getResponse(int index) {
+			if (index == 1) {
+				return new Response("Non-con", "Toggle non-consensual content on or off.", CONTENT_PREFERENCE) {
+					@Override
+					public void effects() {
+						Main.getProperties().nonConContent = !Main.getProperties().nonConContent;
+						Main.saveProperties();
+					}
+				};
+				
+			} else if (index == 2) {
+				return new Response("Incest", "Toggle incest encounters on or off.", CONTENT_PREFERENCE) {
+					@Override
+					public void effects() {
+						Main.getProperties().incestContent = !Main.getProperties().incestContent;
+						Main.saveProperties();
+					}
+				};
+				
+			} else if (index == 3) {
+				return new Response("Forced TF", "Toggle forced TF content on or off.", CONTENT_PREFERENCE) {
+					@Override
+					public void effects() {
+						Main.getProperties().forcedTransformationContent = !Main.getProperties().forcedTransformationContent;
+						Main.saveProperties();
+					}
+				};
+				
+			} else if (index == 4) {
+				return new Response("Facial hair", "Toggle facial hair content on or off.", CONTENT_PREFERENCE) {
+					@Override
+					public void effects() {
+						Main.getProperties().facialHairContent = !Main.getProperties().facialHairContent;
+						Main.saveProperties();
+					}
+				};
+				
+			} else if (index == 5) {
+				return new Response("Pubic hair", "Toggle pubic hair content on or off.", CONTENT_PREFERENCE) {
+					@Override
+					public void effects() {
+						Main.getProperties().pubicHairContent = !Main.getProperties().pubicHairContent;
+						Main.saveProperties();
+					}
+				};
+				
+			} else if (index == 6) {
+				return new Response("Full body hair", "Toggle body hair content on or off.", CONTENT_PREFERENCE) {
+					@Override
+					public void effects() {
+						Main.getProperties().bodyHairContent = !Main.getProperties().bodyHairContent;
+						Main.saveProperties();
+					}
+				};
+				
+			} else if (index == 7) {
+				return new Response("Furry tail pen.", "Toggle furry tail penetrations on or off.", CONTENT_PREFERENCE) {
+					@Override
+					public void effects() {
+						Main.getProperties().furryTailPenetrationContent = !Main.getProperties().furryTailPenetrationContent;
+						Main.saveProperties();
+					}
+				};
+				
+			} else if (index == 0) {
+				return new Response("Back", "Go back to the options menu.", OPTIONS);
+				
+			} else {
 				return null;
 			}
 		}

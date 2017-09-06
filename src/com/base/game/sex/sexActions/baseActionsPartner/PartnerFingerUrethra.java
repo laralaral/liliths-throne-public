@@ -13,19 +13,20 @@ import com.base.game.sex.SexPace;
 import com.base.game.sex.SexPosition;
 import com.base.game.sex.sexActions.SexAction;
 import com.base.game.sex.sexActions.SexActionType;
+import com.base.main.Main;
 import com.base.utils.Util;
 import com.base.utils.Util.ListValue;
 
 /**
  * @since 0.1.79
- * @version 0.1.79
+ * @version 0.1.84
  * @author Innoxia
  */
 public class PartnerFingerUrethra {
 
 	//TODO grope cock
 	
-	public static SexAction PARTNER_MASTURBATE_PARTNERS_COCK = new SexAction(
+	public static final SexAction PARTNER_MASTURBATE_PARTNERS_COCK = new SexAction(
 			SexActionType.PARTNER_REQUIRES_NO_PENETRATION_AND_EXPOSED,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -142,7 +143,7 @@ public class PartnerFingerUrethra {
 		}
 	};
 	
-	public static SexAction PARTNER_FONDLE_BALLS = new SexAction(
+	public static final SexAction PARTNER_FONDLE_BALLS = new SexAction(
 			SexActionType.PARTNER_REQUIRES_NO_PENETRATION_AND_EXPOSED,
 			ArousalIncrease.THREE_NORMAL,
 			ArousalIncrease.ONE_MINIMUM,
@@ -152,7 +153,7 @@ public class PartnerFingerUrethra {
 
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return Sex.getSexPacePartner()!=SexPace.SUB_RESISTING;
+			return !Main.game.getPlayer().isInternalTesticles() && Sex.getSexPacePartner()!=SexPace.SUB_RESISTING;
 		}
 		
 		@Override

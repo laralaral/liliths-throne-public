@@ -5,6 +5,7 @@ import java.util.List;
 import com.base.game.character.attributes.CorruptionLevel;
 import com.base.game.character.body.types.VaginaType;
 import com.base.game.character.body.valueEnums.CumProduction;
+import com.base.game.character.body.valueEnums.PenisModifier;
 import com.base.game.character.effects.Fetish;
 import com.base.game.dialogue.utils.UtilText;
 import com.base.game.inventory.clothing.CoverableArea;
@@ -26,7 +27,7 @@ import com.base.utils.Util.ListValue;
  */
 public class DomDoggy {
 	
-	public static SexAction PARTNER_LOOK_BACK = new SexAction(
+	public static final SexAction PARTNER_LOOK_BACK = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.THREE_NORMAL,
 			ArousalIncrease.THREE_NORMAL,
@@ -56,7 +57,7 @@ public class DomDoggy {
 	
 	// Player's methods:
 	
-	public static SexAction PLAYER_SLAP_ASS = new SexAction(
+	public static final SexAction PLAYER_SLAP_ASS = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.THREE_NORMAL,
@@ -181,7 +182,7 @@ public class DomDoggy {
 	
 	// Player's orgasms:
 
-	public static SexAction PLAYER_DOGGY_CREAMPIE_ORGASM = new SexAction(
+	public static final SexAction PLAYER_DOGGY_CREAMPIE_ORGASM = new SexAction(
 			SexActionType.PLAYER_ORGASM,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.FOUR_HIGH,
@@ -208,11 +209,11 @@ public class DomDoggy {
 			
 			String flaredSpecial = "", knottedSpecial = "";
 			
-			if(Sex.getPartner().isPenisKnotted()) {
+			if(Sex.getPartner().hasPenisModifier(PenisModifier.KNOTTED)) {
 				knottedSpecial = " You feel your [pc.cock+] violently throbbing, and, knowing that you're about to cum,"
 						+ " you slam forwards with a violent force, driving your thick knot into [npc.name]'s [npc.asshole] just before it swells up, locking you together.";
 			}
-			if(Sex.getPartner().isPenisFlaredHead()) {
+			if(Sex.getPartner().hasPenisModifier(PenisModifier.FLARED)) {
 				flaredSpecial = " You feel your [pc.cock+] violently throbbing, and, knowing that you're about to cum,"
 						+ " you slam forwards with a violent force, driving your flared head into [npc.name]'s [npc.asshole] as you let out [pc.a_moan+].";
 			}
@@ -320,7 +321,7 @@ public class DomDoggy {
 		}
 	};
 	
-	public static SexAction PLAYER_DOGGY_CREAMPIE_ORGASM_PUSSY = new SexAction(
+	public static final SexAction PLAYER_DOGGY_CREAMPIE_ORGASM_PUSSY = new SexAction(
 			SexActionType.PLAYER_ORGASM,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.FOUR_HIGH,
@@ -347,11 +348,11 @@ public class DomDoggy {
 			
 			String flaredSpecial = "", knottedSpecial = "";
 			
-			if(Sex.getPartner().isPenisKnotted()) {
+			if(Sex.getPartner().hasPenisModifier(PenisModifier.KNOTTED)) {
 				knottedSpecial = " You feel your [pc.cock+] violently throbbing, and, knowing that you're about to cum,"
 						+ " you slam forwards with a violent force, driving your thick knot into [npc.name]'s [npc.pussy] just before it swells up, locking you together.";
 			}
-			if(Sex.getPartner().isPenisFlaredHead()) {
+			if(Sex.getPartner().hasPenisModifier(PenisModifier.FLARED)) {
 				flaredSpecial = " You feel your [pc.cock+] violently throbbing, and, knowing that you're about to cum,"
 						+ " you slam forwards with a violent force, driving your flared head into [npc.name]'s [npc.pussy] as you let out [pc.a_moan+].";
 			}
@@ -459,7 +460,7 @@ public class DomDoggy {
 		}
 	};
 	
-	public static SexAction PLAYER_DOGGY_OVER_BACK_ORGASM = new SexAction(
+	public static final SexAction PLAYER_DOGGY_OVER_BACK_ORGASM = new SexAction(
 			SexActionType.PLAYER_ORGASM,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.THREE_NORMAL,
@@ -491,15 +492,15 @@ public class DomDoggy {
 			
 			String flaredSpecial = "", knottedSpecial = "", barbedSpecial = "";
 			
-			if(Main.game.getPlayer().isPenisKnotted()) {
+			if(Main.game.getPlayer().hasPenisModifier(PenisModifier.KNOTTED)) {
 				knottedSpecial = " Your [pc.cock+] suddenly starts violently throbbing, and you know that you're about to cum."
 										+ " Grabbing your [pc.cock] in one [pc.hand], you point it at [npc.name]'s ass, furiously masturbating as your thick knot swells up.";
 			}
-			if(Main.game.getPlayer().isPenisBarbedShaft()) {
+			if(Main.game.getPlayer().hasPenisModifier(PenisModifier.BARBED)) {
 				barbedSpecial = " Your barbed [pc.cock] suddenly starts violently throbbing, and you know that you're about to cum."
 						+ " Grabbing your [pc.cock] in one hand, you point it at [npc.name]'s ass, furiously masturbating as your hand slides up and down over your sensitive little barbs.";
 			}
-			if(Main.game.getPlayer().isPenisFlaredHead()) {
+			if(Main.game.getPlayer().hasPenisModifier(PenisModifier.FLARED)) {
 				flaredSpecial = " Your flared [pc.cock] suddenly starts violently throbbing, and you know that you're about to cum."
 						+ " Grabbing your [pc.cock] in one [pc.hand], you point it at [npc.name]'s ass, furiously masturbating as your flared head swells up.";
 			}
@@ -609,7 +610,7 @@ public class DomDoggy {
 		}
 	};
 	
-	public static SexAction PLAYER_DOGGY_DOMINANT_ORGASM = new SexAction(
+	public static final SexAction PLAYER_DOGGY_DOMINANT_ORGASM = new SexAction(
 			SexActionType.PLAYER_ORGASM,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.THREE_NORMAL,
@@ -715,7 +716,7 @@ public class DomDoggy {
 		}
 	};
 	
-	public static SexAction PLAYER_DOGGY_DOMINANT_ORGASM_PUSSY = new SexAction(
+	public static final SexAction PLAYER_DOGGY_DOMINANT_ORGASM_PUSSY = new SexAction(
 			SexActionType.PLAYER_ORGASM,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.THREE_NORMAL,
@@ -823,7 +824,7 @@ public class DomDoggy {
 	
 	// Mutual orgasms:
 	
-	public static SexAction MUTUAL_DOGGY_CREAMPIE_ORGASM = new SexAction(
+	public static final SexAction MUTUAL_DOGGY_CREAMPIE_ORGASM = new SexAction(
 			SexActionType.MUTUAL_ORGASM,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.FOUR_HIGH,
@@ -850,11 +851,11 @@ public class DomDoggy {
 			
 			String flaredSpecial = "", knottedSpecial = "";
 			
-			if(Sex.getPartner().isPenisKnotted()) {
+			if(Sex.getPartner().hasPenisModifier(PenisModifier.KNOTTED)) {
 				knottedSpecial = " You feel your [pc.cock+] violently throbbing, and, knowing that you're about to cum,"
 						+ " you slam forwards with a violent force, driving your thick knot into [npc.name]'s [npc.asshole] just before it swells up, locking you together.";
 			}
-			if(Sex.getPartner().isPenisFlaredHead()) {
+			if(Sex.getPartner().hasPenisModifier(PenisModifier.FLARED)) {
 				flaredSpecial = " You feel your [pc.cock+] violently throbbing, and, knowing that you're about to cum,"
 						+ " you slam forwards with a violent force, driving your flared head into [npc.name]'s [npc.asshole] as you let out [pc.a_moan+].";
 			}
@@ -1011,7 +1012,7 @@ public class DomDoggy {
 		}
 	};
 	
-	public static SexAction MUTUAL_DOGGY_CREAMPIE_ORGASM_PUSSY = new SexAction(
+	public static final SexAction MUTUAL_DOGGY_CREAMPIE_ORGASM_PUSSY = new SexAction(
 			SexActionType.MUTUAL_ORGASM,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.FOUR_HIGH,
@@ -1038,11 +1039,11 @@ public class DomDoggy {
 			
 			String flaredSpecial = "", knottedSpecial = "";
 			
-			if(Sex.getPartner().isPenisKnotted()) {
+			if(Sex.getPartner().hasPenisModifier(PenisModifier.KNOTTED)) {
 				knottedSpecial = " You feel your [pc.cock+] violently throbbing, and, knowing that you're about to cum,"
 						+ " you slam forwards with a violent force, driving your thick knot into [npc.name]'s [npc.pussy] just before it swells up, locking you together.";
 			}
-			if(Sex.getPartner().isPenisFlaredHead()) {
+			if(Sex.getPartner().hasPenisModifier(PenisModifier.FLARED)) {
 				flaredSpecial = " You feel your [pc.cock+] violently throbbing, and, knowing that you're about to cum,"
 						+ " you slam forwards with a violent force, driving your flared head into [npc.name]'s [npc.pussy] as you let out [pc.a_moan+].";
 			}
@@ -1093,19 +1094,19 @@ public class DomDoggy {
 						UtilText.nodeContentSB.append(" Unfortunately, you aren't able to produce even one drop of cum, somewhat diminishing the pleasure of your climax.");
 						break;
 					case ONE_TRICKLE:
-						UtilText.nodeContentSB.append(" You feel a small trickle of [pc.cum+] squirting into [npc.name]'s [npc.asshole+], and you [pc.moan] in satisfaction as you empty your tiny load in [npc.her] [npc.pussy].");
+						UtilText.nodeContentSB.append(" You feel a small trickle of [pc.cum+] squirting into [npc.name]'s [npc.pussy+], and you [pc.moan] in satisfaction as you empty your tiny load in [npc.her] [npc.pussy].");
 						break;
 					case TWO_SMALL_AMOUNT:
-						UtilText.nodeContentSB.append(" You feel a small amount of [pc.cum] squirting into [npc.name]'s [npc.asshole+], and you [pc.moan] in satisfaction as you empty your small load in [npc.her] [npc.pussy].");
+						UtilText.nodeContentSB.append(" You feel a small amount of [pc.cum] squirting into [npc.name]'s [npc.pussy+], and you [pc.moan] in satisfaction as you empty your small load in [npc.her] [npc.pussy].");
 						break;
 					case THREE_AVERAGE:
-						UtilText.nodeContentSB.append(" You feel your [pc.cum] squirting into [npc.name]'s [npc.asshole+], and you [pc.moan] in satisfaction as you empty your sticky load in [npc.her] [npc.pussy].");
+						UtilText.nodeContentSB.append(" You feel your [pc.cum] squirting into [npc.name]'s [npc.pussy+], and you [pc.moan] in satisfaction as you empty your sticky load in [npc.her] [npc.pussy].");
 						break;
 					case FOUR_LARGE:
-						UtilText.nodeContentSB.append(" You feel your [pc.cum] shooting into [npc.name]'s [npc.asshole+], and you [pc.moan] in satisfaction as you empty your sticky load in [npc.her] [npc.pussy].");
+						UtilText.nodeContentSB.append(" You feel your [pc.cum] shooting into [npc.name]'s [npc.pussy+], and you [pc.moan] in satisfaction as you empty your sticky load in [npc.her] [npc.pussy].");
 						break;
 					case FIVE_HUGE:
-						UtilText.nodeContentSB.append(" You feel your [pc.cum] pouring into [npc.name]'s [npc.asshole+], and you [pc.moan] in satisfaction as you empty your huge load in [npc.her] [npc.pussy].");
+						UtilText.nodeContentSB.append(" You feel your [pc.cum] pouring into [npc.name]'s [npc.pussy+], and you [pc.moan] in satisfaction as you empty your huge load in [npc.her] [npc.pussy].");
 						break;
 					case SIX_EXTREME:
 						UtilText.nodeContentSB.append(" You feel your huge amount of [pc.cum] pouring into [npc.name]'s [npc.pussy+], and you [pc.moan] in satisfaction as your slimy load overflows,"
@@ -1151,7 +1152,7 @@ public class DomDoggy {
 		}
 	};
 	
-	public static SexAction MUTUAL_DOGGY_OVER_BACK_ORGASM = new SexAction(
+	public static final SexAction MUTUAL_DOGGY_OVER_BACK_ORGASM = new SexAction(
 			SexActionType.MUTUAL_ORGASM,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.THREE_NORMAL,
@@ -1184,15 +1185,15 @@ public class DomDoggy {
 			
 			String flaredSpecial = "", knottedSpecial = "", barbedSpecial = "";
 			
-			if(Main.game.getPlayer().isPenisKnotted()) {
+			if(Main.game.getPlayer().hasPenisModifier(PenisModifier.KNOTTED)) {
 				knottedSpecial = " Your [pc.cock+] suddenly starts violently throbbing, and you know that you're about to cum."
 										+ " Grabbing your [pc.cock] in one [pc.hand], you point it at [npc.name]'s ass, furiously masturbating as your thick knot swells up.";
 			}
-			if(Main.game.getPlayer().isPenisBarbedShaft()) {
+			if(Main.game.getPlayer().hasPenisModifier(PenisModifier.BARBED)) {
 				barbedSpecial = " Your barbed [pc.cock] suddenly starts violently throbbing, and you know that you're about to cum."
 						+ " Grabbing your [pc.cock] in one hand, you point it at [npc.name]'s ass, furiously masturbating as your hand slides up and down over your sensitive little barbs.";
 			}
-			if(Main.game.getPlayer().isPenisFlaredHead()) {
+			if(Main.game.getPlayer().hasPenisModifier(PenisModifier.FLARED)) {
 				flaredSpecial = " Your flared [pc.cock] suddenly starts violently throbbing, and you know that you're about to cum."
 						+ " Grabbing your [pc.cock] in one [pc.hand], you point it at [npc.name]'s ass, furiously masturbating as your flared head swells up.";
 			}
@@ -1351,7 +1352,7 @@ public class DomDoggy {
 		}
 	};
 	
-	public static SexAction MUTUAL_DOGGY_DOMINANT_ORGASM = new SexAction(
+	public static final SexAction MUTUAL_DOGGY_DOMINANT_ORGASM = new SexAction(
 			SexActionType.MUTUAL_ORGASM,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.THREE_NORMAL,
@@ -1506,7 +1507,7 @@ public class DomDoggy {
 		}
 	};
 	
-	public static SexAction MUTUAL_DOGGY_DOMINANT_ORGASM_PUSSY = new SexAction(
+	public static final SexAction MUTUAL_DOGGY_DOMINANT_ORGASM_PUSSY = new SexAction(
 			SexActionType.MUTUAL_ORGASM,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.THREE_NORMAL,

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.base.game.character.GameCharacter;
 import com.base.game.inventory.AbstractCoreItem;
+import com.base.game.inventory.AbstractCoreType;
 import com.base.game.inventory.enchanting.TFEssence;
 import com.base.game.inventory.enchanting.TFModifier;
 import com.base.main.Main;
@@ -20,10 +21,10 @@ public abstract class AbstractItem extends AbstractCoreItem implements Serializa
 
 	private static final long serialVersionUID = 1L;
 	
-	protected ItemType itemType;
+	protected AbstractItemType itemType;
 	protected List<ItemEffect> itemEffects;
 
-	public AbstractItem(ItemType itemType) {
+	public AbstractItem(AbstractItemType itemType) {
 		super(itemType.getName(false), itemType.getSVGString(), itemType.getColour(), itemType.getRarity(), null);
 
 		this.itemType = itemType;
@@ -49,7 +50,7 @@ public abstract class AbstractItem extends AbstractCoreItem implements Serializa
 		return result;
 	}
 
-	public ItemType getItemType() {
+	public AbstractItemType getItemType() {
 		return itemType;
 	}
 
@@ -79,7 +80,7 @@ public abstract class AbstractItem extends AbstractCoreItem implements Serializa
 	}
 	
 	@Override
-	public ItemType getEnchantmentItemType() {
+	public AbstractCoreType getEnchantmentItemType() {
 		return itemType.getEnchantmentItemType();
 	}
 	
@@ -158,14 +159,14 @@ public abstract class AbstractItem extends AbstractCoreItem implements Serializa
 		return itemType.getValue()+additionalValue;
 	}
 	
-	public String getExtraDescription() {
+	public String getExtraDescription(GameCharacter user, GameCharacter target) {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("<p>"
 					+ "<b>Effects:</b></br>");
 		
 		for(ItemEffect ie : getItemEffects()) {
-			for(String s : ie.getEffectsDescription()) {
+			for(String s : ie.getEffectsDescription(user, target)) {
 				sb.append(s+"</br>");
 			}
 		}
@@ -213,4 +214,6 @@ public abstract class AbstractItem extends AbstractCoreItem implements Serializa
 	public boolean isAbleToBeUsedInSex(){
 		return itemType.isAbleToBeUsedInSex();
 	}
+	
+	
 }

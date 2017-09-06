@@ -23,11 +23,9 @@ import org.w3c.dom.NodeList;
 import com.base.game.character.gender.AndrogynousIdentification;
 import com.base.game.character.gender.Gender;
 import com.base.game.character.gender.GenderPronoun;
-import com.base.game.character.race.Race;
 import com.base.game.character.race.FurryPreference;
+import com.base.game.character.race.Race;
 import com.base.main.Main;
-
-import javafx.scene.input.KeyCode;
 
 /**
  * @since 0.1.0
@@ -38,11 +36,18 @@ public class Properties implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public String lastSaveLocation = "", nameColour = "", name = "", race = "", quest = "", versionNumber="";
 	public int fontSize = 18, level = 1, money = 0, humanEncountersLevel = 1, multiBreasts = 1;
-	public boolean lightTheme = false, overwriteWarning=true;//, nonConContent=false;
+	public boolean lightTheme = false, overwriteWarning = true,
+			furryTailPenetrationContent = false,
+			nonConContent = false,
+			incestContent = false,
+			forcedTransformationContent = false,
+			facialHairContent = false,
+			pubicHairContent = false,
+			bodyHairContent = false;
 	
 	public AndrogynousIdentification androgynousIdentification = AndrogynousIdentification.CLOTHING_FEMININE;
 
-	public Map<KeyboardAction, KeyCode> hotkeyMapPrimary, hotkeyMapSecondary;
+	public Map<KeyboardAction, KeyCodeWithModifiers> hotkeyMapPrimary, hotkeyMapSecondary;
 	
 	public Map<GenderPronoun, String> genderPronounFemale, genderPronounMale;
 	
@@ -107,7 +112,13 @@ public class Properties implements Serializable {
 			properties.appendChild(settings);
 			createXMLElementWithValue(doc, settings, "fontSize", String.valueOf(fontSize));
 			createXMLElementWithValue(doc, settings, "lightTheme", String.valueOf(lightTheme));
-//			createXMLElementWithValue(doc, settings, "nonConContent", String.valueOf(nonConContent));
+			createXMLElementWithValue(doc, settings, "furryTailPenetrationContent", String.valueOf(furryTailPenetrationContent));
+			createXMLElementWithValue(doc, settings, "nonConContent", String.valueOf(nonConContent));
+			createXMLElementWithValue(doc, settings, "incestContent", String.valueOf(incestContent));
+			createXMLElementWithValue(doc, settings, "forcedTransformationContent", String.valueOf(forcedTransformationContent));
+			createXMLElementWithValue(doc, settings, "facialHairContent", String.valueOf(facialHairContent));
+			createXMLElementWithValue(doc, settings, "pubicHairContent", String.valueOf(pubicHairContent));
+			createXMLElementWithValue(doc, settings, "bodyHairContent", String.valueOf(bodyHairContent));
 			createXMLElementWithValue(doc, settings, "overwriteWarning", String.valueOf(overwriteWarning));
 			createXMLElementWithValue(doc, settings, "androgynousIdentification", String.valueOf(androgynousIdentification));
 			createXMLElementWithValue(doc, settings, "humanEncountersLevel", String.valueOf(humanEncountersLevel));
@@ -219,10 +230,8 @@ public class Properties implements Serializable {
 		
 			transformer.transform(source, result);
 		
-		} catch (ParserConfigurationException pce) {
-			pce.printStackTrace();
-		} catch (TransformerException tfe) {
-			tfe.printStackTrace();
+		} catch (ParserConfigurationException | TransformerException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -263,19 +272,27 @@ public class Properties implements Serializable {
 				element = (Element) nodes.item(0);
 				fontSize = Integer.valueOf(((Element)element.getElementsByTagName("fontSize").item(0)).getAttribute("value"));
 				lightTheme = ((((Element)element.getElementsByTagName("lightTheme").item(0)).getAttribute("value")).equals("true"));
-//				nonConContent = ((((Element)element.getElementsByTagName("nonConContent").item(0)).getAttribute("value")).equals("true"));
+				
+				furryTailPenetrationContent = ((((Element)element.getElementsByTagName("furryTailPenetrationContent").item(0)).getAttribute("value")).equals("true"));
+				nonConContent = ((((Element)element.getElementsByTagName("nonConContent").item(0)).getAttribute("value")).equals("true"));
+				incestContent = ((((Element)element.getElementsByTagName("incestContent").item(0)).getAttribute("value")).equals("true"));
+				forcedTransformationContent = ((((Element)element.getElementsByTagName("forcedTransformationContent").item(0)).getAttribute("value")).equals("true"));
+				facialHairContent = ((((Element)element.getElementsByTagName("facialHairContent").item(0)).getAttribute("value")).equals("true"));
+				pubicHairContent = ((((Element)element.getElementsByTagName("pubicHairContent").item(0)).getAttribute("value")).equals("true"));
+				bodyHairContent = ((((Element)element.getElementsByTagName("bodyHairContent").item(0)).getAttribute("value")).equals("true"));
+				
 				overwriteWarning = ((((Element)element.getElementsByTagName("overwriteWarning").item(0)).getAttribute("value")).equals("true"));
 				if(element.getElementsByTagName("androgynousIdentification").item(0)!=null) {
 					androgynousIdentification = AndrogynousIdentification.valueOf(((Element)element.getElementsByTagName("androgynousIdentification").item(0)).getAttribute("value"));
 				}
 				
-				if((Element)element.getElementsByTagName("humanEncountersLevel").item(0)!=null) {
+				if(element.getElementsByTagName("humanEncountersLevel").item(0)!=null) {
 					humanEncountersLevel = Integer.valueOf(((Element)element.getElementsByTagName("humanEncountersLevel").item(0)).getAttribute("value"));
 				} else {
 					humanEncountersLevel = 1;
 				}
 				
-				if((Element)element.getElementsByTagName("multiBreasts").item(0)!=null) {
+				if(element.getElementsByTagName("multiBreasts").item(0)!=null) {
 					multiBreasts = Integer.valueOf(((Element)element.getElementsByTagName("multiBreasts").item(0)).getAttribute("value"));
 				} else {
 					multiBreasts = 1;
@@ -287,13 +304,13 @@ public class Properties implements Serializable {
 				for(int i=0; i<element.getElementsByTagName("binding").getLength(); i++){
 					Element e = ((Element)element.getElementsByTagName("binding").item(i));
 					
-					if(e.getAttribute("primaryBind")!="")
-						hotkeyMapPrimary.put(KeyboardAction.valueOf(e.getAttribute("bindName")), KeyCode.valueOf(e.getAttribute("primaryBind")));
+					if(!e.getAttribute("primaryBind").isEmpty())
+						hotkeyMapPrimary.put(KeyboardAction.valueOf(e.getAttribute("bindName")), KeyCodeWithModifiers.fromString(e.getAttribute("primaryBind")));
 					else
 						hotkeyMapPrimary.put(KeyboardAction.valueOf(e.getAttribute("bindName")), null);
 					
-					if(e.getAttribute("secondaryBind")!="")
-						hotkeyMapSecondary.put(KeyboardAction.valueOf(e.getAttribute("bindName")), KeyCode.valueOf(e.getAttribute("secondaryBind")));
+					if(!e.getAttribute("secondaryBind").isEmpty())
+						hotkeyMapSecondary.put(KeyboardAction.valueOf(e.getAttribute("bindName")), KeyCodeWithModifiers.fromString(e.getAttribute("secondaryBind")));
 					else
 						hotkeyMapSecondary.put(KeyboardAction.valueOf(e.getAttribute("bindName")), null);
 				}
@@ -303,19 +320,17 @@ public class Properties implements Serializable {
 				element = (Element) nodes.item(0);
 				for(int i=0; i<element.getElementsByTagName("pronoun").getLength(); i++){
 					Element e = ((Element)element.getElementsByTagName("pronoun").item(i));
-					
-					if(GenderPronoun.valueOf(e.getAttribute("pronounName"))!=null) {
-						if(e.getAttribute("feminineValue")!="") {
-							genderPronounFemale.put(GenderPronoun.valueOf(e.getAttribute("pronounName")), e.getAttribute("feminineValue"));
-						} else {
-							genderPronounFemale.put(GenderPronoun.valueOf(e.getAttribute("pronounName")), GenderPronoun.valueOf(e.getAttribute("pronounName")).getFeminine());
-						}
-						
-						if(e.getAttribute("masculineValue")!="") {
-							genderPronounMale.put(GenderPronoun.valueOf(e.getAttribute("pronounName")), e.getAttribute("masculineValue"));
-						} else {
-							genderPronounMale.put(GenderPronoun.valueOf(e.getAttribute("pronounName")), GenderPronoun.valueOf(e.getAttribute("pronounName")).getMasculine());
-						}
+
+					if(!e.getAttribute("feminineValue").isEmpty()) {
+						genderPronounFemale.put(GenderPronoun.valueOf(e.getAttribute("pronounName")), e.getAttribute("feminineValue"));
+					} else {
+						genderPronounFemale.put(GenderPronoun.valueOf(e.getAttribute("pronounName")), GenderPronoun.valueOf(e.getAttribute("pronounName")).getFeminine());
+					}
+
+					if(!e.getAttribute("masculineValue").isEmpty()) {
+						genderPronounMale.put(GenderPronoun.valueOf(e.getAttribute("pronounName")), e.getAttribute("masculineValue"));
+					} else {
+						genderPronounMale.put(GenderPronoun.valueOf(e.getAttribute("pronounName")), GenderPronoun.valueOf(e.getAttribute("pronounName")).getMasculine());
 					}
 				}
 				
@@ -325,7 +340,7 @@ public class Properties implements Serializable {
 				for(int i=0; i<element.getElementsByTagName("preference").getLength(); i++){
 					Element e = ((Element)element.getElementsByTagName("preference").item(i));
 					
-					if(e.getAttribute("gender")!="")
+					if(!e.getAttribute("gender").isEmpty())
 						genderPreferencesMap.put(Gender.valueOf(e.getAttribute("gender")), Integer.valueOf(e.getAttribute("value")));
 				}
 				
@@ -335,13 +350,13 @@ public class Properties implements Serializable {
 				for(int i=0; i<element.getElementsByTagName("preferenceFeminine").getLength(); i++){
 					Element e = ((Element)element.getElementsByTagName("preferenceFeminine").item(i));
 					
-					if(e.getAttribute("race")!="")
+					if(!e.getAttribute("race").isEmpty())
 						raceFemininePreferencesMap.put(Race.valueOf(e.getAttribute("race")), FurryPreference.valueOf(e.getAttribute("preference")));
 				}
 				for(int i=0; i<element.getElementsByTagName("preferenceMasculine").getLength(); i++){
 					Element e = ((Element)element.getElementsByTagName("preferenceMasculine").item(i));
 					
-					if(e.getAttribute("race")!="")
+					if(!e.getAttribute("race").isEmpty())
 						raceMasculinePreferencesMap.put(Race.valueOf(e.getAttribute("race")), FurryPreference.valueOf(e.getAttribute("preference")));
 				}
 				

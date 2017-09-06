@@ -2,6 +2,7 @@ package com.base.game.character.npc.dominion;
 
 import com.base.game.character.NameTriplet;
 import com.base.game.character.SexualOrientation;
+import com.base.game.character.body.Covering;
 import com.base.game.character.body.types.BodyCoveringType;
 import com.base.game.character.body.valueEnums.AssSize;
 import com.base.game.character.body.valueEnums.Capacity;
@@ -18,6 +19,7 @@ import com.base.game.dialogue.DialogueNodeOld;
 import com.base.game.dialogue.responses.Response;
 import com.base.game.inventory.CharacterInventory;
 import com.base.game.inventory.clothing.AbstractClothing;
+import com.base.game.inventory.clothing.AbstractClothingType;
 import com.base.game.inventory.clothing.ClothingType;
 import com.base.utils.Colour;
 import com.base.world.WorldType;
@@ -33,19 +35,19 @@ public class CandiReceptionist extends NPC {
 	private static final long serialVersionUID = 1L;
 
 	private AbstractClothing
-			underwear = ClothingType.generateClothing(ClothingType.GROIN_THONG, Colour.CLOTHING_PINK_LIGHT, false),
+			underwear = AbstractClothingType.generateClothing(ClothingType.GROIN_THONG, Colour.CLOTHING_PINK_LIGHT, false),
 			
-			torso = ClothingType.generateClothing(ClothingType.ENFORCER_SHIRT, Colour.CLOTHING_WHITE, false),
-			shorts = ClothingType.generateClothing(ClothingType.ENFORCER_SHORTS, Colour.CLOTHING_WHITE, false),
+			torso = AbstractClothingType.generateClothing(ClothingType.ENFORCER_SHIRT, Colour.CLOTHING_WHITE, false),
+			shorts = AbstractClothingType.generateClothing(ClothingType.ENFORCER_SHORTS, Colour.CLOTHING_WHITE, false),
 			
-			boots = ClothingType.generateClothing(ClothingType.FOOT_THIGH_HIGH_BOOTS, Colour.CLOTHING_BROWN, false),
+			boots = AbstractClothingType.generateClothing(ClothingType.FOOT_THIGH_HIGH_BOOTS, Colour.CLOTHING_BROWN, false),
 			
-			neck = ClothingType.generateClothing(ClothingType.NECK_HEART_NECKLACE, Colour.CLOTHING_SILVER, false),
+			neck = AbstractClothingType.generateClothing(ClothingType.NECK_HEART_NECKLACE, Colour.CLOTHING_SILVER, false),
 			
-			ear = ClothingType.generateClothing(ClothingType.PIERCING_EAR_BASIC_RING, Colour.CLOTHING_GOLD, false),
-			nose = ClothingType.generateClothing(ClothingType.PIERCING_NOSE_BASIC_RING, Colour.CLOTHING_GOLD, false),
-			navel = ClothingType.generateClothing(ClothingType.PIERCING_NAVEL_GEM, Colour.CLOTHING_GOLD, false),
-			vagina = ClothingType.generateClothing(ClothingType.PIERCING_VAGINA_BARBELL_RING, Colour.CLOTHING_GOLD, false);
+			ear = AbstractClothingType.generateClothing(ClothingType.PIERCING_EAR_BASIC_RING, Colour.CLOTHING_GOLD, false),
+			nose = AbstractClothingType.generateClothing(ClothingType.PIERCING_NOSE_BASIC_RING, Colour.CLOTHING_GOLD, false),
+			navel = AbstractClothingType.generateClothing(ClothingType.PIERCING_NAVEL_GEM, Colour.CLOTHING_GOLD, false),
+			vagina = AbstractClothingType.generateClothing(ClothingType.PIERCING_VAGINA_BARBELL_RING, Colour.CLOTHING_GOLD, false);
 
 	public CandiReceptionist() {
 		super(new NameTriplet("Candi"),
@@ -56,10 +58,10 @@ public class CandiReceptionist extends NPC {
 
 		this.setSexualOrientation(SexualOrientation.AMBIPHILIC);
 		
-		this.setEyeColour(Colour.EYE_BLUE);
-		this.setHairColour(Colour.COVERING_BLEACH_BLONDE);
-		this.setSkinColour(BodyCoveringType.HUMAN, Colour.HUMAN_SKIN_OLIVE);
-		this.setSkinColour(BodyCoveringType.FELINE_FUR, Colour.COVERING_BLEACH_BLONDE);
+		this.setEyeCovering(new Covering(BodyCoveringType.EYE_FELINE, Colour.EYE_BLUE));
+		this.setHairCovering(new Covering(BodyCoveringType.HAIR_FELINE_FUR, Colour.COVERING_BLEACH_BLONDE), true);
+		this.setSkinCovering(new Covering(BodyCoveringType.FELINE_FUR, Colour.COVERING_BLEACH_BLONDE), true);
+		this.setSkinCovering(new Covering(BodyCoveringType.HUMAN, Colour.SKIN_OLIVE), true);
 
 		this.addFetish(Fetish.FETISH_BIMBO);
 		this.addFetish(Fetish.FETISH_ORAL_GIVING);

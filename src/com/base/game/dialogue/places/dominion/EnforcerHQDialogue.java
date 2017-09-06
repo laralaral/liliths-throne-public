@@ -4,9 +4,12 @@ import com.base.game.character.NameTriplet;
 import com.base.game.character.Quest;
 import com.base.game.character.QuestLine;
 import com.base.game.character.attributes.Attribute;
+import com.base.game.character.body.Covering;
+import com.base.game.character.body.types.BodyCoveringType;
 import com.base.game.character.body.types.PenisType;
 import com.base.game.character.body.types.VaginaType;
 import com.base.game.character.body.valueEnums.AssSize;
+import com.base.game.character.body.valueEnums.CoveringPattern;
 import com.base.game.character.body.valueEnums.CupSize;
 import com.base.game.character.body.valueEnums.Femininity;
 import com.base.game.character.body.valueEnums.HairLength;
@@ -21,9 +24,10 @@ import com.base.game.character.race.RaceStage;
 import com.base.game.dialogue.DialogueNodeOld;
 import com.base.game.dialogue.responses.Response;
 import com.base.game.dialogue.responses.ResponseCombat;
-import com.base.game.dialogue.responses.ResponseSex;
 import com.base.game.dialogue.responses.ResponseEffectsOnly;
+import com.base.game.dialogue.responses.ResponseSex;
 import com.base.game.dialogue.utils.UtilText;
+import com.base.game.inventory.clothing.AbstractClothingType;
 import com.base.game.inventory.clothing.ClothingType;
 import com.base.game.sex.managers.dominion.brax.SMBraxDom;
 import com.base.game.sex.managers.dominion.brax.SMBraxSubStart;
@@ -43,7 +47,7 @@ import com.base.world.places.EnforcerHQ;
 public class EnforcerHQDialogue {
 	
 	private static boolean isBraxMainQuestComplete() {
-		return Main.game.getPlayer().getMainQuestProgress() > Quest.MAIN_1_C_WOLFS_DEN.getSortingOrder();
+		return Main.game.getPlayer().isQuestProgressGreaterThan(QuestLine.MAIN, Quest.MAIN_1_C_WOLFS_DEN);
 	}
 
 	public static final DialogueNodeOld EXTERIOR = new DialogueNodeOld("Enforcer HQ", "Enforcer HQ", false) {
@@ -573,7 +577,7 @@ public class EnforcerHQDialogue {
 					return null;
 				}
 				
-			} else if (Main.game.getPlayer().getMainQuest() == Quest.MAIN_1_C_WOLFS_DEN && !Main.game.getDialogueFlags().accessToEnforcerHQ) {
+			} else if (Main.game.getPlayer().getQuest(QuestLine.MAIN) == Quest.MAIN_1_C_WOLFS_DEN && !Main.game.getDialogueFlags().accessToEnforcerHQ) {
 				if (index == 1) {
 					if(Main.game.getPlayer().hasFetish(Fetish.FETISH_BIMBO)) {
 						return new Response("Greet Candi", "Like, ohmygosh, she's so pretty and stuff!", INTERIOR_SECRETARY_BIMBO);
@@ -876,7 +880,7 @@ public class EnforcerHQDialogue {
 						Main.game.getBrax().setBreastSize(CupSize.C.getMeasurement());
 						
 						if(Main.getProperties().multiBreasts!=0) {
-							Main.game.getPlayer().setBreastRows(3);
+							Main.game.getBrax().setBreastRows(3);
 						}
 						
 						Main.game.getBrax().setHipSize(HipSize.THREE_GIRLY.getValue());
@@ -892,7 +896,7 @@ public class EnforcerHQDialogue {
 						
 						Main.game.getBrax().setVaginaVirgin(true);
 
-						Main.game.getBrax().equipClothing();
+						Main.game.getBrax().equipClothing(true, true);
 					}
 				};
 				
@@ -933,7 +937,7 @@ public class EnforcerHQDialogue {
 						+ "</p>"
 						+ "<p>"
 							+ "[candi.speechNoEffects(Aww Brax! You're, like, so cute!)] Candi squeals, bouncing up and down in excitement,"
-							+ " [candi.speechNoEffects(Ooh! You need a new name! You can be Bree! You like that pet?!)]"
+							+ " [candi.speechNoEffects(Ooh! You need a new name! You can be Bree! You like that, pet?!)]"
 						+ "</p>"
 						+ "<p>"
 							+ "Bree lets out a soft whimper, and her hands suddenly dart down between her legs."
@@ -1068,9 +1072,9 @@ public class EnforcerHQDialogue {
 						Main.game.getBrax().setHeight(162);
 
 						Main.game.getBrax().setHairLength(HairLength.FIVE_ABOVE_ASS.getMedianValue());
-						Main.game.getBrax().setHairColour(Colour.COVERING_BLEACH_BLONDE);
+						Main.game.getBrax().setSkinCovering(new Covering(BodyCoveringType.HAIR_LYCAN_FUR, CoveringPattern.NONE, Colour.COVERING_BLEACH_BLONDE, false, Colour.COVERING_BLEACH_BLONDE, false), true);
 						
-						Main.game.getBrax().equipClothing();
+						Main.game.getBrax().equipClothing(true, true);
 					}
 				};
 				
@@ -1437,7 +1441,7 @@ public class EnforcerHQDialogue {
 			return "<p>"
 					+ "You wonder just how gullible this 'Chief of Dominion Operations' really is, and, pushing your luck, you continue bluffing, "
 					+ UtilText.parsePlayerSpeech("You know, I pride myself on the fact that 'The She-wolf's Den' is only known only amongst the most important and influencial people in Dominion."
-							+ " You see, it takes people of that refinement to really appreciate the fact that I only hire only the most beautiful and skillful of wolf-girls.")
+							+ " You see, it takes people of that refinement to really appreciate the fact that I hire only the most beautiful and skillful of wolf-girls.")
 					+ "</p>"
 					+ "<p>"
 					+ "You struggle not to laugh as you see [brax.name]'s eyes glazing over with lust, "
@@ -1480,7 +1484,7 @@ public class EnforcerHQDialogue {
 				return new Response("Let him go", "Tell [brax.name] to have fun. From your directions, it'll take at least a couple of hours before he figures out he's been fooled.", INTERIOR_BRAX_LIE_BLUFFING_SUCCESS){
 					@Override
 					public QuestLine getQuestLine() {
-						if (Main.game.getPlayer().getMainQuest() == Quest.MAIN_1_C_WOLFS_DEN) {
+						if (Main.game.getPlayer().getQuest(QuestLine.MAIN) == Quest.MAIN_1_C_WOLFS_DEN) {
 							return QuestLine.MAIN;
 						} else {
 							return null;
@@ -1488,8 +1492,8 @@ public class EnforcerHQDialogue {
 					}
 					@Override
 					public void effects(){
-						Main.game.getPlayer().addClothing(ClothingType.generateClothing(ClothingType.ENFORCER_SHIRT), false);
-						Main.game.getPlayer().addClothing(ClothingType.generateClothing(ClothingType.ENFORCER_SHORTS), false);
+						Main.game.getPlayer().addClothing(AbstractClothingType.generateClothing(ClothingType.ENFORCER_SHIRT), false);
+						Main.game.getPlayer().addClothing(AbstractClothingType.generateClothing(ClothingType.ENFORCER_SHORTS), false);
 					}
 				};
 					
@@ -1631,15 +1635,15 @@ public class EnforcerHQDialogue {
 				return new Response("Read", "Read the piece of paper [brax.name] just have you.", INTERIOR_BRAX_GETTING_TEASED_UH_OH){
 					@Override
 					public QuestLine getQuestLine() {
-						if (Main.game.getPlayer().getMainQuest() == Quest.MAIN_1_C_WOLFS_DEN)
+						if (Main.game.getPlayer().getQuest(QuestLine.MAIN) == Quest.MAIN_1_C_WOLFS_DEN)
 							return QuestLine.MAIN;
 						else
 							return null;
 					}
 					@Override
 					public void effects(){
-						Main.game.getPlayer().addClothing(ClothingType.generateClothing(ClothingType.ENFORCER_SHIRT), false);
-						Main.game.getPlayer().addClothing(ClothingType.generateClothing(ClothingType.ENFORCER_SHORTS), false);
+						Main.game.getPlayer().addClothing(AbstractClothingType.generateClothing(ClothingType.ENFORCER_SHIRT), false);
+						Main.game.getPlayer().addClothing(AbstractClothingType.generateClothing(ClothingType.ENFORCER_SHORTS), false);
 					}
 				};
 					

@@ -3,6 +3,7 @@ package com.base.game.character.npc.dominion;
 import com.base.game.character.NameTriplet;
 import com.base.game.character.QuestLine;
 import com.base.game.character.SexualOrientation;
+import com.base.game.character.body.Covering;
 import com.base.game.character.body.types.BodyCoveringType;
 import com.base.game.character.body.valueEnums.Capacity;
 import com.base.game.character.body.valueEnums.CupSize;
@@ -18,7 +19,9 @@ import com.base.game.dialogue.places.dominion.harpyNests.HarpyNestNympho;
 import com.base.game.dialogue.responses.Response;
 import com.base.game.dialogue.utils.UtilText;
 import com.base.game.inventory.CharacterInventory;
+import com.base.game.inventory.clothing.AbstractClothingType;
 import com.base.game.inventory.clothing.ClothingType;
+import com.base.game.inventory.item.AbstractItemType;
 import com.base.game.inventory.item.ItemType;
 import com.base.game.sex.SexPace;
 import com.base.main.Main;
@@ -52,10 +55,10 @@ public class HarpyNympho extends NPC {
 		this.addFetish(Fetish.FETISH_BREASTS_SELF);
 		this.addFetish(Fetish.FETISH_EXHIBITIONIST);
 		
-		this.setEyeColour(Colour.EYE_GREEN);
-		this.setHairColour(Colour.FEATHERS_PINK);
-		this.setSkinColour(BodyCoveringType.HUMAN, Colour.HUMAN_SKIN_OLIVE);
-		this.setSkinColour(BodyCoveringType.FEATHERS, Colour.FEATHERS_WHITE);
+		this.setEyeCovering(new Covering(BodyCoveringType.EYE_HARPY, Colour.EYE_GREEN));
+		this.setHairCovering(new Covering(BodyCoveringType.HAIR_HARPY, Colour.FEATHERS_PINK), true);
+		this.setSkinCovering(new Covering(BodyCoveringType.FEATHERS, Colour.FEATHERS_WHITE), true);
+		this.setSkinCovering(new Covering(BodyCoveringType.HUMAN, Colour.SKIN_OLIVE), true);
 		
 		this.setFemininity(95);
 		
@@ -71,13 +74,13 @@ public class HarpyNympho extends NPC {
 		
 		this.setPiercedEar(true);
 
-		this.equipClothingFromNowhere(ClothingType.generateClothing(ClothingType.GROIN_CROTCHLESS_PANTIES, Colour.CLOTHING_PINK, false), true, this);
-		this.equipClothingFromNowhere(ClothingType.generateClothing(ClothingType.CHEST_OPEN_CUP_BRA, Colour.CLOTHING_PINK, false), true, this);
-		this.equipClothingFromNowhere(ClothingType.generateClothing(ClothingType.ANKLE_BRACELET, Colour.CLOTHING_GOLD, false), true, this);
-		this.equipClothingFromNowhere(ClothingType.generateClothing(ClothingType.WRIST_BANGLE, Colour.CLOTHING_GOLD, false), true, this);
-		this.equipClothingFromNowhere(ClothingType.generateClothing(ClothingType.FINGER_RING, Colour.CLOTHING_GOLD, false), true, this);
+		this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.GROIN_CROTCHLESS_PANTIES, Colour.CLOTHING_PINK, false), true, this);
+		this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.CHEST_OPEN_CUP_BRA, Colour.CLOTHING_PINK, false), true, this);
+		this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.ANKLE_BRACELET, Colour.CLOTHING_GOLD, false), true, this);
+		this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.WRIST_BANGLE, Colour.CLOTHING_GOLD, false), true, this);
+		this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.FINGER_RING, Colour.CLOTHING_GOLD, false), true, this);
 		
-		this.equipClothingFromNowhere(ClothingType.generateClothing(ClothingType.PIERCING_EAR_BASIC_RING, Colour.CLOTHING_SILVER, false), true, this);
+		this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.PIERCING_EAR_BASIC_RING, Colour.CLOTHING_SILVER, false), true, this);
 	}
 	
 	@Override
@@ -230,7 +233,7 @@ public class HarpyNympho extends NPC {
 				@Override
 				public void effects() {
 					Main.game.getDialogueFlags().nymphoPacified = true;
-					Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().addItem(ItemType.generateItem(ItemType.HARPY_MARTRIARCH_NYMPHO_LOLLIPOP), false));
+					Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().addItem(AbstractItemType.generateItem(ItemType.HARPY_MARTRIARCH_NYMPHO_LOLLIPOP), false));
 				}
 				@Override
 				public QuestLine getQuestLine() {

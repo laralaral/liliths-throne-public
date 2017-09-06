@@ -25,7 +25,7 @@ import com.base.utils.Util.ListValue;
  */
 public class PartnerTongueMouth {
 	
-	public static SexAction PARTNER_KISS_START = new SexAction(
+	public static final SexAction PARTNER_KISS_START = new SexAction(
 			SexActionType.PARTNER_PENETRATION,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -47,7 +47,55 @@ public class PartnerTongueMouth {
 			
 			UtilText.nodeContentSB.setLength(0);
 			
-			if(Sex.getPosition()==SexPosition.FACING_WALL_PLAYER) {// Face-to-wall penetration descriptions:
+			if(Sex.getPosition()==SexPosition.COWGIRL_PARTNER_TOP) {
+				
+				if (Sex.getPenetrationTypeInOrifice(OrificeType.ANUS_PARTNER) == PenetrationType.PENIS_PLAYER) {
+					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+							"[npc.Name] sinks down onto your [pc.penis+], letting out a happy squeal as [npc.she] feels you sink deep inside [npc.her] [npc.asshole+]."
+										+ " Bottoming out on your [pc.cock], [npc.she] leans down and grabs your head in both hands, before pulling you up into a passionate kiss.",
+							"With [npc.a_moan+], [npc.name] slides down onto your [pc.penis+], leaning down into your [pc.breasts] and breathing in your [pc.scent] before pressing [npc.her] [npc.lips+] against yours.",
+							"[npc.Name] lets your [pc.penis+] slide even deeper into [npc.her] [npc.asshole+] as [npc.she] leans down and pulls you into a desperate kiss.",
+							"Leaning down, [npc.name] lets out [npc.a_moan+] as [npc.she] buries [npc.herself] on your [pc.penis+], before leaning forwards and pressing [npc.her] [npc.lips+] against yours."));
+					
+				} else if (Sex.getPenetrationTypeInOrifice(OrificeType.VAGINA_PARTNER) == PenetrationType.PENIS_PLAYER) {
+					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+							"[npc.Name] sinks down onto your [pc.penis+], letting out a happy squeal as [npc.she] feels you sink deep inside [npc.her] [npc.pussy+]."
+										+ " Bottoming out on your [pc.cock], [npc.she] leans down and grabs your head in both hands, before pulling you up into a passionate kiss.",
+							"With [npc.a_moan+], [npc.name] slides down onto your [pc.penis+], leaning down into your [pc.breasts] and breathing in your [pc.scent] before pressing [npc.her] [npc.lips+] against yours.",
+							"[npc.Name] lets your [pc.penis+] slide even deeper into [npc.her] [npc.pussy+] as [npc.she] leans down and pulls you into a desperate kiss.",
+							"Leaning down, [npc.name] lets out [npc.a_moan+] as [npc.she] buries [npc.herself] on your [pc.penis+], before leaning forwards and pressing [npc.her] [npc.lips+] against yours."));
+					
+				} else {
+					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+							"[npc.Name] leans down, grabbing your head in both hands and pulling you up into a passionate kiss.",
+							"With a grin, [npc.name] leans down into your [pc.breasts], breathing in your [pc.scent] before pressing [npc.her] [npc.lips+] against yours.",
+							"Leaning down, [npc.name] lets out [npc.a_moan+] as [npc.she] presses [npc.her] [npc.lips+] against yours and starts to eagerly kiss you."));
+				}
+
+				switch(Sex.getSexPacePlayer()) {
+					case SUB_EAGER:
+						UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+								" You happily push your [pc.tongue] deep into [npc.her] mouth, eagerly pressing your [pc.lips+] back against [npc.hers] and [pc.moaning] in delight as you greedily return [npc.her] display of affection.",
+								" With an eager [pc.moan], you desperately grind back against [npc.herHim], muffling your [pc.moans] into [npc.her] mouth as you greedily thrust your [pc.tongue] past [npc.her] [npc.lips+].",
+								" [pc.Moaning] in delight, you desperately grind yourself back against [npc.herHim], eagerly pressing your [pc.lips+] firmly against [npc.hers] as you happily push your [pc.tongue] into [npc.her] mouth."));
+						break;
+					case SUB_NORMAL:
+						UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+								" You push your [pc.tongue] into [npc.her] mouth, pressing your [pc.lips+] back against [npc.hers] as you eagerly return [npc.her] display of affection.",
+								" With [pc.a_moan], you lean back against [npc.herHim], muffling your [pc.moans] into [npc.her] mouth as you eagerly thrust your [pc.tongue] past [npc.her] [npc.lips+].",
+								" [pc.Moaning] in delight, you lean back against [npc.herHim], pressing your [pc.lips+] against [npc.hers] as you happily slide your [pc.tongue] into [npc.her] mouth."));
+						break;
+					case SUB_RESISTING:
+						UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+								" You try to pull away, [pc.sobbing] and squirming in discomfort as [npc.she] forces [npc.herself] on you.",
+								" Your [pc.sob+] is muffled into [npc.her] mouth as you try to pull away, squirming in discomfort as [npc.name] forces [npc.herself] on you.",
+								" With [pc.a_sob+], you try, in vain, to pull away from [npc.herHim], protesting and squirming in discomfort as [npc.she] forces [npc.her] [npc.tongue] past your reluctant [pc.lips]."));
+						break;
+					default:
+						break;
+				}
+			
+			} else if(Sex.getPosition()==SexPosition.FACING_WALL_PLAYER) {// Face-to-wall penetration descriptions:
 				
 				switch(Sex.getSexPacePartner()) {
 					case DOM_GENTLE:
@@ -179,7 +227,7 @@ public class PartnerTongueMouth {
 		}
 	};
 	
-	public static SexAction PARTNER_KISS_DOM_GENTLE = new SexAction(
+	public static final SexAction PARTNER_KISS_DOM_GENTLE = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -250,7 +298,7 @@ public class PartnerTongueMouth {
 		}
 	};
 	
-	public static SexAction PARTNER_KISS_DOM_NORMAL = new SexAction(
+	public static final SexAction PARTNER_KISS_DOM_NORMAL = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -321,7 +369,7 @@ public class PartnerTongueMouth {
 		}
 	};
 	
-	public static SexAction PARTNER_KISS_DOM_ROUGH = new SexAction(
+	public static final SexAction PARTNER_KISS_DOM_ROUGH = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -403,7 +451,7 @@ public class PartnerTongueMouth {
 		}
 	};
 	
-	public static SexAction PARTNER_KISS_SUB_NORMAL = new SexAction(
+	public static final SexAction PARTNER_KISS_SUB_NORMAL = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -464,7 +512,7 @@ public class PartnerTongueMouth {
 		}
 	};
 	
-	public static SexAction PARTNER_KISS_SUB_EAGER = new SexAction(
+	public static final SexAction PARTNER_KISS_SUB_EAGER = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -526,7 +574,7 @@ public class PartnerTongueMouth {
 	};
 	
 	
-	public static SexAction PARTNER_KISS_STOP = new SexAction(
+	public static final SexAction PARTNER_KISS_STOP = new SexAction(
 			SexActionType.PARTNER_STOP_PENETRATION,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -583,7 +631,7 @@ public class PartnerTongueMouth {
 	
 	// Player reactions:
 	
-	public static SexAction PLAYER_KISS_DOM_GENTLE = new SexAction(
+	public static final SexAction PLAYER_KISS_DOM_GENTLE = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -642,7 +690,7 @@ public class PartnerTongueMouth {
 		}
 	};
 	
-	public static SexAction PLAYER_KISS_DOM_NORMAL = new SexAction(
+	public static final SexAction PLAYER_KISS_DOM_NORMAL = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -701,7 +749,7 @@ public class PartnerTongueMouth {
 		}
 	};
 	
-	public static SexAction PLAYER_KISS_DOM_ROUGH = new SexAction(
+	public static final SexAction PLAYER_KISS_DOM_ROUGH = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -771,7 +819,7 @@ public class PartnerTongueMouth {
 		}
 	};
 	
-	public static SexAction PLAYER_KISS_SUB_RESIST = new SexAction(
+	public static final SexAction PLAYER_KISS_SUB_RESIST = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -831,7 +879,7 @@ public class PartnerTongueMouth {
 		}
 	};
 	
-	public static SexAction PLAYER_KISS_SUB_NORMAL = new SexAction(
+	public static final SexAction PLAYER_KISS_SUB_NORMAL = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -903,7 +951,7 @@ public class PartnerTongueMouth {
 		}
 	};
 	
-	public static SexAction PLAYER_KISS_SUB_EAGER = new SexAction(
+	public static final SexAction PLAYER_KISS_SUB_EAGER = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -975,7 +1023,7 @@ public class PartnerTongueMouth {
 		}
 	};
 	
-	public static SexAction PLAYER_KISS_STOP = new SexAction(
+	public static final SexAction PLAYER_KISS_STOP = new SexAction(
 			SexActionType.PLAYER_STOP_PENETRATION,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,

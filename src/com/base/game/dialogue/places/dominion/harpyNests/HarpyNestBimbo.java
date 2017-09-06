@@ -8,6 +8,7 @@ import com.base.game.dialogue.DialogueNodeOld;
 import com.base.game.dialogue.responses.Response;
 import com.base.game.dialogue.responses.ResponseCombat;
 import com.base.game.dialogue.responses.ResponseSex;
+import com.base.game.inventory.item.AbstractItemType;
 import com.base.game.inventory.item.ItemEffectType;
 import com.base.game.inventory.item.ItemType;
 import com.base.game.sex.Sex;
@@ -95,7 +96,7 @@ public class HarpyNestBimbo {
 		@Override
 		public Response getResponse(int index) {
 			if (index == 1) {
-				if(!Main.game.getPlayer().hasSideQuest(QuestLine.SIDE_HARPY_PACIFICATION)) {
+				if(!Main.game.getPlayer().hasQuest(QuestLine.SIDE_HARPY_PACIFICATION)) {
 					return new Response("Approach [bimboHarpy.name]", "You have no need to talk to the matriarch of this nest.", null);
 					
 				} else if (Main.game.getCurrentWeather()==Weather.MAGIC_STORM) {
@@ -151,7 +152,7 @@ public class HarpyNestBimbo {
 										+ " [bimboHarpy.speechNoEffects(We've all been, like, super chilled out and stuff, right girls?!)]"
 							+ "</p>"
 							+ "<p>"
-								+ "A chorus of eager voices cry out in agreement, and you cna't help but smile down at [bimboHarpy.name] as she shuffles a little closer to you."
+								+ "A chorus of eager voices cry out in agreement, and you can't help but smile down at [bimboHarpy.name] as she shuffles a little closer to you."
 							+ "</p>"
 							+ "<p>"
 								+ "[bimboHarpy.speechNoEffects(Like, erm, I wanna, like, show my girls how good I am!)] she moans, barely able to contain the excitement in her voice,"
@@ -274,7 +275,7 @@ public class HarpyNestBimbo {
 						public void effects() {
 							Main.game.getDialogueFlags().bimboEncountered = true;
 							Main.game.getDialogueFlags().bimboPacified = true;
-							Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().addItem(ItemType.generateItem(ItemType.HARPY_MARTRIARCH_BIMBO_LOLLIPOP), false));
+							Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().addItem(AbstractItemType.generateItem(ItemType.HARPY_MARTRIARCH_BIMBO_LOLLIPOP), false));
 						}
 						@Override
 						public QuestLine getQuestLine() {
@@ -351,7 +352,7 @@ public class HarpyNestBimbo {
 					@Override
 					public void effects() {
 						Main.game.getDialogueFlags().bimboPacified = true;
-						Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().addItem(ItemType.generateItem(ItemType.HARPY_MARTRIARCH_BIMBO_LOLLIPOP), false));
+						Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().addItem(AbstractItemType.generateItem(ItemType.HARPY_MARTRIARCH_BIMBO_LOLLIPOP), false));
 					}
 					@Override
 					public QuestLine getQuestLine() {
@@ -588,8 +589,8 @@ public class HarpyNestBimbo {
 				return new Response("Punished", "[bimboHarpy.Name] proceeds with her punishment...", HARPY_NEST_BIMBO_FIGHT_LOSE_PUNISHMENT){
 					@Override
 					public void effects() {
-						if(Main.game.getPlayer().hasFetish(Fetish.FETISH_TRANSFORMATION)) {
-							Main.game.getTextEndStringBuilder().append(ItemEffectType.BIMBO_LOLLIPOP.applyEffect(null, null, Main.game.getHarpyBimbo(), Main.game.getPlayer()));
+						if(Main.game.isForcedTFEnabled()) {
+							Main.game.getTextEndStringBuilder().append(ItemEffectType.BIMBO_LOLLIPOP.applyEffect(null, null, null, 0, Main.game.getHarpyBimbo(), Main.game.getPlayer()));
 						}
 					}
 				};
@@ -667,8 +668,8 @@ public class HarpyNestBimbo {
 				return new Response("Punished", "[bimboHarpy.Name] proceeds with her punishment...", HARPY_NEST_BIMBO_FIGHT_LOSE_PUNISHMENT){
 					@Override
 					public void effects() {
-						if(Main.game.getPlayer().hasFetish(Fetish.FETISH_TRANSFORMATION)) {
-							Main.game.getTextEndStringBuilder().append(ItemEffectType.BIMBO_LOLLIPOP.applyEffect(null, null, Main.game.getHarpyBimbo(), Main.game.getPlayer()));
+						if(Main.game.isForcedTFEnabled()) {
+							Main.game.getTextEndStringBuilder().append(ItemEffectType.BIMBO_LOLLIPOP.applyEffect(null, null, null, 0, Main.game.getHarpyBimbo(), Main.game.getPlayer()));
 						}
 					}
 				};
@@ -766,7 +767,7 @@ public class HarpyNestBimbo {
 		
 		@Override
 		public String getContent() {
-			if(Main.game.getPlayer().hasFetish(Fetish.FETISH_TRANSFORMATION)) {
+			if(Main.game.isForcedTFEnabled()) {
 				return "<p>"
 						+ "[bimboHarpy.speechNoEffects(Y'know, I think I understand why, like, you're so angry and rude and stuff!)]"
 						+ " [bimboHarpy.name] giggles, stepping forwards to tower over you,"
@@ -822,7 +823,7 @@ public class HarpyNestBimbo {
 		@Override
 		public Response getResponse(int index) {
 			if (index == 1) {
-				if(Main.game.getPlayer().hasFetish(Fetish.FETISH_TRANSFORMATION)) {
+				if(Main.game.isForcedTFEnabled()) {
 					return new Response("Transformed...", "Having had their fun, you're quickly thrown out of the nest.", HARPY_NEST_BIMBO) {
 						@Override
 						public void effects() {

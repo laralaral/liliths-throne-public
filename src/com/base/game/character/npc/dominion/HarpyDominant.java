@@ -3,6 +3,7 @@ package com.base.game.character.npc.dominion;
 import com.base.game.character.NameTriplet;
 import com.base.game.character.QuestLine;
 import com.base.game.character.SexualOrientation;
+import com.base.game.character.body.Covering;
 import com.base.game.character.body.types.BodyCoveringType;
 import com.base.game.character.body.valueEnums.Capacity;
 import com.base.game.character.body.valueEnums.CupSize;
@@ -18,7 +19,9 @@ import com.base.game.dialogue.places.dominion.harpyNests.HarpyNestDominant;
 import com.base.game.dialogue.responses.Response;
 import com.base.game.dialogue.utils.UtilText;
 import com.base.game.inventory.CharacterInventory;
+import com.base.game.inventory.clothing.AbstractClothingType;
 import com.base.game.inventory.clothing.ClothingType;
+import com.base.game.inventory.item.AbstractItemType;
 import com.base.game.inventory.item.ItemType;
 import com.base.game.sex.SexPace;
 import com.base.main.Main;
@@ -48,10 +51,10 @@ public class HarpyDominant extends NPC {
 		this.addFetish(Fetish.FETISH_DOMINANT);
 		this.addFetish(Fetish.FETISH_SADIST);
 		
-		this.setEyeColour(Colour.EYE_BROWN);
-		this.setHairColour(Colour.FEATHERS_BLACK);
-		this.setSkinColour(BodyCoveringType.HUMAN, Colour.HUMAN_SKIN_EBONY);
-		this.setSkinColour(BodyCoveringType.FEATHERS, Colour.FEATHERS_RED);
+		this.setEyeCovering(new Covering(BodyCoveringType.EYE_HARPY, Colour.EYE_BROWN));
+		this.setHairCovering(new Covering(BodyCoveringType.HAIR_HARPY, Colour.FEATHERS_BLACK), true);
+		this.setSkinCovering(new Covering(BodyCoveringType.FEATHERS, Colour.FEATHERS_RED), true);
+		this.setSkinCovering(new Covering(BodyCoveringType.HUMAN, Colour.SKIN_EBONY), true);
 		
 		this.setFemininity(95);
 		
@@ -68,12 +71,12 @@ public class HarpyDominant extends NPC {
 		this.setPiercedEar(true);
 		this.setPiercedLip(true);
 
-		this.equipClothingFromNowhere(ClothingType.generateClothing(ClothingType.GROIN_THONG, Colour.CLOTHING_BLACK, false), true, this);
-		this.equipClothingFromNowhere(ClothingType.generateClothing(ClothingType.CHEST_PLUNGE_BRA, Colour.CLOTHING_BLACK, false), true, this);
-		this.equipClothingFromNowhere(ClothingType.generateClothing(ClothingType.TORSO_PLUNGE_DRESS, Colour.CLOTHING_BLACK, false), true, this);
+		this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.GROIN_THONG, Colour.CLOTHING_BLACK, false), true, this);
+		this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.CHEST_PLUNGE_BRA, Colour.CLOTHING_BLACK, false), true, this);
+		this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.TORSO_PLUNGE_DRESS, Colour.CLOTHING_BLACK, false), true, this);
 		
-		this.equipClothingFromNowhere(ClothingType.generateClothing(ClothingType.PIERCING_EAR_BASIC_RING, Colour.CLOTHING_SILVER, false), true, this);
-		this.equipClothingFromNowhere(ClothingType.generateClothing(ClothingType.PIERCING_LIP_RINGS, Colour.CLOTHING_SILVER, false), true, this);
+		this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.PIERCING_EAR_BASIC_RING, Colour.CLOTHING_SILVER, false), true, this);
+		this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.PIERCING_LIP_RINGS, Colour.CLOTHING_SILVER, false), true, this);
 	}
 
 	@Override
@@ -226,7 +229,7 @@ public class HarpyDominant extends NPC {
 				@Override
 				public void effects() {
 					Main.game.getDialogueFlags().dominantPacified = true;
-					Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().addItem(ItemType.generateItem(ItemType.HARPY_MARTRIARCH_DOMINANT_PERFUME), false));
+					Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().addItem(AbstractItemType.generateItem(ItemType.HARPY_MARTRIARCH_DOMINANT_PERFUME), false));
 				}
 				@Override
 				public QuestLine getQuestLine() {

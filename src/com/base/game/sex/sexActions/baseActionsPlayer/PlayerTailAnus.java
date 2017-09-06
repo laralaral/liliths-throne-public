@@ -23,7 +23,7 @@ import com.base.utils.Util.ListValue;
  */
 public class PlayerTailAnus {
 	
-	public static SexAction PLAYER_TEASE_TAIL_OVER_ANUS = new SexAction(
+	public static final SexAction PLAYER_TEASE_TAIL_OVER_ANUS = new SexAction(
 			SexActionType.PLAYER_REQUIRES_NO_PENETRATION_AND_EXPOSED,
 			ArousalIncrease.THREE_NORMAL,
 			ArousalIncrease.THREE_NORMAL,
@@ -119,7 +119,7 @@ public class PlayerTailAnus {
 		}
 	};
 	
-	public static SexAction PARTNER_FORCE_TAIL_OVER_ANUS = new SexAction(
+	public static final SexAction PARTNER_FORCE_TAIL_OVER_ANUS = new SexAction(
 			SexActionType.PARTNER_REQUIRES_NO_PENETRATION_AND_EXPOSED,
 			ArousalIncrease.THREE_NORMAL,
 			ArousalIncrease.THREE_NORMAL,
@@ -213,7 +213,7 @@ public class PlayerTailAnus {
 	};
 	
 	
-	public static SexAction PLAYER_FUCKING_START = new SexAction(
+	public static final SexAction PLAYER_FUCKING_START = new SexAction(
 			SexActionType.PLAYER_PENETRATION,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.FOUR_HIGH,
@@ -302,9 +302,19 @@ public class PlayerTailAnus {
 			
 			return UtilText.nodeContentSB.toString();
 		}
+		
+		@Override
+		public List<Fetish> getFetishesPlayer() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_GIVING));
+		}
+		
+		@Override
+		public List<Fetish> getFetishesPartner() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_RECEIVING));
+		}
 	};
 	
-	public static SexAction PLAYER_FUCKING_DOM_GENTLE = new SexAction(
+	public static final SexAction PLAYER_FUCKING_DOM_GENTLE = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.FOUR_HIGH,
@@ -361,9 +371,19 @@ public class PlayerTailAnus {
 			
 			return UtilText.nodeContentSB.toString();
 		}
+		
+		@Override
+		public List<Fetish> getFetishesPlayer() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_GIVING));
+		}
+		
+		@Override
+		public List<Fetish> getFetishesPartner() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_RECEIVING));
+		}
 	};
 	
-	public static SexAction PLAYER_FUCKING_DOM_NORMAL = new SexAction(
+	public static final SexAction PLAYER_FUCKING_DOM_NORMAL = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.FOUR_HIGH,
@@ -420,9 +440,19 @@ public class PlayerTailAnus {
 			
 			return UtilText.nodeContentSB.toString();
 		}
+		
+		@Override
+		public List<Fetish> getFetishesPlayer() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_GIVING));
+		}
+		
+		@Override
+		public List<Fetish> getFetishesPartner() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_RECEIVING));
+		}
 	};
 	
-	public static SexAction PLAYER_FUCKING_DOM_ROUGH = new SexAction(
+	public static final SexAction PLAYER_FUCKING_DOM_ROUGH = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.FOUR_HIGH,
@@ -482,16 +512,16 @@ public class PlayerTailAnus {
 
 		@Override
 		public List<Fetish> getFetishesPlayer() {
-			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_DOMINANT), new ListValue<>(Fetish.FETISH_SADIST));
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_GIVING), new ListValue<>(Fetish.FETISH_DOMINANT), new ListValue<>(Fetish.FETISH_SADIST));
 		}
 		
 		@Override
 		public List<Fetish> getFetishesPartner() {
-			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_SUBMISSIVE), new ListValue<>(Fetish.FETISH_MASOCHIST));
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_RECEIVING), new ListValue<>(Fetish.FETISH_SUBMISSIVE), new ListValue<>(Fetish.FETISH_MASOCHIST));
 		}
 	};
 	
-	public static SexAction PLAYER_FUCKING_SUB_NORMAL = new SexAction(
+	public static final SexAction PLAYER_FUCKING_SUB_NORMAL = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.FOUR_HIGH,
@@ -548,9 +578,19 @@ public class PlayerTailAnus {
 			
 			return UtilText.nodeContentSB.toString();
 		}
+		
+		@Override
+		public List<Fetish> getFetishesPlayer() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_GIVING));
+		}
+		
+		@Override
+		public List<Fetish> getFetishesPartner() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_RECEIVING));
+		}
 	};
 	
-	public static SexAction PLAYER_FUCKING_SUB_EAGER = new SexAction(
+	public static final SexAction PLAYER_FUCKING_SUB_EAGER = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.FOUR_HIGH,
@@ -609,12 +649,17 @@ public class PlayerTailAnus {
 		}
 		
 		@Override
+		public List<Fetish> getFetishesPlayer() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_GIVING));
+		}
+		
+		@Override
 		public List<Fetish> getFetishesPartner() {
-			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_SUBMISSIVE));
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_RECEIVING), new ListValue<>(Fetish.FETISH_SUBMISSIVE));
 		}
 	};
 	
-	public static SexAction PLAYER_FUCKING_SUB_RESIST = new SexAction(
+	public static final SexAction PLAYER_FUCKING_SUB_RESIST = new SexAction(
 			SexActionType.PLAYER,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.FOUR_HIGH,
@@ -673,12 +718,17 @@ public class PlayerTailAnus {
 		}
 		
 		@Override
+		public List<Fetish> getFetishesPlayer() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_GIVING));
+		}
+		
+		@Override
 		public List<Fetish> getFetishesPartner() {
-			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_DOMINANT),new ListValue<>(Fetish.FETISH_SADIST));
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_RECEIVING), new ListValue<>(Fetish.FETISH_DOMINANT),new ListValue<>(Fetish.FETISH_SADIST));
 		}
 	};
 	
-	public static SexAction PLAYER_FUCKING_STOP = new SexAction(
+	public static final SexAction PLAYER_FUCKING_STOP = new SexAction(
 			SexActionType.PLAYER_STOP_PENETRATION,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,
@@ -739,7 +789,7 @@ public class PlayerTailAnus {
 	
 	// Partner actions:
 	
-	public static SexAction PARTNER_USING_TAIL_START = new SexAction(
+	public static final SexAction PARTNER_USING_TAIL_START = new SexAction(
 			SexActionType.PARTNER_PENETRATION,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.FOUR_HIGH,
@@ -842,16 +892,16 @@ public class PlayerTailAnus {
 
 		@Override
 		public List<Fetish> getFetishesPlayer() {
-			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_SUBMISSIVE));
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_GIVING), new ListValue<>(Fetish.FETISH_SUBMISSIVE));
 		}
 		
 		@Override
 		public List<Fetish> getFetishesPartner() {
-			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_DOMINANT));
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_RECEIVING), new ListValue<>(Fetish.FETISH_DOMINANT));
 		}
 	};
 	
-	public static SexAction PARTNER_RIDING_TAIL_DOM_GENTLE = new SexAction(
+	public static final SexAction PARTNER_RIDING_TAIL_DOM_GENTLE = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.FOUR_HIGH,
@@ -887,9 +937,19 @@ public class PlayerTailAnus {
 				
 			return UtilText.nodeContentSB.toString();
 		}
+		
+		@Override
+		public List<Fetish> getFetishesPlayer() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_GIVING));
+		}
+		
+		@Override
+		public List<Fetish> getFetishesPartner() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_RECEIVING));
+		}
 	};
 	
-	public static SexAction PARTNER_RIDING_TAIL_DOM_NORMAL = new SexAction(
+	public static final SexAction PARTNER_RIDING_TAIL_DOM_NORMAL = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.FOUR_HIGH,
@@ -925,9 +985,19 @@ public class PlayerTailAnus {
 					
 			return UtilText.nodeContentSB.toString();
 		}
+		
+		@Override
+		public List<Fetish> getFetishesPlayer() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_GIVING));
+		}
+		
+		@Override
+		public List<Fetish> getFetishesPartner() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_RECEIVING));
+		}
 	};
 	
-	public static SexAction PARTNER_RIDING_TAIL_DOM_ROUGH = new SexAction(
+	public static final SexAction PARTNER_RIDING_TAIL_DOM_ROUGH = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.FOUR_HIGH,
@@ -963,9 +1033,19 @@ public class PlayerTailAnus {
 					
 			return UtilText.nodeContentSB.toString();
 		}
+		
+		@Override
+		public List<Fetish> getFetishesPlayer() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_GIVING));
+		}
+		
+		@Override
+		public List<Fetish> getFetishesPartner() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_RECEIVING));
+		}
 	};
 	
-	public static SexAction PARTNER_RIDING_TAIL_SUB_NORMAL = new SexAction(
+	public static final SexAction PARTNER_RIDING_TAIL_SUB_NORMAL = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.FOUR_HIGH,
@@ -1001,9 +1081,19 @@ public class PlayerTailAnus {
 			
 			return UtilText.nodeContentSB.toString();
 		}
+		
+		@Override
+		public List<Fetish> getFetishesPlayer() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_GIVING));
+		}
+		
+		@Override
+		public List<Fetish> getFetishesPartner() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_RECEIVING));
+		}
 	};
 	
-	public static SexAction PARTNER_RIDING_TAIL_SUB_EAGER = new SexAction(
+	public static final SexAction PARTNER_RIDING_TAIL_SUB_EAGER = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.FOUR_HIGH,
@@ -1039,9 +1129,19 @@ public class PlayerTailAnus {
 				
 			return UtilText.nodeContentSB.toString();
 		}
+		
+		@Override
+		public List<Fetish> getFetishesPlayer() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_GIVING));
+		}
+		
+		@Override
+		public List<Fetish> getFetishesPartner() {
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_RECEIVING));
+		}
 	};
 	
-	public static SexAction PARTNER_FUCKED_SUB_RESIST = new SexAction(
+	public static final SexAction PARTNER_FUCKED_SUB_RESIST = new SexAction(
 			SexActionType.PARTNER,
 			ArousalIncrease.FOUR_HIGH,
 			ArousalIncrease.TWO_LOW,
@@ -1102,16 +1202,16 @@ public class PlayerTailAnus {
 
 		@Override
 		public List<Fetish> getFetishesPlayer() {
-			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_DOMINANT), new ListValue<>(Fetish.FETISH_SADIST));
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_GIVING), new ListValue<>(Fetish.FETISH_DOMINANT), new ListValue<>(Fetish.FETISH_SADIST));
 		}
 		
 		@Override
 		public List<Fetish> getFetishesPartner() {
-			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_SUBMISSIVE), new ListValue<>(Fetish.FETISH_MASOCHIST));
+			return Util.newArrayListOfValues(new ListValue<>(Fetish.FETISH_ANAL_RECEIVING), new ListValue<>(Fetish.FETISH_SUBMISSIVE), new ListValue<>(Fetish.FETISH_MASOCHIST));
 		}
 	};
 	
-	public static SexAction PARTNER_FUCKED_STOP = new SexAction(
+	public static final SexAction PARTNER_FUCKED_STOP = new SexAction(
 			SexActionType.PARTNER_STOP_PENETRATION,
 			ArousalIncrease.TWO_LOW,
 			ArousalIncrease.TWO_LOW,

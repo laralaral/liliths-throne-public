@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.base.game.character.NameTriplet;
 import com.base.game.character.SexualOrientation;
+import com.base.game.character.body.Covering;
 import com.base.game.character.body.types.BodyCoveringType;
 import com.base.game.character.body.valueEnums.CupSize;
 import com.base.game.character.gender.Gender;
@@ -17,6 +18,7 @@ import com.base.game.dialogue.responses.Response;
 import com.base.game.inventory.AbstractCoreItem;
 import com.base.game.inventory.CharacterInventory;
 import com.base.game.inventory.clothing.AbstractClothing;
+import com.base.game.inventory.clothing.AbstractClothingType;
 import com.base.game.inventory.clothing.ClothingType;
 import com.base.utils.Colour;
 import com.base.utils.Util;
@@ -32,29 +34,30 @@ public class Nyan extends NPC {
 
 	private static final long serialVersionUID = 1L;
 
-	private AbstractClothing panties = ClothingType.generateClothing(ClothingType.GROIN_PANTIES, Colour.CLOTHING_WHITE, false),
-			skirt = ClothingType.generateClothing(ClothingType.LEG_PENCIL_SKIRT, Colour.CLOTHING_BLACK, false),
-			bra = ClothingType.generateClothing(ClothingType.CHEST_FULLCUP_BRA, Colour.CLOTHING_WHITE, false),
-			torso = ClothingType.generateClothing(ClothingType.TORSO_BLOUSE, Colour.CLOTHING_WHITE, false),
-			socks = ClothingType.generateClothing(ClothingType.SOCK_SOCKS, Colour.CLOTHING_WHITE, false),
-			shoes = ClothingType.generateClothing(ClothingType.FOOT_HEELS, Colour.CLOTHING_BLACK, false);
+	private AbstractClothing panties = AbstractClothingType.generateClothing(ClothingType.GROIN_PANTIES, Colour.CLOTHING_WHITE, false),
+			skirt = AbstractClothingType.generateClothing(ClothingType.LEG_PENCIL_SKIRT, Colour.CLOTHING_BLACK, false),
+			bra = AbstractClothingType.generateClothing(ClothingType.CHEST_FULLCUP_BRA, Colour.CLOTHING_WHITE, false),
+			torso = AbstractClothingType.generateClothing(ClothingType.TORSO_BLOUSE, Colour.CLOTHING_WHITE, false),
+			socks = AbstractClothingType.generateClothing(ClothingType.SOCK_SOCKS, Colour.CLOTHING_WHITE, false),
+			shoes = AbstractClothingType.generateClothing(ClothingType.FOOT_HEELS, Colour.CLOTHING_BLACK, false);
 
 	private List<AbstractClothing> commonFemaleClothing, commonFemaleLingerie, commonFemaleAccessories,
 									commonMaleClothing, commonMaleLingerie, commonMaleAccessories,
-									commonAndrogynousClothing, commonAndrogynousLingerie, commonAndrogynousAccessories;
+									commonAndrogynousClothing, commonAndrogynousLingerie, commonAndrogynousAccessories,
+									specials;
 
 	public Nyan() {
-		super(new NameTriplet("Nyan"), "Nyan the owner of the store 'Nyan's Clothing Emporium', found in Dominion's shopping arcade."
+		super(new NameTriplet("Nyan"), "Nyan is the owner of the store 'Nyan's Clothing Emporium', found in Dominion's shopping arcade."
 				+ " She's extremely shy, and gets very nervous when having to talk to people.",
 				10, Gender.FEMALE, RacialBody.CAT_MORPH, RaceStage.LESSER,
 				new CharacterInventory(10), WorldType.SHOPPING_ARCADE, ShoppingArcade.NYANS_SHOP_CLOTHING, true);
 
 		this.setSexualOrientation(SexualOrientation.AMBIPHILIC);
 		
-		this.setEyeColour(Colour.EYE_BLUE);
-		this.setHairColour(Colour.COVERING_BLONDE);
-		this.setSkinColour(BodyCoveringType.HUMAN, Colour.HUMAN_SKIN_LIGHT);
-		this.setSkinColour(BodyCoveringType.FELINE_FUR, Colour.COVERING_WHITE);
+		this.setEyeCovering(new Covering(BodyCoveringType.EYE_FELINE, Colour.EYE_BLUE));
+		this.setHairCovering(new Covering(BodyCoveringType.HAIR_FELINE_FUR, Colour.COVERING_BLONDE), true);
+		this.setSkinCovering(new Covering(BodyCoveringType.FELINE_FUR, Colour.COVERING_WHITE), true);
+		this.setSkinCovering(new Covering(BodyCoveringType.HUMAN, Colour.SKIN_LIGHT), true);
 
 		this.setBreastSize(CupSize.B.getMeasurement());
 		
@@ -67,6 +70,7 @@ public class Nyan extends NPC {
 		commonAndrogynousClothing = new ArrayList<>();
 		commonAndrogynousLingerie = new ArrayList<>();
 		commonAndrogynousAccessories = new ArrayList<>();
+		specials = new ArrayList<>();
 
 		applyReset();
 	}
@@ -95,67 +99,83 @@ public class Nyan extends NPC {
 		commonAndrogynousClothing.clear();
 		commonAndrogynousLingerie.clear();
 		commonAndrogynousAccessories.clear();
+		
+		specials.clear();
 
 		// Female:
-		for(ClothingType ct : ClothingType.getCommonFemaleClothing()) {
-			commonFemaleClothing.add(ClothingType.generateClothing(ct, false));
+		for(AbstractClothingType ct : ClothingType.getCommonFemaleClothing()) {
+			commonFemaleClothing.add(AbstractClothingType.generateClothing(ct, false));
 		}
 		for (int i = 0; i < 4; i++)
-			commonFemaleClothing.add(ClothingType.generateClothingWithEnchantment(ClothingType.getCommonFemaleClothing().get(Util.random.nextInt(ClothingType.getCommonFemaleClothing().size()))));
+			commonFemaleClothing.add(AbstractClothingType.generateClothingWithEnchantment(ClothingType.getCommonFemaleClothing().get(Util.random.nextInt(ClothingType.getCommonFemaleClothing().size()))));
 		
-		for(ClothingType ct : ClothingType.getCommonFemaleLingerie()) {
-			commonFemaleLingerie.add(ClothingType.generateClothing(ct, false));
+		for(AbstractClothingType ct : ClothingType.getCommonFemaleLingerie()) {
+			commonFemaleLingerie.add(AbstractClothingType.generateClothing(ct, false));
 		}
-		for (int i = 0; i < 3; i++)
-			commonFemaleLingerie.add(ClothingType.generateClothingWithEnchantment(ClothingType.getCommonFemaleLingerie().get(Util.random.nextInt(ClothingType.getCommonFemaleLingerie().size()))));
+//		for (int i = 0; i < 1; i++)
+//			commonFemaleLingerie.add(AbstractClothingType.generateClothingWithEnchantment(ClothingType.getCommonFemaleLingerie().get(Util.random.nextInt(ClothingType.getCommonFemaleLingerie().size()))));
 		
-		for(ClothingType ct : ClothingType.getCommonFemaleAccessories()) {
-			commonFemaleAccessories.add(ClothingType.generateClothing(ct, false));
+		for(AbstractClothingType ct : ClothingType.getCommonFemaleAccessories()) {
+			commonFemaleAccessories.add(AbstractClothingType.generateClothing(ct, false));
 		}
 		for (int i = 0; i < 4; i++)
-			commonFemaleAccessories.add(ClothingType.generateClothingWithEnchantment(ClothingType.getCommonFemaleAccessories().get(Util.random.nextInt(ClothingType.getCommonFemaleAccessories().size()))));
+			commonFemaleAccessories.add(AbstractClothingType.generateClothingWithEnchantment(ClothingType.getCommonFemaleAccessories().get(Util.random.nextInt(ClothingType.getCommonFemaleAccessories().size()))));
 		
 
 		// Male:
-		for(ClothingType ct : ClothingType.getCommonMaleClothing()) {
-			commonMaleClothing.add(ClothingType.generateClothing(ct, false));
+		for(AbstractClothingType ct : ClothingType.getCommonMaleClothing()) {
+			commonMaleClothing.add(AbstractClothingType.generateClothing(ct, false));
 		}
 		for (int i = 0; i < 4; i++)
-			commonMaleClothing.add(ClothingType.generateClothingWithEnchantment(ClothingType.getCommonMaleClothing().get(Util.random.nextInt(ClothingType.getCommonMaleClothing().size()))));
+			commonMaleClothing.add(AbstractClothingType.generateClothingWithEnchantment(ClothingType.getCommonMaleClothing().get(Util.random.nextInt(ClothingType.getCommonMaleClothing().size()))));
 		
-		for(ClothingType ct : ClothingType.getCommonMaleLingerie()) {
-			commonMaleLingerie.add(ClothingType.generateClothing(ct, false));
+		for(AbstractClothingType ct : ClothingType.getCommonMaleLingerie()) {
+			commonMaleLingerie.add(AbstractClothingType.generateClothing(ct, false));
 		}
 		for (int i = 0; i < 4; i++)
-			commonMaleLingerie.add(ClothingType.generateClothingWithEnchantment(ClothingType.getCommonMaleLingerie().get(Util.random.nextInt(ClothingType.getCommonMaleLingerie().size()))));
+			commonMaleLingerie.add(AbstractClothingType.generateClothingWithEnchantment(ClothingType.getCommonMaleLingerie().get(Util.random.nextInt(ClothingType.getCommonMaleLingerie().size()))));
 		
-		for(ClothingType ct : ClothingType.getCommonMaleAccessories()) {
-			commonMaleAccessories.add(ClothingType.generateClothing(ct, false));
+		for(AbstractClothingType ct : ClothingType.getCommonMaleAccessories()) {
+			commonMaleAccessories.add(AbstractClothingType.generateClothing(ct, false));
 		}
 		for (int i = 0; i < 4; i++)
-			commonMaleAccessories.add(ClothingType.generateClothingWithEnchantment(ClothingType.getCommonMaleAccessories().get(Util.random.nextInt(ClothingType.getCommonMaleAccessories().size()))));
+			commonMaleAccessories.add(AbstractClothingType.generateClothingWithEnchantment(ClothingType.getCommonMaleAccessories().get(Util.random.nextInt(ClothingType.getCommonMaleAccessories().size()))));
 		
 
 		// Androgynous:
-		for(ClothingType ct : ClothingType.getCommonAndrogynousClothing()) {
-			commonAndrogynousClothing.add(ClothingType.generateClothing(ct, false));
+		for(AbstractClothingType ct : ClothingType.getCommonAndrogynousClothing()) {
+			commonAndrogynousClothing.add(AbstractClothingType.generateClothing(ct, false));
 		}
 		for (int i = 0; i < 4; i++)
-			commonAndrogynousClothing.add(ClothingType.generateClothingWithEnchantment(ClothingType.getCommonAndrogynousClothing().get(Util.random.nextInt(ClothingType.getCommonAndrogynousClothing().size()))));
+			commonAndrogynousClothing.add(AbstractClothingType.generateClothingWithEnchantment(ClothingType.getCommonAndrogynousClothing().get(Util.random.nextInt(ClothingType.getCommonAndrogynousClothing().size()))));
 		
-		for(ClothingType ct : ClothingType.getCommonAndrogynousLingerie()) {
-			commonAndrogynousLingerie.add(ClothingType.generateClothing(ct, false));
+		for(AbstractClothingType ct : ClothingType.getCommonAndrogynousLingerie()) {
+			commonAndrogynousLingerie.add(AbstractClothingType.generateClothing(ct, false));
 		}
 		for (int i = 0; i < 4; i++)
-			commonAndrogynousLingerie.add(ClothingType.generateClothingWithEnchantment(ClothingType.getCommonAndrogynousLingerie().get(Util.random.nextInt(ClothingType.getCommonAndrogynousLingerie().size()))));
+			commonAndrogynousLingerie.add(AbstractClothingType.generateClothingWithEnchantment(ClothingType.getCommonAndrogynousLingerie().get(Util.random.nextInt(ClothingType.getCommonAndrogynousLingerie().size()))));
 		
-		for(ClothingType ct : ClothingType.getCommonAndrogynousAccessories()) {
-			commonAndrogynousAccessories.add(ClothingType.generateClothing(ct, false));
+		for(AbstractClothingType ct : ClothingType.getCommonAndrogynousAccessories()) {
+			commonAndrogynousAccessories.add(AbstractClothingType.generateClothing(ct, false));
 		}
 		for (int i = 0; i < 4; i++)
-			commonAndrogynousAccessories.add(ClothingType.generateClothingWithEnchantment(ClothingType.getCommonAndrogynousAccessories().get(Util.random.nextInt(ClothingType.getCommonAndrogynousAccessories().size()))));
+			commonAndrogynousAccessories.add(AbstractClothingType.generateClothingWithEnchantment(ClothingType.getCommonAndrogynousAccessories().get(Util.random.nextInt(ClothingType.getCommonAndrogynousAccessories().size()))));
 		
 		
+		// Specials:
+		specials.add(AbstractClothingType.generateClothing(ClothingType.SOCK_RAINBOW_STOCKINGS));
+		specials.add(AbstractClothingType.generateClothing(ClothingType.HAND_RAINBOW_FINGERLESS_GLOVES));
+
+		specials.add(AbstractClothingType.generateClothing(ClothingType.MILK_MAID_KERCHIEF));
+		specials.add(AbstractClothingType.generateClothing(ClothingType.MILK_MAID_TORSO_DRESS));
+
+		specials.add(AbstractClothingType.generateClothing(ClothingType.MAID_DRESS));
+		specials.add(AbstractClothingType.generateClothing(ClothingType.MAID_HEADPIECE));
+		specials.add(AbstractClothingType.generateClothing(ClothingType.MAID_HEELS));
+		specials.add(AbstractClothingType.generateClothing(ClothingType.MAID_SLEEVES));
+		specials.add(AbstractClothingType.generateClothing(ClothingType.MAID_STOCKINGS));
+
+		specials.add(AbstractClothingType.generateClothing(ClothingType.MEGA_MILK));
 		
 		for(AbstractClothing c : commonFemaleClothing) {
 			c.setEnchantmentKnown(true);
@@ -198,6 +218,8 @@ public class Nyan extends NPC {
 		commonAndrogynousClothing.remove(clothing);
 		commonAndrogynousLingerie.remove(clothing);
 		commonAndrogynousAccessories.remove(clothing);
+		
+		specials.remove(clothing);
 	}
 	
 	@Override
@@ -224,10 +246,7 @@ public class Nyan extends NPC {
 
 	@Override
 	public boolean willBuy(AbstractCoreItem item) {
-		if(item instanceof AbstractClothing)
-			return true;
-		
-		return false;
+		return item instanceof AbstractClothing;
 	}
 
 	@Override
@@ -274,6 +293,10 @@ public class Nyan extends NPC {
 
 	public List<AbstractClothing> getCommonAndrogynousAccessories() {
 		return commonAndrogynousAccessories;
+	}
+
+	public List<AbstractClothing> getSpecials() {
+		return specials;
 	}
 
 	// Combat (you never fight Nyan):

@@ -30,7 +30,7 @@ public enum BaseColour {
 	
 	TAN(Util.newColour(0xEDC491), Util.newColour(0xDC8D2E)),
 	BROWN(Util.newColour(0xD0A38B), Util.newColour(0xB5714A)),
-	BROWN_DARK(Util.newColour(0x8E6A52), Util.newColour(0x785945)),
+	BROWN_DARK(Util.newColour(0x9F775B), Util.newColour(0x785945)),
 	ORANGE(Util.newColour(0xFF9970), Util.newColour(0xFA4700)),
 	GINGER(Util.newColour(0xFF9147), Util.newColour(0xF06000)),
 	
@@ -40,7 +40,7 @@ public enum BaseColour {
 	
 	GREEN_LIME(Util.newColour(0xB4D987), Util.newColour(0x83BE3C)),
 	GREEN_LIGHT(Util.newColour(0x8fefbf), Util.newColour(0x1DB96B)),
-	GREEN(Util.newColour(0x1DB96B), Util.newColour(0x0D683B)),
+	GREEN(Util.newColour(0x57DB7E), Util.newColour(0x0D683B)),
 	
 	AQUA(Util.newColour(0x61FFFF), Util.newColour(0x009999)), // Ne, Kazuma...
 	TEAL(Util.newColour(0x6CBCB1), Util.newColour(0x439389)),

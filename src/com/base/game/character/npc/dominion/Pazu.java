@@ -3,6 +3,7 @@ package com.base.game.character.npc.dominion;
 import com.base.game.character.NameTriplet;
 import com.base.game.character.SexualOrientation;
 import com.base.game.character.attributes.Attribute;
+import com.base.game.character.body.Covering;
 import com.base.game.character.body.types.BodyCoveringType;
 import com.base.game.character.body.valueEnums.CupSize;
 import com.base.game.character.effects.Fetish;
@@ -15,6 +16,7 @@ import com.base.game.dialogue.DialogueNodeOld;
 import com.base.game.dialogue.responses.Response;
 import com.base.game.inventory.CharacterInventory;
 import com.base.game.inventory.clothing.AbstractClothing;
+import com.base.game.inventory.clothing.AbstractClothingType;
 import com.base.game.inventory.clothing.ClothingType;
 import com.base.main.Main;
 import com.base.utils.Colour;
@@ -23,7 +25,7 @@ import com.base.world.places.Jungle;
 
 /**
  * @since 0.1.79
- * @version 0.1.79
+ * @version 0.1.83
  * @author Innoxia, Kumiko
  */
 public class Pazu extends NPC {
@@ -31,7 +33,7 @@ public class Pazu extends NPC {
 	private static final long serialVersionUID = 1L;
 
 	private AbstractClothing
-			shorts = ClothingType.generateClothing(ClothingType.LEG_SHORTS, Colour.CLOTHING_WHITE, false);
+			shorts = AbstractClothingType.generateClothing(ClothingType.LEG_SHORTS, Colour.CLOTHING_WHITE, false);
 
 	public Pazu() {
 		super(new NameTriplet("Pazu"),
@@ -51,10 +53,10 @@ public class Pazu extends NPC {
 
 		this.setSexualOrientation(SexualOrientation.AMBIPHILIC);
 		
-		this.setEyeColour(Colour.EYE_PINK);
-		this.setHairColour(Colour.FEATHERS_LILAC);
-		this.setSkinColour(BodyCoveringType.HUMAN, Colour.HUMAN_SKIN_LIGHT);
-		this.setSkinColour(BodyCoveringType.FEATHERS, Colour.FEATHERS_LILAC);
+		this.setEyeCovering(new Covering(BodyCoveringType.EYE_HARPY, Colour.EYE_PINK));
+		this.setHairCovering(new Covering(BodyCoveringType.HAIR_HARPY, Colour.FEATHERS_LILAC), true);
+		this.setSkinCovering(new Covering(BodyCoveringType.FEATHERS, Colour.FEATHERS_LILAC), true);
+		this.setSkinCovering(new Covering(BodyCoveringType.HUMAN, Colour.SKIN_LIGHT), true);
 
 		this.setAssVirgin(true);
 		this.setFaceVirgin(true);

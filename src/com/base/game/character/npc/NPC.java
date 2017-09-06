@@ -32,6 +32,7 @@ import com.base.game.inventory.CharacterInventory;
 import com.base.game.inventory.clothing.CoverableArea;
 import com.base.game.inventory.enchanting.TFEssence;
 import com.base.game.inventory.item.AbstractItem;
+import com.base.game.inventory.item.AbstractItemType;
 import com.base.game.inventory.item.ItemType;
 import com.base.game.sex.LubricationType;
 import com.base.game.sex.OrificeType;
@@ -107,8 +108,8 @@ public abstract class NPC extends GameCharacter {
 	
 	public abstract DialogueNodeOld getEncounterDialogue();
 	
-	public void equipClothing() {
-		CharacterUtils.equipClothing(this, true);
+	public void equipClothing(boolean replaceUnsuitableClothing, boolean onlyAddCoreClothing) {
+		CharacterUtils.equipClothing(this, replaceUnsuitableClothing, onlyAddCoreClothing);
 	}
 	
 	public boolean isClothingStealable() {
@@ -204,77 +205,77 @@ public abstract class NPC extends GameCharacter {
 		if(rnd <= 0.7) {
 			switch(getRace()) {
 				case CAT_MORPH:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.INT_INGREDIENT_FELINE_FANCY)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.INT_INGREDIENT_FELINE_FANCY)));
 				case DOG_MORPH:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.FIT_INGREDIENT_CANINE_CRUSH)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.FIT_INGREDIENT_CANINE_CRUSH)));
 				case HORSE_MORPH:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.STR_INGREDIENT_EQUINE_CIDER)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.STR_INGREDIENT_EQUINE_CIDER)));
 				case WOLF_MORPH:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.STR_INGREDIENT_WOLF_WHISKEY)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.STR_INGREDIENT_WOLF_WHISKEY)));
 				case HUMAN:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.INT_INGREDIENT_VANILLA_WATER)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.INT_INGREDIENT_VANILLA_WATER)));
 				case ANGEL:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.DYE_BRUSH)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.DYE_BRUSH)));
 				case DEMON:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.COR_INGREDIENT_LILITHS_GIFT)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.COR_INGREDIENT_LILITHS_GIFT)));
 				case HARPY:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.SEX_INGREDIENT_HARPY_PERFUME)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.SEX_INGREDIENT_HARPY_PERFUME)));
 				case SLIME:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.DYE_BRUSH)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.DYE_BRUSH)));
 				case SQUIRREL_MORPH:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.FIT_INGREDIENT_SQUIRREL_JAVA)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.FIT_INGREDIENT_SQUIRREL_JAVA)));
 			}
 			
 		} else if(rnd <= 0.8 && !Main.game.getPlayer().getRacesAdvancedKnowledge().contains(getRace())) {
 			switch(getRace()) {
 				case CAT_MORPH:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.BOOK_CAT_MORPH)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.BOOK_CAT_MORPH)));
 				case DOG_MORPH:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.BOOK_DOG_MORPH)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.BOOK_DOG_MORPH)));
 				case HORSE_MORPH:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.BOOK_HORSE_MORPH)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.BOOK_HORSE_MORPH)));
 				case WOLF_MORPH:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.BOOK_WOLF_MORPH)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.BOOK_WOLF_MORPH)));
 				case HUMAN:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.BOOK_HUMAN)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.BOOK_HUMAN)));
 				case ANGEL:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.DYE_BRUSH)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.DYE_BRUSH)));
 				case DEMON:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.BOOK_DEMON)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.BOOK_DEMON)));
 				case HARPY:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.BOOK_HARPY)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.BOOK_HARPY)));
 				case SLIME:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.DYE_BRUSH)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.DYE_BRUSH)));
 				case SQUIRREL_MORPH:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.BOOK_SQUIRREL_MORPH)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.BOOK_SQUIRREL_MORPH)));
 			}
 		
 		} else {
 			switch(getRace()) {
 				case CAT_MORPH:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.RACE_INGREDIENT_CAT_MORPH)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.RACE_INGREDIENT_CAT_MORPH)));
 				case DOG_MORPH:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.RACE_INGREDIENT_DOG_MORPH)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.RACE_INGREDIENT_DOG_MORPH)));
 				case HORSE_MORPH:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.RACE_INGREDIENT_HORSE_MORPH)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.RACE_INGREDIENT_HORSE_MORPH)));
 				case WOLF_MORPH:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.RACE_INGREDIENT_WOLF_MORPH)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.RACE_INGREDIENT_WOLF_MORPH)));
 				case HUMAN:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.RACE_INGREDIENT_HUMAN)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.RACE_INGREDIENT_HUMAN)));
 				case ANGEL:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.RACE_INGREDIENT_HUMAN)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.RACE_INGREDIENT_HUMAN)));
 				case DEMON:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.RACE_INGREDIENT_DEMON)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.RACE_INGREDIENT_DEMON)));
 				case HARPY:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.RACE_INGREDIENT_HARPY)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.RACE_INGREDIENT_HARPY)));
 				case SLIME:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.RACE_INGREDIENT_HUMAN)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.RACE_INGREDIENT_HUMAN)));
 				case SQUIRREL_MORPH:
-					return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.RACE_INGREDIENT_SQUIRREL_MORPH)));
+					return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.RACE_INGREDIENT_SQUIRREL_MORPH)));
 			}
 		}
 		
-		return Util.newArrayListOfValues(new ListValue<>(ItemType.generateItem(ItemType.DYE_BRUSH)));
+		return Util.newArrayListOfValues(new ListValue<>(AbstractItemType.generateItem(ItemType.DYE_BRUSH)));
 	}
 	
 	public Map<TFEssence, Integer> getLootEssenceDrops() {
@@ -497,6 +498,10 @@ public abstract class NPC extends GameCharacter {
 				sexPositionPreferences.add(SexPosition.FACING_WALL_PLAYER);
 			}
 			
+			if(hasFetish(Fetish.FETISH_ANAL_RECEIVING) && playerCanUsePenis() && canUseAnus()) {
+				sexPositionPreferences.add(SexPosition.COWGIRL_PARTNER_TOP);
+			}
+			
 			if((hasFetish(Fetish.FETISH_IMPREGNATION) || hasFetish(Fetish.FETISH_SEEDER)) && canUsePenis() && playerCanUseVagina()) {
 				sexPositionPreferences.add(SexPosition.DOGGY_PLAYER_ON_ALL_FOURS);
 				sexPositionPreferences.add(SexPosition.FACING_WALL_PLAYER);
@@ -505,6 +510,7 @@ public abstract class NPC extends GameCharacter {
 			
 			if((hasFetish(Fetish.FETISH_PREGNANCY) || hasFetish(Fetish.FETISH_BROODMOTHER)) && playerCanUsePenis() && canUseVagina()) {
 				sexPositionPreferences.add(SexPosition.BACK_TO_WALL_PLAYER);
+				sexPositionPreferences.add(SexPosition.COWGIRL_PARTNER_TOP);
 			}
 			
 			if(sexPositionPreferences.isEmpty()) { // If no preferences found, add 'standard' positions
@@ -513,6 +519,7 @@ public abstract class NPC extends GameCharacter {
 				sexPositionPreferences.add(SexPosition.FACING_WALL_PLAYER);
 				sexPositionPreferences.add(SexPosition.KNEELING_PLAYER_PERFORMING_ORAL);
 				sexPositionPreferences.add(SexPosition.SIXTY_NINE_PARTNER_TOP);
+				sexPositionPreferences.add(SexPosition.COWGIRL_PARTNER_TOP);
 			}
 			
 		}
@@ -521,6 +528,17 @@ public abstract class NPC extends GameCharacter {
 	}
 	
 	public boolean isWantsToHaveSexWithPlayer() {
+		if(hasStatusEffect(StatusEffect.WEATHER_STORM_VULNERABLE)) { // If they're vulnerable to arcane storms, they will always be eager during a storm:
+			return true;
+		}
+		
+		if(hasStatusEffect(StatusEffect.FETISH_PURE_VIRGIN)
+				|| (getSexualOrientation()==SexualOrientation.ANDROPHILIC && Main.game.getPlayer().isFeminine())
+				|| (getSexualOrientation()==SexualOrientation.GYNEPHILIC && !Main.game.getPlayer().isFeminine())
+				|| hasFetish(Fetish.FETISH_NON_CON)) {
+			return false;
+		}
+		
 		if(mother!=null && father!=null) {
 			if(mother.isPlayer() || father.isPlayer()) {
 				if (!hasFetish(Fetish.FETISH_INCEST)) {
@@ -529,29 +547,22 @@ public abstract class NPC extends GameCharacter {
 			}
 		}
 		
-		return getSexPaceSubPreference()!=SexPace.SUB_RESISTING;
+		return true;
 	}
 
 	public SexPace getSexPaceSubPreference(){
-		if(hasStatusEffect(StatusEffect.WEATHER_STORM_VULNERABLE)) { // If they're vulnerable to arcane storms, they will always be eager during a storm:
-			return SexPace.SUB_EAGER;
+		if(!isWantsToHaveSexWithPlayer()) {
+			if(Main.game.isNonConEnabled()) {
+				return SexPace.SUB_RESISTING;
+				
+			} else {
+				return SexPace.SUB_NORMAL;
+				
+			}
 		}
 		
-		if(Main.game.isNonConEnabled()) {
-			if(hasStatusEffect(StatusEffect.FETISH_PURE_VIRGIN)
-					|| (getSexualOrientation()==SexualOrientation.ANDROPHILIC && Main.game.getPlayer().isFeminine())
-					|| (getSexualOrientation()==SexualOrientation.GYNEPHILIC && !Main.game.getPlayer().isFeminine())
-					|| hasFetish(Fetish.FETISH_NON_CON)) {
-				return SexPace.SUB_RESISTING;
-			}
-			
-			if(mother!=null && father!=null) {
-				if(mother.isPlayer() || father.isPlayer()) {
-					if (!hasFetish(Fetish.FETISH_INCEST)) {
-						return SexPace.SUB_RESISTING;
-					}
-				}
-			}
+		if(hasStatusEffect(StatusEffect.WEATHER_STORM_VULNERABLE)) { // If they're vulnerable to arcane storms, they will always be eager during a storm:
+			return SexPace.SUB_EAGER;
 		}
 		
 		if (hasFetish(Fetish.FETISH_SUBMISSIVE) // Subs like being sub I guess ^^
@@ -632,23 +643,20 @@ public abstract class NPC extends GameCharacter {
 	 */
 	public String getItemUseEffects(AbstractItem item, GameCharacter user, GameCharacter target){
 		// Player is using an item:
-		if(user.isPlayer()){
+		if(user.isPlayer()) {
 			// Player uses item on themselves:
-			if(target.isPlayer()){
+			if(target.isPlayer()) {
 				return Main.game.getPlayer().useItem(item, target, false);
 				
 			// Player uses item on NPC:
-			}else{
-				switch(item.getItemType()){
-					default:
-						return "<p>"
-								+ "You try to give [npc.name] "+item.getItemType().getDeterminer()+" "+item.getName()+", but [npc.she] refuses to take it. You put the "+item.getName()+" back in your inventory."
-								+ "</p>";
-				}
+			} else {
+				return "<p>"
+							+ "You try to give [npc.name] the "+item.getName()+", but [npc.she] refuses to take it. You put the "+item.getName()+" back in your inventory."
+						+ "</p>";
 			}
 			
 		// NPC is using an item:
-		}else{
+		} else {
 			return Sex.getPartner().useItem(item, target, false);
 		}
 	}
@@ -3922,7 +3930,10 @@ public abstract class NPC extends GameCharacter {
 						}
 						
 					} else {
-						if (Main.game.getPlayer().getBreastRawSizeValue() <= CupSize.C.getMeasurement()) {
+						if (!Main.game.getPlayer().hasBreasts()) {
+							return "";
+							
+						} else if (Main.game.getPlayer().getBreastRawSizeValue() <= CupSize.C.getMeasurement()) {
 							return "<p>"
 									+ "In a very patronising voice, [npc.name] reacts to your breasts being revealed, "
 									+ UtilText.parseSpeech("Aww, you trying to become a girl?", Sex.getPartner())
@@ -3980,7 +3991,10 @@ public abstract class NPC extends GameCharacter {
 						}
 						
 					} else {
-						if (Main.game.getPlayer().getBreastRawSizeValue() <= CupSize.C.getMeasurement()) {
+						if (!Main.game.getPlayer().hasBreasts()) {
+							return "";
+							
+						} else if (Main.game.getPlayer().getBreastRawSizeValue() <= CupSize.C.getMeasurement()) {
 							return (
 									"<p>"
 										+ "In a mocking tone, [npc.name] questions you as your tiny breasts are revealed, "
@@ -4045,7 +4059,10 @@ public abstract class NPC extends GameCharacter {
 						}
 		
 					} else {
-						if (Main.game.getPlayer().getBreastRawSizeValue() <= CupSize.C.getMeasurement()) {
+						if (!Main.game.getPlayer().hasBreasts()) {
+							return "";
+							
+						} else if (Main.game.getPlayer().getBreastRawSizeValue() <= CupSize.C.getMeasurement()) {
 							return "<p>"
 									+ "[npc.Name] grins at you as your [pc.breastSize] breasts are revealed, "
 									+ UtilText.parseSpeech("Aww, you trying to become a girl?", Sex.getPartner())
@@ -4109,7 +4126,10 @@ public abstract class NPC extends GameCharacter {
 						}
 						
 					} else {
-						if (Main.game.getPlayer().getBreastRawSizeValue() <= CupSize.C.getMeasurement()) {
+						if (!Main.game.getPlayer().hasBreasts()) {
+							return "";
+							
+						} else if (Main.game.getPlayer().getBreastRawSizeValue() <= CupSize.C.getMeasurement()) {
 							return "<p>"
 										+ "[npc.Name] bursts out laughing as your [pc.breastSize] breasts are revealed, "
 										+ UtilText.parseSpeech("Hahaha, you trying to become a girl?!", Sex.getPartner())
@@ -4854,7 +4874,7 @@ public abstract class NPC extends GameCharacter {
 							"Pressing [npc.her] [npc.lips+] against yours, [npc.name] continues making out with you.");
 				case SUB_RESISTING:
 					return UtilText.returnStringAtRandom(
-							"[npc.Name]'s [pc.sobs+] are muffled into your mouth as [npc.she] desperately tries to push you away from [npc.herHim].",
+							"[npc.Name]'s [npc.sobs+] are muffled into your mouth as [npc.she] desperately tries to push you away from [npc.herHim].",
 							"[npc.Name] tries to pull [npc.her] [npc.lips+] away from yours as [npc.she] struggles against you.",
 							"Trying to pull [npc.her] [npc.lips+] away from yours, [npc.name] continues struggling against your unwanted kiss.");
 			}
@@ -5483,6 +5503,7 @@ public abstract class NPC extends GameCharacter {
 							case SLIME:
 								break;
 						}
+						break;
 					
 					default:
 						break;
@@ -5507,6 +5528,7 @@ public abstract class NPC extends GameCharacter {
 							default:
 								break;
 						}
+						break;
 					
 					default:
 						break;
@@ -5549,6 +5571,7 @@ public abstract class NPC extends GameCharacter {
 							case SLIME:
 								break;
 						}
+						break;
 					
 					default:
 						break;
@@ -5573,6 +5596,7 @@ public abstract class NPC extends GameCharacter {
 							default:
 								break;
 						}
+						break;
 					
 					default:
 						break;
@@ -5615,6 +5639,7 @@ public abstract class NPC extends GameCharacter {
 							case SLIME:
 								break;
 						}
+						break;
 					
 					default:
 						break;
@@ -5639,6 +5664,7 @@ public abstract class NPC extends GameCharacter {
 							default:
 								break;
 						}
+						break;
 					
 					default:
 						break;
@@ -5681,6 +5707,7 @@ public abstract class NPC extends GameCharacter {
 							case SLIME:
 								break;
 						}
+						break;
 					
 					default:
 						break;
@@ -5726,6 +5753,7 @@ public abstract class NPC extends GameCharacter {
 							case SLIME:
 								break;
 						}
+						break;
 					
 					default:
 						break;
@@ -5932,7 +5960,7 @@ public abstract class NPC extends GameCharacter {
 		if(Sex.getPartner().hasFetish(Fetish.FETISH_DEFLOWERING)) {
 			StringBuilderSB.append(
 					"<p>"
-						+ "[npc.speech(Oh, yes!)] she cries, [npc.speech(Good [pc.girl], saving your anal virginity for me!"
+						+ "[npc.speech(Oh, yes!)] [npc.she] cries, [npc.speech(Good [pc.girl], saving your anal virginity for me!"
 							+ " Remember this moment, remember that <i>my</i> "+(isPenis?"cock":"")+(isTail?"tail":"")+" was the the one that turned you into "+(Main.game.getPlayer().isFeminine()?"a horny buttslut":"a little fucktoy")+"!)]"
 					+ "</p>");
 		}
@@ -6011,7 +6039,7 @@ public abstract class NPC extends GameCharacter {
 		if(Sex.getPartner().hasFetish(Fetish.FETISH_DEFLOWERING)) {
 			StringBuilderSB.append(
 					"<p>"
-						+ "[npc.speech(Oh, yes!)] she cries, [npc.speech(Good [pc.girl], saving your virginity for me!"
+						+ "[npc.speech(Oh, yes!)] [npc.she] cries, [npc.speech(Good [pc.girl], saving your virginity for me!"
 							+ " Remember this moment, remember that <i>my</i> "+(isPenis?"cock":"")+(isTail?"tail":"")+" was the the one that broke you in!)]"
 					+ "</p>");
 		}

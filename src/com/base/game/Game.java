@@ -3,14 +3,11 @@ package com.base.game;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.base.controller.MainController;
 import com.base.controller.TooltipUpdateThread;
@@ -20,12 +17,12 @@ import com.base.game.character.QuestLine;
 import com.base.game.character.attributes.AffectionLevel;
 import com.base.game.character.attributes.Attribute;
 import com.base.game.character.attributes.ObedienceLevel;
-import com.base.game.character.effects.Fetish;
 import com.base.game.character.effects.StatusEffect;
 import com.base.game.character.npc.NPC;
 import com.base.game.character.npc.dominion.Alexa;
 import com.base.game.character.npc.dominion.Brax;
 import com.base.game.character.npc.dominion.CandiReceptionist;
+import com.base.game.character.npc.dominion.Finch;
 import com.base.game.character.npc.dominion.HarpyBimbo;
 import com.base.game.character.npc.dominion.HarpyBimboCompanion;
 import com.base.game.character.npc.dominion.HarpyDominant;
@@ -35,13 +32,13 @@ import com.base.game.character.npc.dominion.HarpyNymphoCompanion;
 import com.base.game.character.npc.dominion.Kate;
 import com.base.game.character.npc.dominion.Lilaya;
 import com.base.game.character.npc.dominion.NPCRandomDominion;
-import com.base.game.character.npc.dominion.Nikki;
 import com.base.game.character.npc.dominion.Nyan;
 import com.base.game.character.npc.dominion.Pazu;
 import com.base.game.character.npc.dominion.Pix;
 import com.base.game.character.npc.dominion.Ralph;
 import com.base.game.character.npc.dominion.Rose;
 import com.base.game.character.npc.dominion.Scarlett;
+import com.base.game.character.npc.dominion.TestNPC;
 import com.base.game.character.npc.dominion.Vicky;
 import com.base.game.character.npc.generic.GenericAndrogynousNPC;
 import com.base.game.character.npc.generic.GenericFemaleNPC;
@@ -58,9 +55,7 @@ import com.base.game.dialogue.responses.ResponseSex;
 import com.base.game.dialogue.responses.ResponseTrade;
 import com.base.game.dialogue.utils.MiscellaneousDialogue;
 import com.base.game.dialogue.utils.UtilText;
-import com.base.game.inventory.clothing.ClothingType;
 import com.base.game.inventory.clothing.CoverableArea;
-import com.base.game.inventory.weapon.WeaponType;
 import com.base.main.Main;
 import com.base.rendering.RenderingEngine;
 import com.base.rendering.SVGImages;
@@ -75,7 +70,7 @@ import com.base.world.places.PlaceInterface;
 
 /**
  * @since 0.1.0
- * @version 0.1.8
+ * @version 0.1.83
  * @author Innoxia
  */
 public class Game implements Serializable {
@@ -88,6 +83,7 @@ public class Game implements Serializable {
 	
 	// Unique NPCs:
 	private NPC
+		testNPC,				// NPC for testing purposes.
 		lilaya,		 			// The player's aunt.
 		rose,		 			// Lilaya's slave.
 		brax,		 			// The enforcer chief.
@@ -107,7 +103,7 @@ public class Game implements Serializable {
 		harpyNymphoCompanion, 	// Nymphomaniac harpy matriarch's companion.
 		pazu,					// Kumiko's harpy.
 		candiReceptionist,		// Receptionist at the Enforcer HQ.	 
-		nikki;					// Manager of Slaver Alley's 'Slave Administration'
+		finch;					// Manager of Slaver Alley's 'Slave Administration'
 	
 	// Generic NPCS:
 	private NPC genericMaleNPC, genericFemaleNPC, genericAndrogynousNPC;
@@ -133,10 +129,6 @@ public class Game implements Serializable {
 	private int weatherTimeRemaining;
 
 	private DialogueFlags dialogueFlags;
-
-	// Maps of unlocked:
-	private Map<ClothingType, Set<Colour>> unlockedClothes;
-	private List<WeaponType> unlockedWeapons;
 
 	// Responses:
 	private int responsePointer = 0;
@@ -167,9 +159,6 @@ public class Game implements Serializable {
 		hintsOn = false;
 		started = false;
 
-		unlockedClothes = new HashMap<>();
-		unlockedWeapons = new ArrayList<>();
-
 		// Start in clouds:
 		currentWeather = Weather.CLOUD;
 		weatherTimeRemaining = 300;
@@ -182,6 +171,9 @@ public class Game implements Serializable {
 		
 		playerOffspring = new ArrayList<>();
 		offspringSpawned = new ArrayList<>();
+		
+		testNPC = new TestNPC();
+		NPCList.add(testNPC);
 		
 		lilaya = new Lilaya();
 		NPCList.add(lilaya);
@@ -262,8 +254,8 @@ public class Game implements Serializable {
 		pazu = new Pazu();
 		NPCList.add(pazu);
 		
-		nikki = new Nikki();
-		NPCList.add(nikki);
+		finch = new Finch();
+		NPCList.add(finch);
 		
 		
 		genericMaleNPC = new GenericMaleNPC();
@@ -322,7 +314,7 @@ public class Game implements Serializable {
 			npc.calculateStatusEffects(turnTime);
 			
 			if(npc.isPendingClothingDressing()) {
-				npc.equipClothing();
+				npc.equipClothing(true, true);
 				npc.setPendingClothingDressing(false);
 			}
 			
@@ -404,15 +396,15 @@ public class Game implements Serializable {
 				
 				@Override
 				public void effects() {
-					if(!Main.game.getPlayer().hasSideQuest(QuestLine.SIDE_ENCHANTMENT_DISCOVERY) && Main.game.getPlayer().hasNonArcaneEssences()) {
+					if(!Main.game.getPlayer().hasQuest(QuestLine.SIDE_ENCHANTMENT_DISCOVERY) && Main.game.getPlayer().hasNonArcaneEssences()) {
 						Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().incrementQuest(QuestLine.SIDE_ENCHANTMENT_DISCOVERY));
 					}
 					
-					if(!Main.game.getPlayer().hasSideQuest(QuestLine.SIDE_JINXED_CLOTHING) && Main.game.getPlayer().hasStatusEffect(StatusEffect.CLOTHING_JINXED)) {
+					if(!Main.game.getPlayer().hasQuest(QuestLine.SIDE_JINXED_CLOTHING) && Main.game.getPlayer().hasStatusEffect(StatusEffect.CLOTHING_JINXED)) {
 						Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().incrementQuest(QuestLine.SIDE_JINXED_CLOTHING));
 					}
 					
-					if (!Main.game.getPlayer().hasSideQuest(QuestLine.SIDE_FIRST_TIME_PREGNANCY) && Main.game.getPlayer().isVisiblyPregnant()) {
+					if (!Main.game.getPlayer().hasQuest(QuestLine.SIDE_FIRST_TIME_PREGNANCY) && Main.game.getPlayer().isVisiblyPregnant()) {
 						Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().incrementQuest(QuestLine.SIDE_FIRST_TIME_PREGNANCY));
 					}
 				}	
@@ -841,11 +833,7 @@ public class Game implements Serializable {
 	/**
 	 * Sets the content of the main WebView based on a DialogueNode.
 	 * 
-	 * @param node
-	 *            The DialogueNode to set the content of.
-	 * @param isRestore
-	 *            True if this is a restoration after using inventory-like
-	 *            dialogue.
+	 * @param response
 	 */
 	public void setContent(Response response) {
 		setContent(response, true, null, null);
@@ -891,10 +879,10 @@ public class Game implements Serializable {
 		
 		if (responsePage > 0) {
 			choicesDialogueSB.append("<div class='response-switcher left' id='switch_left'><b class='hotkey-icon'>"
-					+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_PREVIOUS_PAGE) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_PREVIOUS_PAGE).getName()) + "</b>&#60</div>");
+					+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_PREVIOUS_PAGE) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_PREVIOUS_PAGE).getFullName()) + "</b>&#60</div>");
 		} else {
 			choicesDialogueSB.append("<div class='response-switcher left disabled' id='switch_left'><b class='hotkey-icon disabled'>"
-					+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_PREVIOUS_PAGE) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_PREVIOUS_PAGE).getName())
+					+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_PREVIOUS_PAGE) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_PREVIOUS_PAGE).getFullName())
 					+ "</b><span class='option-disabled'>&#60</span></div>");
 		}
 		
@@ -945,11 +933,11 @@ public class Game implements Serializable {
 		
 		if (node.getResponse(((responsePage + 1) * MainController.RESPONSE_COUNT)) != null){
 			choicesDialogueSB.append("<div class='response-switcher right' id='switch_right'><b class='hotkey-icon'>"
-					+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_NEXT_PAGE) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_NEXT_PAGE).getName()) + "</b>" + "&#62</div>");
+					+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_NEXT_PAGE) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_NEXT_PAGE).getFullName()) + "</b>" + "&#62</div>");
 			
 		}else{
 			choicesDialogueSB.append("<div class='response-switcher right disabled' id='switch_right'><b class='hotkey-icon disabled'>"
-					+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_NEXT_PAGE) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_NEXT_PAGE).getName())
+					+ (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_NEXT_PAGE) == null ? "" : Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_NEXT_PAGE).getFullName())
 					+ "</b><span class='option-disabled'>&#62</span></div>");
 		}
 		
@@ -1079,98 +1067,21 @@ public class Game implements Serializable {
 	}
 
 	private String getResponseHotkey(int i) {
-		if (i == 0) {
-			if (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_0) == null)
-				return "";
-			else
-				return Util.getKeyCodeCharacter(Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_0));
-			
-		} else if (i == 1) {
-			if (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_1) == null)
-				return "";
-			else
-				return Util.getKeyCodeCharacter(Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_1));
-			
-		} else if (i == 2) {
-			if (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_2) == null)
-				return "";
-			else
-				return Util.getKeyCodeCharacter(Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_2));
-			
-		} else if (i == 3) {
-			if (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_3) == null)
-				return "";
-			else
-				return Util.getKeyCodeCharacter(Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_3));
-			
-		} else if (i == 4) {
-			if (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_4) == null)
-				return "";
-			else
-				return Util.getKeyCodeCharacter(Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_4));
-			
-		} else if (i == 5) {
-			if (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_5) == null)
-				return "";
-			else
-				return Util.getKeyCodeCharacter(Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_5));
-			
-		} else if (i == 6) {
-			if (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_6) == null)
-				return "";
-			else
-				return Util.getKeyCodeCharacter(Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_6));
-			
-		} else if (i == 7) {
-			if (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_7) == null)
-				return "";
-			else
-				return Util.getKeyCodeCharacter(Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_7));
-			
-		} else if (i == 8) {
-			if (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_8) == null)
-				return "";
-			else
-				return Util.getKeyCodeCharacter(Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_8));
-			
-		} else if (i == 9) {
-			if (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_9) == null)
-				return "";
-			else
-				return Util.getKeyCodeCharacter(Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_9));
-			
-		} else if (i == 10) {
-			if (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_1) == null)
-				return "";
-			else
-				return "Ctrl + "+Util.getKeyCodeCharacter(Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_1));
-			
-		} else if (i == 11) {
-			if (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_2) == null)
-				return "";
-			else
-				return "Ctrl + "+Util.getKeyCodeCharacter(Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_2));
-			
-		} else if (i == 12) {
-			if (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_3) == null)
-				return "";
-			else
-				return "Ctrl + "+Util.getKeyCodeCharacter(Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_3));
-			
-		} else if (i == 13) {
-			if (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_4) == null)
-				return "";
-			else
-				return "Ctrl + "+Util.getKeyCodeCharacter(Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_4));
-			
-		} else if (i == 14) {
-			if (Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_5) == null)
-				return "";
-			else
-				return "Ctrl + "+Util.getKeyCodeCharacter(Main.getProperties().hotkeyMapPrimary.get(KeyboardAction.RESPOND_5));
-		}
+		if (!(0 <= i && i <= 14)) { return ""; }
 		
-		return "";
+		KeyboardAction[] keyboardActions = 
+			{
+					KeyboardAction.RESPOND_0, KeyboardAction.RESPOND_1, KeyboardAction.RESPOND_2, KeyboardAction.RESPOND_3, KeyboardAction.RESPOND_4,
+					KeyboardAction.RESPOND_5, KeyboardAction.RESPOND_6, KeyboardAction.RESPOND_7, KeyboardAction.RESPOND_8, KeyboardAction.RESPOND_9,
+					KeyboardAction.RESPOND_10, KeyboardAction.RESPOND_11, KeyboardAction.RESPOND_12, KeyboardAction.RESPOND_13, KeyboardAction.RESPOND_14
+			};
+		KeyboardAction currentAction = keyboardActions[i];
+		KeyCodeWithModifiers hotkeyForCurrentAction = Main.getProperties().hotkeyMapPrimary.get(currentAction);
+		if (hotkeyForCurrentAction == null) {
+			return "";
+		} else {
+			return hotkeyForCurrentAction.asHotkey();
+		}
 	}
 	
 
@@ -1421,7 +1332,7 @@ public class Game implements Serializable {
 			}
 		}
 		
-		Collections.sort(charactersPresent, (a, b)->{return a.getName().compareTo(b.getName());});
+		charactersPresent.sort(Comparator.comparing(GameCharacter::getName));
 		
 		return charactersPresent;
 	}
@@ -1571,6 +1482,10 @@ public class Game implements Serializable {
 		this.currentEncounter = currentEncounter;
 	}
 
+	public NPC getTestNPC() {
+		return testNPC;
+	}
+
 	public NPC getLilaya() {
 		return lilaya;
 	}
@@ -1647,8 +1562,8 @@ public class Game implements Serializable {
 		return candiReceptionist;
 	}
 	
-	public NPC getNikki() {
-		return nikki;
+	public NPC getFinch() {
+		return finch;
 	}
 
 	public NPC getGenericMaleNPC() {
@@ -1704,21 +1619,6 @@ public class Game implements Serializable {
 
 	public boolean isStarted() {
 		return started;
-	}
-
-	public Map<ClothingType, Set<Colour>> getUnlockedClothes() {
-		return unlockedClothes;
-	}
-
-	public void unlockClothing(ClothingType clothing, Colour colour) {
-		if (unlockedClothes.get(clothing) == null)
-			unlockedClothes.put(clothing, new HashSet<>());
-
-		unlockedClothes.get(clothing).add(colour);
-	}
-
-	public List<WeaponType> getUnlockedWeapons() {
-		return unlockedWeapons;
 	}
 
 	// Dialogues:
@@ -1811,11 +1711,27 @@ public class Game implements Serializable {
 	}
 	
 	public boolean isNonConEnabled() {
-		return player.hasFetish(Fetish.FETISH_NON_CON);
+		return Main.getProperties().nonConContent;
 	}
 	
 	public boolean isIncestEnabled() {
-		return player.hasFetish(Fetish.FETISH_INCEST);
+		return Main.getProperties().incestContent;
+	}
+	
+	public boolean isForcedTFEnabled() {
+		return Main.getProperties().forcedTransformationContent;
+	}
+	
+	public boolean isFacialHairEnabled() {
+		return Main.getProperties().facialHairContent;
+	}
+	
+	public boolean isPubicHairEnabled() {
+		return Main.getProperties().pubicHairContent;
+	}
+	
+	public boolean isBodyHairEnabled() {
+		return Main.getProperties().bodyHairContent;
 	}
 	
 	public static String getRaceDiscoveredMessage(Race race) {

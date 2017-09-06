@@ -3,39 +3,39 @@ package com.base.game.character.body.types;
 import com.base.game.character.GameCharacter;
 import com.base.game.character.race.Race;
 import com.base.game.dialogue.utils.UtilText;
+import com.base.utils.Util;
 
 /**
  * @since 0.1.0
- * @version 0.1.82
+ * @version 0.1.83
  * @author Innoxia
  */
 public enum TailType implements BodyPartTypeInterface {
-	NONE(null, null),
+	NONE(null, null, false, false),
 
-	DEMON_COMMON(BodyCoveringType.DEMON_COMMON, Race.DEMON){
-		public boolean isPrehensile() {
-			return true;
-		}
-	},
+	DEMON_COMMON(BodyCoveringType.DEMON_COMMON, Race.DEMON, true, true),
 
-	DOG_MORPH(BodyCoveringType.CANINE_FUR, Race.DOG_MORPH),
+	DOG_MORPH(BodyCoveringType.CANINE_FUR, Race.DOG_MORPH, false, false),
 	
-	LYCAN(BodyCoveringType.LYCAN_FUR, Race.WOLF_MORPH),
+	LYCAN(BodyCoveringType.LYCAN_FUR, Race.WOLF_MORPH, false, false),
 
-	CAT_MORPH(BodyCoveringType.FELINE_FUR, Race.CAT_MORPH),
+	CAT_MORPH(BodyCoveringType.FELINE_FUR, Race.CAT_MORPH, true, false),
 
-	SQUIRREL_MORPH(BodyCoveringType.SQUIRREL_FUR, Race.SQUIRREL_MORPH),
+	SQUIRREL_MORPH(BodyCoveringType.SQUIRREL_FUR, Race.SQUIRREL_MORPH, false, false),
 	
-	HORSE_MORPH(BodyCoveringType.HAIR_HORSE_HAIR, Race.HORSE_MORPH),
+	HORSE_MORPH(BodyCoveringType.HAIR_HORSE_HAIR, Race.HORSE_MORPH, false, false),
 
-	HARPY(BodyCoveringType.FEATHERS, Race.HARPY);
+	HARPY(BodyCoveringType.FEATHERS, Race.HARPY, false, false);
 
 	private BodyCoveringType skinType;
 	private Race race;
+	private boolean prehensile, suitableForPenetration;
 
-	private TailType(BodyCoveringType skinType, Race race) {
+	private TailType(BodyCoveringType skinType, Race race, boolean prehensile, boolean suitableForPenetration) {
 		this.skinType = skinType;
 		this.race = race;
+		this.prehensile = prehensile;
+		this.suitableForPenetration = suitableForPenetration;
 	}
 	
 	@Override
@@ -45,7 +45,22 @@ public enum TailType implements BodyPartTypeInterface {
 
 	@Override
 	public String getDeterminer(GameCharacter gc) {
-		return "";
+		if(gc.getTailCount()==1) {
+			switch(this){
+				case HARPY:
+					return "a plume of";
+				default:
+					return "";
+			}
+		} else {
+			switch(this){
+				case HARPY:
+					return Util.intToString(gc.getTailCount())+" plumes of";
+				default:
+					return Util.intToString(gc.getTailCount());
+			}
+		}
+		
 	}
 	
 	@Override
@@ -109,7 +124,7 @@ public enum TailType implements BodyPartTypeInterface {
 	}
 
 	@Override
-	public BodyCoveringType getSkinType() {
+	public BodyCoveringType getBodyCoveringType() {
 		return skinType;
 	}
 
@@ -119,7 +134,11 @@ public enum TailType implements BodyPartTypeInterface {
 	}
 	
 	public boolean isPrehensile() {
-		return false;
+		return prehensile;
+	}
+
+	public boolean isSuitableForPenetration() {
+		return suitableForPenetration;
 	}
 	
 }

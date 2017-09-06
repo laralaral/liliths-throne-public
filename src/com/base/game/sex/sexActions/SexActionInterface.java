@@ -1,6 +1,7 @@
 package com.base.game.sex.sexActions;
 
 import java.util.List;
+
 import com.base.game.character.attributes.CorruptionLevel;
 import com.base.game.character.effects.Fetish;
 import com.base.game.character.effects.StatusEffect;
@@ -108,12 +109,12 @@ public interface SexActionInterface {
 		}
 		
 		applyEffects();
-	};
+	}
 
 	public default void applyEffects(){
 	}
 	
-	public default boolean isBaseRequirementsMet() { return true; };
+	public default boolean isBaseRequirementsMet() { return true; }
 	
 	/**
 	 * Used for determining how likely an NPC is to use this action.
@@ -477,12 +478,20 @@ public interface SexActionInterface {
 						return false;
 					break;
 				case TAIL_PARTNER:
-					if(!Sex.getPartner().getTailType().isPrehensile())
+					if(!Sex.getPartner().getTailType().isPrehensile()) {
 						return false;
+						
+					} else if(!Sex.getPartner().getTailType().isSuitableForPenetration() && !Main.getProperties().furryTailPenetrationContent) {
+						return false;
+					}
 					break;
 				case TAIL_PLAYER:
-					if(!Main.game.getPlayer().getTailType().isPrehensile())
+					if(!Main.game.getPlayer().getTailType().isPrehensile()) {
 						return false;
+						
+					} else if(!Main.game.getPlayer().getTailType().isSuitableForPenetration() && !Main.getProperties().furryTailPenetrationContent) {
+						return false;
+					}
 					break;
 				case TENTACLE_PARTNER:
 					break;

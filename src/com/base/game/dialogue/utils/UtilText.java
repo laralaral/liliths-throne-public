@@ -1,7 +1,7 @@
 package com.base.game.dialogue.utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -9,12 +9,14 @@ import java.util.regex.Pattern;
 
 import com.base.game.character.GameCharacter;
 import com.base.game.character.attributes.CorruptionLevel;
-import com.base.game.character.body.types.AssType;
+import com.base.game.character.body.BodyPartInterface;
+import com.base.game.character.body.types.BodyCoveringType;
 import com.base.game.character.body.types.BodyPartType;
 import com.base.game.character.body.types.BodyPartTypeInterface;
-import com.base.game.character.body.types.BreastType;
+import com.base.game.character.body.valueEnums.BodySize;
 import com.base.game.character.body.valueEnums.Capacity;
 import com.base.game.character.body.valueEnums.Femininity;
+import com.base.game.character.body.valueEnums.Muscle;
 import com.base.game.character.effects.Fetish;
 import com.base.game.character.effects.PerkInterface;
 import com.base.game.character.gender.Gender;
@@ -32,12 +34,13 @@ import com.base.utils.Util.ListValue;
 
 /**
  * @since 0.1.0
- * @version 0.1.82
+ * @version 0.1.83
  * @author Innoxia
  */
 public class UtilText {
 
 	private static String modifiedSentence;
+	public static StringBuilder transformationContentSB = new StringBuilder(4096);
 	public static StringBuilder nodeContentSB = new StringBuilder(4096);
 	private static StringBuilder descriptionSB = new StringBuilder();
 
@@ -76,11 +79,10 @@ public class UtilText {
 	 * <p>
 	 * she (second person)
 	 * 
-	 * @param gender
+	 * @param character
 	 *            to change tags to.
 	 * @param text
 	 *            to parse
-	 * @return
 	 */
 	public static String genderParsing(GameCharacter character, String text) {
 		modifiedSentence = text;
@@ -93,14 +95,10 @@ public class UtilText {
 					isFeminine = true;
 					break;
 				case CLOTHING_FEMININE:
-					isFeminine = true;
-					if(character.getClothingAverageFemininity()<50)
-						isFeminine = false;
+					isFeminine = character.getClothingAverageFemininity() >= 50;
 					break;
 				case CLOTHING_MASCULINE:
-					isFeminine = false;
-					if(character.getClothingAverageFemininity()>50)
-						isFeminine = true;
+					isFeminine = character.getClothingAverageFemininity() > 50;
 					break;
 				case MASCULINE:
 					isFeminine = false;
@@ -506,7 +504,7 @@ public class UtilText {
 		return "AEIOUaeiou".indexOf(c) != -1;
 	}
 
-	public static String generateSingluarDeterminer(String word) {
+	public static String generateSingularDeterminer(String word) {
 		if (isVowel(word.charAt(0)))
 			return "an";
 		else
@@ -557,7 +555,7 @@ public class UtilText {
 		randomStrings.clear();
 		
 		for(String s : strings)
-			if(s!="" && s!=null)
+			if(s!=null && !s.isEmpty())
 				randomStrings.add(s);
 		
 		if(randomStrings.size()!=0)
@@ -764,6 +762,19 @@ public class UtilText {
 		
 		commandsList.add(new ParserCommand(
 				Util.newArrayListOfValues(
+						new ListValue<>("races")),
+				true,
+				true,
+				"",//TODO
+				"Description of method"){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return getRaceNamePlural(character.getRace());
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
 						new ListValue<>("raceStage")),
 				true,
 				true,
@@ -788,6 +799,45 @@ public class UtilText {
 			@Override
 			public String parse(String command, String arguments, String target) {
 				return Femininity.valueOf(character.getFemininity()).getName(false);
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("bodySize")),
+				true,
+				true,
+				"",//TODO
+				"Description of method"){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return BodySize.valueOf(character.getBodySizeValue()).getName(false);
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("muscle")),
+				true,
+				true,
+				"",//TODO
+				"Description of method"){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return Muscle.valueOf(character.getMuscleValue()).getName(false);
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("bodyShape")),
+				true,
+				true,
+				"",//TODO
+				"Description of method"){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return character.getBodyShape().getName(false);
 			}
 		});
 		
@@ -1772,6 +1822,11 @@ public class UtilText {
 		// Body parts:
 		
 		// Add standard parsing for all types:
+
+		addStandardParsingCommands(
+				Util.newArrayListOfValues(new ListValue<>("antenna")),
+				Util.newArrayListOfValues(new ListValue<>("antennae")),
+				BodyPartType.ANTENNA);
 				
 		addStandardParsingCommands(
 				Util.newArrayListOfValues(new ListValue<>("arm")),
@@ -1784,9 +1839,24 @@ public class UtilText {
 				BodyPartType.ASS);
 		
 		addStandardParsingCommands(
+				Util.newArrayListOfValues(new ListValue<>("anus"), new ListValue<>("asshole")),
+				Util.newArrayListOfValues(new ListValue<>("anuses"), new ListValue<>("assholes")),
+				BodyPartType.ANUS);
+		
+		addStandardParsingCommands(
 				Util.newArrayListOfValues(new ListValue<>("breast"), new ListValue<>("tit"), new ListValue<>("boob"), new ListValue<>("chest")),
 				Util.newArrayListOfValues(new ListValue<>("breasts"), new ListValue<>("tits"), new ListValue<>("boobs")),
 				BodyPartType.BREAST);
+
+		addStandardParsingCommands(
+				Util.newArrayListOfValues(new ListValue<>("nipple"), new ListValue<>("teat")),
+				Util.newArrayListOfValues(new ListValue<>("nipples"), new ListValue<>("teats")),
+				BodyPartType.NIPPLES);
+
+		addStandardParsingCommands(
+				Util.newArrayListOfValues(new ListValue<>("milk")),
+				Util.newArrayListOfValues(new ListValue<>("milks")), // milks? Really?
+				BodyPartType.MILK);
 		
 		addStandardParsingCommands(
 				Util.newArrayListOfValues(new ListValue<>("ear")),
@@ -1802,6 +1872,11 @@ public class UtilText {
 				Util.newArrayListOfValues(new ListValue<>("face")),
 				Util.newArrayListOfValues(new ListValue<>("faces")),
 				BodyPartType.FACE);
+		
+		addStandardParsingCommands(
+				Util.newArrayListOfValues(new ListValue<>("mouth")),
+				Util.newArrayListOfValues(new ListValue<>("mouths")),
+				BodyPartType.MOUTH);
 		
 		addStandardParsingCommands(
 				Util.newArrayListOfValues(new ListValue<>("hairSingular"), new ListValue<>("feather")),
@@ -1822,6 +1897,21 @@ public class UtilText {
 				Util.newArrayListOfValues(new ListValue<>("penis"), new ListValue<>("cock"), new ListValue<>("dick")),
 				Util.newArrayListOfValues(new ListValue<>("penises"), new ListValue<>("cocks"), new ListValue<>("dicks")),
 				BodyPartType.PENIS);
+
+		addStandardParsingCommands(
+				Util.newArrayListOfValues(new ListValue<>("secondPenis"), new ListValue<>("secondCock"), new ListValue<>("secondDick"), new ListValue<>("penis2"), new ListValue<>("cock2"), new ListValue<>("dick2")),
+				Util.newArrayListOfValues(new ListValue<>("secondPenises"), new ListValue<>("secondCocks"), new ListValue<>("secondDicks"), new ListValue<>("penises2"), new ListValue<>("cocks2"), new ListValue<>("dicks2")),
+				BodyPartType.SECOND_PENIS);
+		
+		addStandardParsingCommands(
+				Util.newArrayListOfValues(new ListValue<>("testicle"), new ListValue<>("ball")),
+				Util.newArrayListOfValues(new ListValue<>("testicles"), new ListValue<>("balls")),
+				BodyPartType.TESTICLES);
+
+		addStandardParsingCommands(
+				Util.newArrayListOfValues(new ListValue<>("cum")),
+				Util.newArrayListOfValues(new ListValue<>("cums")), // :s
+				BodyPartType.CUM);
 		
 		addStandardParsingCommands(
 				Util.newArrayListOfValues(new ListValue<>("skin")),
@@ -1844,6 +1934,11 @@ public class UtilText {
 				BodyPartType.VAGINA);
 
 		addStandardParsingCommands(
+				Util.newArrayListOfValues(new ListValue<>("girlcum"), new ListValue<>("gcum")),
+				Util.newArrayListOfValues(new ListValue<>("girlcums"), new ListValue<>("gcums")),
+				BodyPartType.GIRL_CUM);
+
+		addStandardParsingCommands(
 				Util.newArrayListOfValues(new ListValue<>("wing")),
 				Util.newArrayListOfValues(new ListValue<>("wings")),
 				BodyPartType.WING);
@@ -1852,6 +1947,26 @@ public class UtilText {
 		// Special body parts:
 		
 		// Arm:
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("armRows")),
+				true,
+				true,
+				"",
+				"Description of method",
+				BodyPartType.ARM){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(character.getArmRows()==1) {
+					return "pair of";
+				} else if(character.getArmRows()==2) {
+					return "two pairs of";
+				} else {
+					return "three pairs of";
+				}
+			}
+		});
 		
 		commandsList.add(new ParserCommand(
 				Util.newArrayListOfValues(
@@ -1971,76 +2086,6 @@ public class UtilText {
 		
 	
 		// Ass:
-		commandsList.add(new ParserCommand(
-				Util.newArrayListOfValues(
-						new ListValue<>("assholeSkin")),
-				true,
-				true,
-				"",
-				"Description of method",
-				BodyPartType.ASS){//TODO
-			@Override
-			public String parse(String command, String arguments, String target) {
-				if(parseAddPronoun) {
-					parseAddPronoun = false;
-					return applyDeterminer(character.getAssType().getSkinType().getDeterminer(character), character.getAssType().getSkinType().getName(character));
-				} else {
-					return character.getAssType().getSkinType().getName(character);
-				}
-			}
-		});
-		
-		commandsList.add(new ParserCommand(
-				Util.newArrayListOfValues(
-						new ListValue<>("assholeSkin+"),
-						new ListValue<>("assholeSkinD")),
-				true,
-				true,
-				"",
-				"Description of method",
-				BodyPartType.ASS){//TODO
-			@Override
-			public String parse(String command, String arguments, String target) {
-				if(parseAddPronoun) {
-					parseAddPronoun = false;
-					return applyDeterminer(character.getAssType().getSkinType().getDeterminer(character),
-							applyDescriptor(character.getAssType().getSkinType().getDescriptor(character),
-									character.getAssType().getSkinType().getName(character)));
-				} else {
-					return applyDescriptor(character.getAssType().getSkinType().getDescriptor(character), character.getAssType().getSkinType().getName(character));
-				}
-			}
-		});
-		
-		commandsList.add(new ParserCommand(
-				Util.newArrayListOfValues(
-						new ListValue<>("asshole")),
-				true,
-				true,
-				"",
-				"Description of method",
-				BodyPartType.ASS){//TODO
-			@Override
-			public String parse(String command, String arguments, String target) {
-				return character.getAssholeName(false);
-			}
-		});
-		
-		commandsList.add(new ParserCommand(
-				Util.newArrayListOfValues(
-						new ListValue<>("asshole+"),
-						new ListValue<>("assholeD")),
-				true,
-				true,
-				"",
-				"Description of method",
-				BodyPartType.ASS){//TODO
-			@Override
-			public String parse(String command, String arguments, String target) {
-				return applyDescriptor(character.getAssholeDescriptor(), character.getAssholeName(false));
-			}
-		});
-		
 		commandsList.add(new ParserCommand(
 				Util.newArrayListOfValues(
 						new ListValue<>("assSize")),
@@ -2183,106 +2228,6 @@ public class UtilText {
 		
 		commandsList.add(new ParserCommand(
 				Util.newArrayListOfValues(
-						new ListValue<>("nippleSkin"),
-						new ListValue<>("nipplesSkin")),
-				true,
-				true,
-				"",
-				"Description of method",
-				BodyPartType.BREAST){//TODO
-			@Override
-			public String parse(String command, String arguments, String target) {
-				return getSkinName(character.getBreastType());
-			}
-		});
-		
-		commandsList.add(new ParserCommand(
-				Util.newArrayListOfValues(
-						new ListValue<>("nippleSkin+"),
-						new ListValue<>("nippleSkinD"),
-						new ListValue<>("nipplesSkin+"),
-						new ListValue<>("nipplesSkinD")),
-				true,
-				true,
-				"",
-				"Description of method",
-				BodyPartType.BREAST){//TODO
-			@Override
-			public String parse(String command, String arguments, String target) {
-				return getSkinNameWithDescriptor(character.getBreastType());
-			}
-		});
-		
-		commandsList.add(new ParserCommand(
-				Util.newArrayListOfValues(
-						new ListValue<>("nipple")),
-				true,
-				true,
-				"",
-				"Description of method",
-				BodyPartType.BREAST){//TODO
-			@Override
-			public String parse(String command, String arguments, String target) {
-				return character.getNippleNameSingular();
-			}
-		});
-		
-		commandsList.add(new ParserCommand(
-				Util.newArrayListOfValues(
-						new ListValue<>("nipples")),
-				true,
-				true,
-				"",
-				"Description of method",
-				BodyPartType.BREAST){//TODO
-			@Override
-			public String parse(String command, String arguments, String target) {
-				if(parseAddPronoun) {
-					parseAddPronoun = false;
-					return applyDeterminer(character.getNippleDeterminer(), character.getNippleName());
-				} else {
-					return character.getNippleName();
-				}
-			}
-		});
-		
-		commandsList.add(new ParserCommand(
-				Util.newArrayListOfValues(
-						new ListValue<>("nipple+"),
-						new ListValue<>("nippleD")),
-				true,
-				true,
-				"",
-				"Description of method",
-				BodyPartType.BREAST){//TODO
-			@Override
-			public String parse(String command, String arguments, String target) {
-				return applyDescriptor(character.getNippleDescriptor(), character.getNippleNameSingular());
-			}
-		});
-		
-		commandsList.add(new ParserCommand(
-				Util.newArrayListOfValues(
-						new ListValue<>("nipples+"),
-						new ListValue<>("nipplesD")),
-				true,
-				true,
-				"",
-				"Description of method",
-				BodyPartType.BREAST){//TODO
-			@Override
-			public String parse(String command, String arguments, String target) {
-				if(parseAddPronoun) {
-					parseAddPronoun = false;
-					return applyDeterminer(character.getNippleDeterminer(), applyDescriptor(character.getNippleDescriptor(), character.getNippleName()));
-				} else {
-					return applyDescriptor(character.getNippleDescriptor(), character.getNippleName());
-				}
-			}
-		});
-		
-		commandsList.add(new ParserCommand(
-				Util.newArrayListOfValues(
 						new ListValue<>("breastSize"),
 						new ListValue<>("breastsSize"),
 						new ListValue<>("titSize"),
@@ -2297,6 +2242,36 @@ public class UtilText {
 			@Override
 			public String parse(String command, String arguments, String target) {
 				return character.getBreastSize().getDescriptor();
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("nippleSize"),
+						new ListValue<>("nipplesSize")),
+				true,
+				true,
+				"",
+				"Description of method",
+				BodyPartType.BREAST){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return character.getNippleSize().getName();
+			}
+		});
+
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("areolaSize"),
+						new ListValue<>("areolaeSize")),
+				true,
+				true,
+				"",
+				"Description of method",
+				BodyPartType.BREAST){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return character.getAreolaeSize().getName();
 			}
 		});
 		
@@ -2336,7 +2311,7 @@ public class UtilText {
 				BodyPartType.BREAST){//TODO
 			@Override
 			public String parse(String command, String arguments, String target) {
-				return Capacity.getCapacityFromValue(character.getBreastStretchedCapacity()).getDescriptor();
+				return Capacity.getCapacityFromValue(character.getNippleStretchedCapacity()).getDescriptor();
 			}
 		});
 		
@@ -2355,7 +2330,7 @@ public class UtilText {
 				BodyPartType.BREAST){//TODO
 			@Override
 			public String parse(String command, String arguments, String target) {
-				return character.getBreastElasticity().getDescriptor();
+				return character.getNippleElasticity().getDescriptor();
 			}
 		});
 		
@@ -2409,11 +2384,45 @@ public class UtilText {
 			}
 		});
 		
+		// Eyes:
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("eyePairs"),
+						new ListValue<>("eyesPairs"),
+						new ListValue<>("eyeRows"),
+						new ListValue<>("eyesRows")),
+				true,
+				false,
+				"",
+				"Description of method",
+				BodyPartType.EYE){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return character.getEyeDeterminer();
+			}
+		});
+		
 		// Face:
 		
 		commandsList.add(new ParserCommand(
 				Util.newArrayListOfValues(
-						new ListValue<>("makeup")),
+						new ListValue<>("tongueLength"),
+						new ListValue<>("tongueSize")),
+				true,
+				true,
+				"",
+				"Description of method",
+				BodyPartType.FACE){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return character.getTongueLength().getDescriptor();
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("nose")),
 				true,
 				false,
 				"",
@@ -2421,7 +2430,36 @@ public class UtilText {
 				BodyPartType.FACE){//TODO
 			@Override
 			public String parse(String command, String arguments, String target) {
-				return character.getFaceMakeupLevel().getDescriptor() + " makeup";
+				return character.getNoseNameSingular();
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("noses")),
+				true,
+				false,
+				"",
+				"Description of method",
+				BodyPartType.FACE){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return character.getNoseNamePlural();
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("lipSize"),
+						new ListValue<>("lipsSize")),
+				true,
+				false,
+				"",
+				"Description of method",
+				BodyPartType.FACE){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return character.getLipSize().getName();
 			}
 		});
 		
@@ -2435,7 +2473,7 @@ public class UtilText {
 				BodyPartType.FACE){//TODO
 			@Override
 			public String parse(String command, String arguments, String target) {
-				return character.getFaceType().getLipsNameSingular(character);
+				return character.getLipsNameSingular();
 			}
 		});
 		
@@ -2450,7 +2488,7 @@ public class UtilText {
 				BodyPartType.FACE){//TODO
 			@Override
 			public String parse(String command, String arguments, String target) {
-				return applyDescriptor(character.getFaceType().getLipsDescriptor(character), character.getFaceType().getLipsNameSingular(character));
+				return applyDescriptor(character.getLipsDescriptor(), character.getLipsNameSingular());
 			}
 		});
 		
@@ -2464,7 +2502,7 @@ public class UtilText {
 				BodyPartType.FACE){//TODO
 			@Override
 			public String parse(String command, String arguments, String target) {
-				return character.getFaceType().getLipsNamePlural(character);
+				return character.getLipsNamePlural();
 			}
 		});
 		
@@ -2479,7 +2517,7 @@ public class UtilText {
 				BodyPartType.FACE){//TODO
 			@Override
 			public String parse(String command, String arguments, String target) {
-				return applyDescriptor(character.getFaceType().getLipsDescriptor(character), character.getFaceType().getLipsNamePlural(character));
+				return applyDescriptor(character.getLipsDescriptor(), character.getLipsNamePlural());
 			}
 		});
 		
@@ -2563,38 +2601,6 @@ public class UtilText {
 		
 		commandsList.add(new ParserCommand(
 				Util.newArrayListOfValues(
-						new ListValue<>("cum"),
-						new ListValue<>("jizz")),
-				true,
-				true,
-				"",
-				"Description of method",
-				BodyPartType.PENIS){//TODO
-			@Override
-			public String parse(String command, String arguments, String target) {
-				return character.getCumName(false);
-			}
-		});
-		
-		commandsList.add(new ParserCommand(
-				Util.newArrayListOfValues(
-						new ListValue<>("cum+"),
-						new ListValue<>("cumD"),
-						new ListValue<>("jizz+"),
-						new ListValue<>("jizzD")),
-				true,
-				true,
-				"",
-				"Description of method",
-				BodyPartType.PENIS){//TODO
-			@Override
-			public String parse(String command, String arguments, String target) {
-				return applyDescriptor(character.getCumDescriptor(), character.getCumName(false));
-			}
-		});
-		
-		commandsList.add(new ParserCommand(
-				Util.newArrayListOfValues(
 						new ListValue<>("cumAmount"),
 						new ListValue<>("cumProduction"),
 						new ListValue<>("jizzAmount"),
@@ -2603,7 +2609,7 @@ public class UtilText {
 				true,
 				"",
 				"Description of method",
-				BodyPartType.PENIS){//TODO
+				BodyPartType.TESTICLES){//TODO
 			@Override
 			public String parse(String command, String arguments, String target) {
 				return character.getPenisCumProduction().getDescriptor();
@@ -2618,7 +2624,7 @@ public class UtilText {
 				false,
 				"",
 				"Description of method",
-				BodyPartType.PENIS){//TODO
+				BodyPartType.TESTICLES){//TODO
 			@Override
 			public String parse(String command, String arguments, String target) {
 				return String.valueOf(character.getPenisRawCumProductionValue());
@@ -2634,77 +2640,12 @@ public class UtilText {
 				false,
 				"",
 				"Description of method",
-				BodyPartType.PENIS){//TODO
+				BodyPartType.TESTICLES){//TODO
 			@Override
 			public String parse(String command, String arguments, String target) {
-				if(character.getPenisNumberOfTesticles()==2) {
-					return (parseCapitalise
-							?"Pair of"
-							:"pair of");
-				} else {
-					return (parseCapitalise
-							?Util.capitaliseSentence(Util.intToString(character.getPenisNumberOfTesticles()))
-							:Util.intToString(character.getPenisNumberOfTesticles()));
-				}
-			}
-		});
-		
-		commandsList.add(new ParserCommand(
-				Util.newArrayListOfValues(
-						new ListValue<>("balls"),
-						new ListValue<>("testicles")),
-				true,
-				true,
-				"",
-				"Description of method",
-				BodyPartType.PENIS){//TODO
-			@Override
-			public String parse(String command, String arguments, String target) {
-				if(parseAddPronoun) {
-					if(character.getPenisNumberOfTesticles()==2) {
-						return (parseCapitalise
-								?"Pair of balls"
-								:"pair of balls");
-					} else {
-						return (parseCapitalise
-								?Util.capitaliseSentence(Util.intToString(character.getPenisNumberOfTesticles())+" balls")
-								:Util.intToString(character.getPenisNumberOfTesticles())+" balls");
-					}
-				} else {
-					return (parseCapitalise?"Balls":"balls");
-				}
-			}
-		});
-		
-		commandsList.add(new ParserCommand(
-				Util.newArrayListOfValues(
-						new ListValue<>("balls+"),
-						new ListValue<>("ballsD"),
-						new ListValue<>("testicles+"),
-						new ListValue<>("testiclesD")),
-				true,
-				true,
-				"",
-				"Description of method",
-				BodyPartType.PENIS){//TODO
-			@Override
-			public String parse(String command, String arguments, String target) {
-				
-				String s = applyDescriptor(character.getTesticleSize().getDescriptor(), "balls");
-				
-				if(parseAddPronoun) {
-					if(character.getPenisNumberOfTesticles()==2) {
-						return (parseCapitalise
-								?"Pair of "+s
-								:"pair of "+s);
-					} else {
-						return (parseCapitalise
-								?Util.capitaliseSentence(Util.intToString(character.getPenisNumberOfTesticles())+" "+s)
-								:Util.intToString(character.getPenisNumberOfTesticles())+" "+s);
-					}
-				} else {
-					return (parseCapitalise?Util.capitaliseSentence(s):s);
-				}
+				return (parseCapitalise
+						?Util.capitaliseSentence(Util.intToString(character.getPenisNumberOfTesticles()))
+						:Util.intToString(character.getPenisNumberOfTesticles()));
 			}
 		});
 		
@@ -2718,7 +2659,7 @@ public class UtilText {
 				true,
 				"",
 				"Description of method",
-				BodyPartType.PENIS){//TODO
+				BodyPartType.TESTICLES){//TODO
 			@Override
 			public String parse(String command, String arguments, String target) {
 				return character.getTesticleSize().getDescriptor();
@@ -2737,7 +2678,7 @@ public class UtilText {
 				BodyPartType.PENIS){//TODO
 			@Override
 			public String parse(String command, String arguments, String target) {
-				return character.getPenisType().getPenisHeadName(character);
+				return character.getBody().getPenis().getPenisHeadName(character);
 			}
 		});
 		
@@ -2756,7 +2697,7 @@ public class UtilText {
 				BodyPartType.PENIS){//TODO
 			@Override
 			public String parse(String command, String arguments, String target) {
-				return applyDescriptor(character.getPenisType().getPenisHeadDescriptor(character), character.getPenisType().getPenisHeadName(character));
+				return applyDescriptor(character.getBody().getPenis().getPenisHeadDescriptor(character), character.getBody().getPenis().getPenisHeadName(character));
 			}
 		});
 		
@@ -2801,6 +2742,119 @@ public class UtilText {
 			@Override
 			public String parse(String command, String arguments, String target) {
 				return String.valueOf(character.getPenisRawSizeValue());
+			}
+		});
+		
+		// Second penis:
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("secondPenisHead"),
+						new ListValue<>("secondCockHead"),
+						new ListValue<>("secondDickHead"),
+						new ListValue<>("penis2Head"),
+						new ListValue<>("cock2Head"),
+						new ListValue<>("dick2Head")),
+				true,
+				true,
+				"",
+				"Description of method",
+				BodyPartType.PENIS){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return character.getBody().getSecondPenis().getPenisHeadName(character);
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("secondPenisHead+"),
+						new ListValue<>("secondCockHead+"),
+						new ListValue<>("secondDickHead+"),
+						new ListValue<>("penis2Head+"),
+						new ListValue<>("cock2Head+"),
+						new ListValue<>("dick2Head+"),
+						new ListValue<>("secondPenisHeadD"),
+						new ListValue<>("secondCockHeadD"),
+						new ListValue<>("secondDickHeadD"),
+						new ListValue<>("penis2HeadD"),
+						new ListValue<>("cock2HeadD"),
+						new ListValue<>("dick2HeadD")),
+				true,
+				true,
+				"",
+				"Description of method",
+				BodyPartType.PENIS){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return applyDescriptor(character.getBody().getSecondPenis().getPenisHeadDescriptor(character), character.getBody().getSecondPenis().getPenisHeadName(character));
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("secondPenisSize"),
+						new ListValue<>("secondCockSize"),
+						new ListValue<>("secondDickSize"),
+						new ListValue<>("penis2Size"),
+						new ListValue<>("cock2Size"),
+						new ListValue<>("dick2Size")),
+				true,
+				true,
+				"",
+				"Description of method",
+				BodyPartType.PENIS){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return character.getSecondPenisSize().getDescriptor();
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("secondPenisCm"),
+						new ListValue<>("penis2Cm")),
+				false,
+				false,
+				"",
+				"Description of method",
+				BodyPartType.PENIS){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return String.valueOf(Util.conversionInchesToCentimetres(character.getSecondPenisRawSizeValue()));
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("secondPenisInches"),
+						new ListValue<>("penis2Inches")),
+				false,
+				false,
+				"",
+				"Description of method",
+				BodyPartType.PENIS){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return String.valueOf(character.getSecondPenisRawSizeValue());
+			}
+		});
+		
+		
+		// Tail:
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("tailCount"),
+						new ListValue<>("tailsCount")),
+				true,
+				false,
+				"",
+				"Description of method",
+				BodyPartType.TAIL){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return character.getTailDeterminer();
 			}
 		});
 		
@@ -2851,35 +2905,6 @@ public class UtilText {
 			@Override
 			public String parse(String command, String arguments, String target) {
 				return character.getVaginaWetness().getDescriptor();
-			}
-		});
-		
-		commandsList.add(new ParserCommand(
-				Util.newArrayListOfValues(
-						new ListValue<>("girlCum")),
-				true,
-				true,
-				"",
-				"Description of method",
-				BodyPartType.VAGINA){//TODO
-			@Override
-			public String parse(String command, String arguments, String target) {
-				return character.getVaginaType().getCumName();
-			}
-		});
-		
-		commandsList.add(new ParserCommand(
-				Util.newArrayListOfValues(
-						new ListValue<>("girlCum+"),
-						new ListValue<>("girlCumD")),
-				true,
-				true,
-				"",
-				"Description of method",
-				BodyPartType.VAGINA){//TODO
-			@Override
-			public String parse(String command, String arguments, String target) {
-				return applyDescriptor(character.getVaginaType().getCumDescriptor(), character.getVaginaType().getCumName());
 			}
 		});
 		
@@ -2945,6 +2970,228 @@ public class UtilText {
 			}
 		});
 		
+		// Eyes:
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("irisShape"),
+						new ListValue<>("irisesShape")),
+				true,
+				true,
+				"",
+				"Description of method",
+				BodyPartType.EYE){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return character.getIrisShape().getName();
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("pupilShape"),
+						new ListValue<>("pupilsShape")),
+				true,
+				true,
+				"",
+				"Description of method",
+				BodyPartType.EYE){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return character.getPupilShape().getName();
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("irisFullDescription"),
+						new ListValue<>("irisesFullDescription")),
+				true,
+				true,
+				"true If you want this colour's name to be coloured.",
+				"Description of method",
+				BodyPartType.EYE){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(arguments!=null) {
+					if(arguments.equalsIgnoreCase("true")) {
+						return character.getCovering(character.getEyeType().getBodyCoveringType()).getFullDescription(character, true);
+					}
+				}
+				return character.getCovering(character.getEyeType().getBodyCoveringType()).getFullDescription(character, false);
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("irisColour"),
+						new ListValue<>("irisColor"),
+						new ListValue<>("irisesColour"),
+						new ListValue<>("irisesColor")),
+				true,
+				true,
+				"true If you want this colour's name to be coloured.",
+				"Description of method",
+				BodyPartType.EYE){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(arguments!=null) {
+					if(arguments.equalsIgnoreCase("true")) {
+						return character.getCovering(character.getEyeType().getBodyCoveringType()).getColourDescriptor(true);
+					}
+				}
+				return character.getCovering(character.getEyeType().getBodyCoveringType()).getColourDescriptor(false);
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("irisColourPrimary"),
+						new ListValue<>("irisColorPrimary"),
+						new ListValue<>("irisesColourPrimary"),
+						new ListValue<>("irisesColorPrimary"),
+						new ListValue<>("irisPrimaryColour"),
+						new ListValue<>("irisPrimaryColor"),
+						new ListValue<>("irisesPrimaryColour"),
+						new ListValue<>("irisesPrimaryColor")),
+				true,
+				true,
+				"true If you want this colour's name to be coloured.",
+				"Description of method",
+				BodyPartType.EYE){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(arguments!=null) {
+					if(arguments.equalsIgnoreCase("true")) {
+						return character.getCovering(character.getEyeType().getBodyCoveringType()).getPrimaryColourDescriptor(true);
+					}
+				}
+				return character.getCovering(character.getEyeType().getBodyCoveringType()).getPrimaryColourDescriptor(false);
+			}
+		});
+
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("irisColourSecondary"),
+						new ListValue<>("irisColorSecondary"),
+						new ListValue<>("irisesColourSecondary"),
+						new ListValue<>("irisesColorSecondary"),
+						new ListValue<>("irisSecondaryColour"),
+						new ListValue<>("irisSecondaryColor"),
+						new ListValue<>("irisesSecondaryColour"),
+						new ListValue<>("irisesSecondaryColor")),
+				true,
+				true,
+				"true If you want this colour's name to be coloured.",
+				"Description of method",
+				BodyPartType.EYE){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(arguments!=null) {
+					if(arguments.equalsIgnoreCase("true")) {
+						return character.getCovering(character.getEyeType().getBodyCoveringType()).getSecondaryColourDescriptor(true);
+					}
+				}
+				return character.getCovering(character.getEyeType().getBodyCoveringType()).getSecondaryColourDescriptor(false);
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("pupilFullDescription"),
+						new ListValue<>("pupilsFullDescription")),
+				true,
+				true,
+				"true If you want this colour's name to be coloured.",
+				"Description of method",
+				BodyPartType.EYE){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(arguments!=null) {
+					if(arguments.equalsIgnoreCase("true")) {
+						return character.getCovering(BodyCoveringType.EYE_PUPILS).getFullDescription(character, true);
+					}
+				}
+				return character.getCovering(BodyCoveringType.EYE_PUPILS).getFullDescription(character, false);
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("pupilColour"),
+						new ListValue<>("pupilColor"),
+						new ListValue<>("pupilsColour"),
+						new ListValue<>("pupilsColor")),
+				true,
+				true,
+				"true If you want this colour's name to be coloured.",
+				"Description of method",
+				BodyPartType.EYE){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(arguments!=null) {
+					if(arguments.equalsIgnoreCase("true")) {
+						return character.getCovering(BodyCoveringType.EYE_PUPILS).getColourDescriptor(true);
+					}
+				}
+				return character.getCovering(BodyCoveringType.EYE_PUPILS).getColourDescriptor(false);
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("pupilColourPrimary"),
+						new ListValue<>("pupilColorPrimary"),
+						new ListValue<>("pupilsColourPrimary"),
+						new ListValue<>("pupilsColorPrimary"),
+						new ListValue<>("pupilPrimaryColour"),
+						new ListValue<>("pupilPrimaryColor"),
+						new ListValue<>("pupilsPrimaryColour"),
+						new ListValue<>("pupilsPrimaryColor")),
+				true,
+				true,
+				"true If you want this colour's name to be coloured.",
+				"Description of method",
+				BodyPartType.EYE){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(arguments!=null) {
+					if(arguments.equalsIgnoreCase("true")) {
+						return character.getCovering(BodyCoveringType.EYE_PUPILS).getPrimaryColourDescriptor(true);
+					}
+				}
+				return character.getCovering(BodyCoveringType.EYE_PUPILS).getPrimaryColourDescriptor(false);
+			}
+		});
+
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						new ListValue<>("pupilColourSecondary"),
+						new ListValue<>("pupilColorSecondary"),
+						new ListValue<>("pupilsColourSecondary"),
+						new ListValue<>("pupilsColorSecondary"),
+						new ListValue<>("pupilSecondaryColour"),
+						new ListValue<>("pupilSecondaryColor"),
+						new ListValue<>("pupilsSecondaryColour"),
+						new ListValue<>("pupilsSecondaryColor")),
+				true,
+				true,
+				"true If you want this colour's name to be coloured.",
+				"Description of method",
+				BodyPartType.EYE){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(arguments!=null) {
+					if(arguments.equalsIgnoreCase("true")) {
+						return character.getCovering(BodyCoveringType.EYE_PUPILS).getSecondaryColourDescriptor(true);
+					}
+				}
+				return character.getCovering(BodyCoveringType.EYE_PUPILS).getSecondaryColourDescriptor(false);
+			}
+		});
+		
+		// Tail:
+		
 		commandsList.add(new ParserCommand(
 				Util.newArrayListOfValues(
 						new ListValue<>("tailHead"),
@@ -2977,17 +3224,7 @@ public class UtilText {
 			}
 		});
 		
-		Collections.sort(commandsList, (ParserCommand e1, ParserCommand e2) -> {
-			if(e1.getRelatedBodyPart() == null && e2.getRelatedBodyPart() == null)
-				return 0;
-				
-			if(e1.getRelatedBodyPart() == null)
-				return -1;
-			if(e2.getRelatedBodyPart() == null)
-				return 1;
-			return e1.getRelatedBodyPart().compareTo(e2.getRelatedBodyPart());
-			});
-		
+		commandsList.sort(Comparator.nullsLast(Comparator.comparing(ParserCommand::getRelatedBodyPart)));
 		
 		for(BodyPartType bpt : BodyPartType.values()) {
 			commandsMap.put(bpt, new ArrayList<>());
@@ -3089,7 +3326,6 @@ public class UtilText {
 	 */
 	private static void addStandardParsingCommands(List<String> tags, List<String> tagsPlural, BodyPartType bodyPart) {
 		
-		// Check for race: hornRace | hornsRace
 		commandsList.add(new ParserCommand(
 				getModifiedTags(tags, tagsPlural, "Race"),
 				true,
@@ -3099,11 +3335,23 @@ public class UtilText {
 				bodyPart){
 			@Override
 			public String parse(String command, String arguments, String target) {
-				return getRaceName(getBodyPartFromType(bodyPart).getRace());
+				return getRaceName(getBodyPartFromType(bodyPart).getType().getRace());
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				getModifiedTags(tags, tagsPlural, "Races"),
+				true,
+				true,
+				"",
+				"Returns the plural name of the race that's associated with this body part. Race is gender-specific (e.g. will return either 'wolf-boys' or 'wolf-girls').",
+				bodyPart){
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return getRaceName(getBodyPartFromType(bodyPart).getType().getRace());
 			}
 		});
 
-		// Check for skin. hornSkin | hornsSkin
 		commandsList.add(new ParserCommand(
 				getModifiedTags(tags, tagsPlural, "Skin"),
 				true,
@@ -3113,14 +3361,10 @@ public class UtilText {
 				bodyPart){
 			@Override
 			public String parse(String command, String arguments, String target) {
-				if(getBodyPartFromType(bodyPart) instanceof AssType || getBodyPartFromType(bodyPart) instanceof BreastType)
-					return getSkinName(character.getSkinType());
-				else
-					return getSkinName(getBodyPartFromType(bodyPart));
+				return getSkinName(getBodyPartFromType(bodyPart).getType());
 			}
 		});
 		
-		// Check for skin with descriptor. hornSkin+ | hornSkinD | hornsSkin+ | hornsSkinD
 		commandsList.add(new ParserCommand(
 				getModifiedTags(tags, tagsPlural, "Skin+", "SkinD"),
 				true,
@@ -3130,27 +3374,92 @@ public class UtilText {
 				bodyPart){
 			@Override
 			public String parse(String command, String arguments, String target) {
-				if(getBodyPartFromType(bodyPart) instanceof AssType || getBodyPartFromType(bodyPart) instanceof BreastType)
-					return getSkinNameWithDescriptor(character.getSkinType());
-				else
-					return getSkinNameWithDescriptor(getBodyPartFromType(bodyPart));
+				return getSkinNameWithDescriptor(getBodyPartFromType(bodyPart).getType());
 			}
 		});
 
-		// Check for colour. hornColour | hornColor | hornsColor | hornsColour 
+		commandsList.add(new ParserCommand(
+				getModifiedTags(tags, tagsPlural, "FullDescription"),
+				true,
+				true,
+				"true If you want this description's colour names to be coloured.",
+				"Returns a full description of this part.",
+				bodyPart){
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(arguments!=null) {
+					if(arguments.equalsIgnoreCase("true")) {
+						return character.getCovering(getBodyPartFromType(bodyPart).getType().getBodyCoveringType()).getFullDescription(character, true);
+					}
+				}
+				return character.getCovering(getBodyPartFromType(bodyPart).getType().getBodyCoveringType()).getFullDescription(character, false);
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				getModifiedTags(tags, tagsPlural, "FullDescriptionColour", "FullDescriptionColor", "FullDescriptionColoured", "FullDescriptionColored"),
+				true,
+				true,
+				"",
+				"Returns a full description of this part.",
+				bodyPart){
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return character.getCovering(getBodyPartFromType(bodyPart).getType().getBodyCoveringType()).getFullDescription(character, true);
+			}
+		});
+		
 		commandsList.add(new ParserCommand(
 				getModifiedTags(tags, tagsPlural, "Colour", "Color"),
 				true,
 				true,
-				"",
+				"true If you want this colour's name to be coloured.",
 				"Returns the colour of whatever 'skin' is covering this body part.",
 				bodyPart){
 			@Override
 			public String parse(String command, String arguments, String target) {
-				if(getBodyPartFromType(bodyPart) instanceof AssType || getBodyPartFromType(bodyPart) instanceof BreastType)
-					return character.getSkinColour(character.getSkinType()).getName();
-				else
-					return character.getSkinColour(getBodyPartFromType(bodyPart).getSkinType()).getName();
+				if(arguments!=null) {
+					if(arguments.equalsIgnoreCase("true")) {
+						return character.getCovering(getBodyPartFromType(bodyPart).getType().getBodyCoveringType()).getColourDescriptor(true);
+					}
+				}
+				return character.getCovering(getBodyPartFromType(bodyPart).getType().getBodyCoveringType()).getColourDescriptor(false);
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				getModifiedTags(tags, tagsPlural, "ColourPrimary", "ColorPrimary", "PrimaryColour", "PrimaryColor"),
+				true,
+				true,
+				"true If you want this colour's name to be coloured.",
+				"Returns the primary colour of whatever 'skin' is covering this body part.",
+				bodyPart){
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(arguments!=null) {
+					if(arguments.equalsIgnoreCase("true")) {
+						return character.getCovering(getBodyPartFromType(bodyPart).getType().getBodyCoveringType()).getPrimaryColourDescriptor(true);
+					}
+				}
+				return character.getCovering(getBodyPartFromType(bodyPart).getType().getBodyCoveringType()).getPrimaryColourDescriptor(false);
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				getModifiedTags(tags, tagsPlural, "ColourSecondary", "ColorSecondary", "SecondaryColour", "SecondaryColor"),
+				true,
+				true,
+				"true If you want this colour's name to be coloured.",
+				"Returns the secondary colour of whatever 'skin' is covering this body part.",
+				bodyPart){
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(arguments!=null) {
+					if(arguments.equalsIgnoreCase("true")) {
+						return character.getCovering(getBodyPartFromType(bodyPart).getType().getBodyCoveringType()).getSecondaryColourDescriptor(true);
+					}
+				}
+				return character.getCovering(getBodyPartFromType(bodyPart).getType().getBodyCoveringType()).getSecondaryColourDescriptor(false);
 			}
 		});
 		
@@ -3163,14 +3472,10 @@ public class UtilText {
 				bodyPart){
 			@Override
 			public String parse(String command, String arguments, String target) {
-				if(getBodyPartFromType(bodyPart) instanceof AssType || getBodyPartFromType(bodyPart) instanceof BreastType)
-					return character.getSkinColour(character.getSkinType()).toWebHexString();
-				else
-					return character.getSkinColour(getBodyPartFromType(bodyPart).getSkinType()).toWebHexString();
+				return character.getCovering(getBodyPartFromType(bodyPart).getType().getBodyCoveringType()).getPrimaryColour().toWebHexString();
 			}
 		});
 		
-		// Check for singular version of base name. horn
 		commandsList.add(new ParserCommand(
 				tags,
 				true,
@@ -3184,7 +3489,6 @@ public class UtilText {
 			}
 		});
 
-		// Check for plural version of base name. horns
 		commandsList.add(new ParserCommand(
 				tagsPlural,
 				true,
@@ -3204,7 +3508,6 @@ public class UtilText {
 			}
 		});
 
-		// Check for singular version of base name with descriptor. horn+ | hornD
 		commandsList.add(new ParserCommand(
 				getModifiedTags(tags, null, "+", "D"),
 				true,
@@ -3218,7 +3521,6 @@ public class UtilText {
 			}
 		});
 
-		// Check for plural version of base name with descriptor. horns+ | hornsD
 		commandsList.add(new ParserCommand(
 				getModifiedTags(null, tagsPlural, "+", "D"),
 				true,
@@ -3261,38 +3563,56 @@ public class UtilText {
 	}
 	
 	
-	private static BodyPartTypeInterface getBodyPartFromType(BodyPartType type) {
+	private static BodyPartInterface getBodyPartFromType(BodyPartType type) {
 		switch(type){
+			case ANTENNA:
+				return character.getBody().getAntenna();
 			case ARM:
-				return character.getArmType();
+				return character.getBody().getArm();
 			case ASS:
-				return character.getAssType();
+				return character.getBody().getAss();
+			case ANUS:
+				return character.getBody().getAss().getAnus();
 			case BREAST:
-				return character.getBreastType();
+				return character.getBody().getBreast();
+			case MILK:
+				return character.getBody().getBreast().getMilk();
+			case NIPPLES:
+				return character.getBody().getBreast().getNipples();
 			case EAR:
-				return character.getEarType();
+				return character.getBody().getEar();
 			case EYE:
-				return character.getEyeType();
+				return character.getBody().getEye();
 			case FACE:
-				return character.getFaceType();
+				return character.getBody().getFace();
+			case MOUTH:
+				return character.getBody().getFace().getMouth();
 			case HAIR:
-				return character.getHairType();
+				return character.getBody().getHair();
 			case HORN:
-				return character.getHornType();
+				return character.getBody().getHorn();
 			case LEG:
-				return character.getLegType();
+				return character.getBody().getLeg();
 			case PENIS:
-				return character.getPenisType();
+				return character.getBody().getPenis();
+			case SECOND_PENIS:
+				return character.getBody().getSecondPenis();
+			case TESTICLES:
+				return character.getBody().getPenis().getTesticle();
+			case CUM:
+				return character.getBody().getPenis().getTesticle().getCum();
 			case SKIN:
-				return character.getSkinType();
+				return character.getBody().getSkin();
 			case TAIL:
-				return character.getTailType();
+				return character.getBody().getTail();
 			case TONGUE:
-				return character.getTongueType();
+				return character.getBody().getFace().getTongue();
 			case VAGINA:
-				return character.getVaginaType();
+				return character.getBody().getVagina();
+			case GIRL_CUM:
+				return character.getBody().getVagina().getGirlcum();
 			case WING:
-				return character.getWingType();
+				return character.getBody().getWing();
 			case GENERIC:
 				return null;
 		}
@@ -3330,27 +3650,37 @@ public class UtilText {
 		}
 	}
 	
+	private static String getRaceNamePlural(Race race) {
+		if(race==null)
+			return "";
+		if (character.isFeminine()) {
+			return race.getPluralFemaleName();
+		} else {
+			return race.getPluralMaleName();
+		}
+	}
+	
 	private static String getSkinName(BodyPartTypeInterface bodyPart) {
-		if(bodyPart.getSkinType()==null)
+		if(bodyPart.getBodyCoveringType()==null)
 			return "";
 		
 		if(parseAddPronoun) {
 			parseAddPronoun = false;
-			return applyDeterminer(bodyPart.getSkinType().getDeterminer(character), bodyPart.getSkinType().getName(character));
+			return applyDeterminer(bodyPart.getBodyCoveringType().getDeterminer(character), bodyPart.getBodyCoveringType().getName(character));
 		} else {
-			return bodyPart.getSkinType().getName(character);
+			return bodyPart.getBodyCoveringType().getName(character);
 		}
 	}
 	
 	private static String getSkinNameWithDescriptor(BodyPartTypeInterface bodyPart) {
-		if(bodyPart.getSkinType()==null)
+		if(bodyPart.getBodyCoveringType()==null)
 			return "";
 		
 		if(parseAddPronoun) {
 			parseAddPronoun = false;
-			return applyDeterminer(bodyPart.getSkinType().getDeterminer(character), applyDescriptor(bodyPart.getSkinType().getDescriptor(character), bodyPart.getSkinType().getName(character)));
+			return applyDeterminer(bodyPart.getBodyCoveringType().getDeterminer(character), applyDescriptor(bodyPart.getBodyCoveringType().getDescriptor(character), bodyPart.getBodyCoveringType().getName(character)));
 		} else {
-			return applyDescriptor(bodyPart.getSkinType().getDescriptor(character), bodyPart.getSkinType().getName(character));
+			return applyDescriptor(bodyPart.getBodyCoveringType().getDescriptor(character), bodyPart.getBodyCoveringType().getName(character));
 		}
 	}
 	

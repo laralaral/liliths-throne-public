@@ -8,6 +8,7 @@ import com.base.game.dialogue.DialogueNodeOld;
 import com.base.game.dialogue.responses.Response;
 import com.base.game.dialogue.responses.ResponseCombat;
 import com.base.game.dialogue.responses.ResponseSex;
+import com.base.game.inventory.item.AbstractItemType;
 import com.base.game.inventory.item.ItemEffectType;
 import com.base.game.inventory.item.ItemType;
 import com.base.game.sex.Sex;
@@ -98,7 +99,7 @@ public class HarpyNestDominant {
 		@Override
 		public Response getResponse(int index) {
 			if (index == 1) {
-				if(!Main.game.getPlayer().hasSideQuest(QuestLine.SIDE_HARPY_PACIFICATION)) {
+				if(!Main.game.getPlayer().hasQuest(QuestLine.SIDE_HARPY_PACIFICATION)) {
 					return new Response("Approach [harpyDominant.name]", "You have no need to talk to the matriarch of this nest.", null);
 					
 				} else if (Main.game.getCurrentWeather()==Weather.MAGIC_STORM) {
@@ -318,7 +319,7 @@ public class HarpyNestDominant {
 						public void effects() {
 							Main.game.getDialogueFlags().dominantEncountered = true;
 							Main.game.getDialogueFlags().dominantPacified = true;
-							Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().addItem(ItemType.generateItem(ItemType.HARPY_MARTRIARCH_DOMINANT_PERFUME), false));
+							Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().addItem(AbstractItemType.generateItem(ItemType.HARPY_MARTRIARCH_DOMINANT_PERFUME), false));
 						}
 						@Override
 						public QuestLine getQuestLine() {
@@ -395,7 +396,7 @@ public class HarpyNestDominant {
 					@Override
 					public void effects() {
 						Main.game.getDialogueFlags().dominantPacified = true;
-						Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().addItem(ItemType.generateItem(ItemType.HARPY_MARTRIARCH_DOMINANT_PERFUME), false));
+						Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().addItem(AbstractItemType.generateItem(ItemType.HARPY_MARTRIARCH_DOMINANT_PERFUME), false));
 					}
 					@Override
 					public QuestLine getQuestLine() {
@@ -638,8 +639,8 @@ public class HarpyNestDominant {
 				return new Response("Punished", "[harpyDominant.Name] proceeds with her punishment...", HARPY_NEST_DOMINANT_FIGHT_LOSE_PUNISHMENT){
 					@Override
 					public void effects() {
-						if(Main.game.getPlayer().hasFetish(Fetish.FETISH_TRANSFORMATION)) {
-							Main.game.getTextEndStringBuilder().append(ItemEffectType.DOMINANT_PERFUME.applyEffect(null, null, Main.game.getHarpyDominant(), Main.game.getPlayer()));
+						if(Main.game.isForcedTFEnabled()) {
+							Main.game.getTextEndStringBuilder().append(ItemEffectType.DOMINANT_PERFUME.applyEffect(null, null, null, 0, Main.game.getHarpyDominant(), Main.game.getPlayer()));
 						}
 					}
 				};
@@ -717,8 +718,8 @@ public class HarpyNestDominant {
 				return new Response("Punished", "[dominantHarpy.Name] proceeds with her punishment...", HARPY_NEST_DOMINANT_FIGHT_LOSE_PUNISHMENT){
 					@Override
 					public void effects() {
-						if(Main.game.getPlayer().hasFetish(Fetish.FETISH_TRANSFORMATION)) {
-							Main.game.getTextEndStringBuilder().append(ItemEffectType.DOMINANT_PERFUME.applyEffect(null, null, Main.game.getHarpyDominant(), Main.game.getPlayer()));
+						if(Main.game.isForcedTFEnabled()) {
+							Main.game.getTextEndStringBuilder().append(ItemEffectType.DOMINANT_PERFUME.applyEffect(null, null, null, 0, Main.game.getHarpyDominant(), Main.game.getPlayer()));
 						}
 					}
 				};
@@ -824,7 +825,7 @@ public class HarpyNestDominant {
 		
 		@Override
 		public String getContent() {
-			if(Main.game.getPlayer().hasFetish(Fetish.FETISH_TRANSFORMATION)) {
+			if(Main.game.isForcedTFEnabled()) {
 				return "<p>"
 						+ "[harpyDominant.speech(Fucking bitch! I know just what you need!)]"
 						+ " [harpyDominant.name] laughs, stepping forwards to tower over you,"
@@ -881,7 +882,7 @@ public class HarpyNestDominant {
 		@Override
 		public Response getResponse(int index) {
 			if (index == 1) {
-				if(Main.game.getPlayer().hasFetish(Fetish.FETISH_TRANSFORMATION)) {
+				if(Main.game.isForcedTFEnabled()) {
 					return new Response("Transformed...", "Having had their fun, you're quickly thrown out of the nest.", HARPY_NEST_DOMINANT) {
 						@Override
 						public void effects() {
